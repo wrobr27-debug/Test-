@@ -31,21 +31,21 @@
       </button>
 
       <div class="wp-nav-group" id="nav-group-posts">
-        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-posts-toggle" data-tab="all-posts" onclick="switchPostType('guide')">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-posts-toggle" data-tab="all-posts">
           <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
           <span>Guides</span>
           <span class="wp-nav-arrow" id="posts-arrow">▾</span>
         </button>
         <div class="wp-nav-sub" id="nav-sub-posts">
-          <button class="wp-nav-sub-btn active" data-tab="all-posts" onclick="switchPostType('guide')">All Guides</button>
-          <button class="wp-nav-sub-btn" id="nav-add-new-btn" data-tab="editor" onclick="openNewPost('guide')">Add New</button>
+          <button class="wp-nav-sub-btn active" data-tab="all-posts">All Guides</button>
+          <button class="wp-nav-sub-btn" id="nav-add-new-btn" data-tab="editor">Add New</button>
           <button class="wp-nav-sub-btn" data-tab="categories">Categories</button>
           <button class="wp-nav-sub-btn" data-tab="tags">Tags</button>
         </div>
       </div>
 
       <div class="wp-nav-group" id="nav-group-news">
-        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-news-toggle" data-tab="all-posts" onclick="switchPostType('news')">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-news-toggle" data-tab="all-posts">
           <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <path d="M16 8h2v8h-2zM6 8h8v2H6zm0 4h8v2H6z"></path>
@@ -54,8 +54,8 @@
           <span class="wp-nav-arrow" id="news-arrow">▾</span>
         </button>
         <div class="wp-nav-sub" id="nav-sub-news" style="display:none">
-          <button class="wp-nav-sub-btn" data-tab="all-posts" onclick="switchPostType('news')">All News</button>
-          <button class="wp-nav-sub-btn" id="nav-add-new-news-btn" data-tab="editor" onclick="openNewPost('news')">Add New</button>
+          <button class="wp-nav-sub-btn" data-tab="all-posts">All News</button>
+          <button class="wp-nav-sub-btn" id="nav-add-new-news-btn" data-tab="editor">Add New</button>
         </div>
       </div>
 
@@ -139,27 +139,27 @@
           <div class="wp-widget-head">At a Glance</div>
           <div class="wp-widget-body">
             <div class="wp-glance-grid">
-              <a class="wp-glance-item" onclick="switchTab('all-posts');switchPostType('guide')">
+              <a class="wp-glance-item" id="glance-guides-link">
                 <span class="wp-glance-num" id="gc-guides">0</span>
                 <span class="wp-glance-label">Guides</span>
               </a>
-              <a class="wp-glance-item" onclick="switchTab('all-posts');switchPostType('news')">
+              <a class="wp-glance-item" id="glance-news-link">
                 <span class="wp-glance-num" id="gc-news">0</span>
                 <span class="wp-glance-label">News</span>
               </a>
-              <a class="wp-glance-item" onclick="switchTab('all-posts');setFilter('draft')">
+              <a class="wp-glance-item" id="glance-drafts-link">
                 <span class="wp-glance-num" id="gc-drafts">0</span>
                 <span class="wp-glance-label">Drafts</span>
               </a>
-              <a class="wp-glance-item" onclick="switchTab('all-demos')">
+              <a class="wp-glance-item" id="glance-demos-link">
                 <span class="wp-glance-num" id="gc-demos">0</span>
                 <span class="wp-glance-label">Demos</span>
               </a>
-              <a class="wp-glance-item" onclick="switchTab('categories')">
+              <a class="wp-glance-item" id="glance-cats-link">
                 <span class="wp-glance-num" id="gc-cats">0</span>
                 <span class="wp-glance-label">Categories</span>
               </a>
-              <a class="wp-glance-item" onclick="switchTab('profiles')">
+              <a class="wp-glance-item" id="glance-profiles-link">
                 <span class="wp-glance-num" id="gc-profiles">0</span>
                 <span class="wp-glance-label">Profiles</span>
               </a>
@@ -201,13 +201,13 @@
     <section class="admin-tab" id="tab-all-posts">
       <div class="wp-screen-header">
         <h1 class="admin-page-title">Posts</h1>
-        <button class="wp-add-new-btn" onclick="openNewPost()">Add New</button>
+        <button class="wp-add-new-btn" id="posts-page-add-btn">Add New</button>
       </div>
 
       <!-- Post Type Tabs (WordPress-inspired) -->
       <div class="wp-substatus-tabs" id="type-tabs" style="margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-        <button class="wp-stab active" id="type-tab-guide" onclick="switchPostType('guide')">Marketing Guides</button>
-        <button class="wp-stab" id="type-tab-news" onclick="switchPostType('news')">Bilaspur News</button>
+        <button class="wp-stab active" id="type-tab-guide">Marketing Guides</button>
+        <button class="wp-stab" id="type-tab-news">Bilaspur News</button>
       </div>
 
       <div class="wp-substatus-tabs" id="status-tabs">
@@ -1647,6 +1647,50 @@ document.querySelectorAll('[data-tab]').forEach(btn => {
   });
 });
 
+// Bind Glance links
+document.getElementById('glance-guides-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchPostType('guide');
+  window.switchTab('all-posts');
+});
+document.getElementById('glance-news-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchPostType('news');
+  window.switchTab('all-posts');
+});
+document.getElementById('glance-drafts-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.setFilter('draft');
+  window.switchTab('all-posts');
+});
+document.getElementById('glance-demos-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchTab('all-demos');
+});
+document.getElementById('glance-cats-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchTab('categories');
+});
+document.getElementById('glance-profiles-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchTab('profiles');
+});
+
+// Bind Post Type tabs
+document.getElementById('type-tab-guide')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchPostType('guide');
+});
+document.getElementById('type-tab-news')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.switchPostType('news');
+});
+
+// Bind Add buttons
+document.getElementById('posts-page-add-btn')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.openNewPost();
+});
 document.querySelector('.wp-add-new-btn')?.addEventListener('click', () => window.openNewPost());
 
 window.toggleMobileSidebar = function(open) {
