@@ -1632,22 +1632,22 @@ window.switchTab = function(id, skipRefresh) {
 
 document.querySelectorAll('[data-tab]').forEach(btn => {
   btn.addEventListener('click', (e) => {
-    if (btn.id === 'nav-posts-toggle') { e.preventDefault(); switchPostType('guide'); switchTab('all-posts'); return; }
-    if (btn.id === 'nav-news-toggle') { e.preventDefault(); switchPostType('news'); switchTab('all-posts'); return; }
-    if (btn.id === 'nav-demos-toggle') { e.preventDefault(); switchTab('all-demos'); return; }
-    if (btn.id === 'nav-appearance-toggle') { e.preventDefault(); switchTab('customize'); return; }
-    if (btn.id === 'nav-settings-toggle') { e.preventDefault(); switchTab('settings-general'); return; }
+    if (btn.id === 'nav-posts-toggle') { e.preventDefault(); window.switchPostType('guide'); window.switchTab('all-posts'); return; }
+    if (btn.id === 'nav-news-toggle') { e.preventDefault(); window.switchPostType('news'); window.switchTab('all-posts'); return; }
+    if (btn.id === 'nav-demos-toggle') { e.preventDefault(); window.switchTab('all-demos'); return; }
+    if (btn.id === 'nav-appearance-toggle') { e.preventDefault(); window.switchTab('customize'); return; }
+    if (btn.id === 'nav-settings-toggle') { e.preventDefault(); window.switchTab('settings-general'); return; }
     
-    if (btn.id === 'nav-add-new-btn') { openNewPost('guide'); return; }
-    if (btn.id === 'nav-add-new-news-btn') { openNewPost('news'); return; }
-    if (btn.dataset.tab === 'editor') { openNewPost(); return; }
-    if (btn.id === 'nav-add-new-demo-btn') { openNewDemo(); return; }
-    if (btn.dataset.tab === 'demo-editor') { openNewDemo(); return; }
-    switchTab(btn.dataset.tab);
+    if (btn.id === 'nav-add-new-btn') { window.openNewPost('guide'); return; }
+    if (btn.id === 'nav-add-new-news-btn') { window.openNewPost('news'); return; }
+    if (btn.dataset.tab === 'editor') { window.openNewPost(); return; }
+    if (btn.id === 'nav-add-new-demo-btn') { window.openNewDemo(); return; }
+    if (btn.dataset.tab === 'demo-editor') { window.openNewDemo(); return; }
+    window.switchTab(btn.dataset.tab);
   });
 });
 
-document.querySelector('.wp-add-new-btn')?.addEventListener('click', () => openNewPost());
+document.querySelector('.wp-add-new-btn')?.addEventListener('click', () => window.openNewPost());
 
 window.toggleMobileSidebar = function(open) {
   const sidebar = document.getElementById('admin-sidebar');
@@ -1663,7 +1663,7 @@ document.getElementById('admin-mobile-toggle').addEventListener('click', (e) => 
   toggleMobileSidebar(!isOpen);
 });
 
-document.getElementById('mobile-add-btn').addEventListener('click', () => openNewPost());
+document.getElementById('mobile-add-btn').addEventListener('click', () => window.openNewPost());
 
 // ==================================================================
 // QUILL EDITOR SETUP
@@ -3291,10 +3291,10 @@ function triggerDownload(content, filename, contentType) {
   
   await refreshDashboard();
   await renderPosts();
-  await renderDemos();
+  await window.renderDemos();
   renderCatCheckboxes([]);
   updateAuthorDD();
-  loadSettings('general');
+  window.loadSettings('general');
   updateSEO();
   updateSnippet();
 })();
