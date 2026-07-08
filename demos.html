@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Developer Bilaspur ke live website demos — local kiranas, saree stores, cafes, clinics ke liye ready-made templates. Live preview dekho ya WhatsApp par order karo." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <title>Live Website Demos | Developer Bilaspur</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=2" />
+  </head>
+  <body>
+    <!-- Advanced Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header — identical to blog.html -->
+    <header class="main-header" id="header">
+      <div class="container header-container">
+        <a href="/index.html" class="logo">
+          <img src="/logo.png" alt="Developer Bilaspur Logo" class="logo-img" />
+          <span class="logo-text">Developer<span class="logo-highlight">Bilaspur</span></span>
+        </a>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="/index.html#live-demos" class="nav-link">Live Demos</a>
+          <a href="/index.html#features" class="nav-link">Humare Modules</a>
+          <a href="/blog.html" class="nav-link">Blog Hub</a>
+          <a href="/news.html" class="nav-link">Bilaspur News</a>
+        </nav>
+        <div class="header-right">
+          <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="header-btn" id="header-cta">
+            Sawal Puchein
+          </a>
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+      <a href="/index.html" class="mobile-nav-link">Home</a>
+      <a href="/index.html#live-demos" class="mobile-nav-link">Live Demos</a>
+      <a href="/index.html#features" class="mobile-nav-link">Humare Modules</a>
+      <a href="/blog.html" class="mobile-nav-link">Blog Hub</a>
+      <a href="/news.html" class="mobile-nav-link">Bilaspur News</a>
+      <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="mobile-nav-link mobile-cta">Sawal Puchein</a>
+    </nav>
+
+    <main>
+      <!-- Demos Listing Section — mirrors blog-section layout exactly -->
+      <section class="blog-section" id="demos" style="padding-top: 160px;">
+        <div class="container">
+
+          <!-- Section Header — identical structure to blog.html -->
+          <div class="section-header reveal reveal-slide-up">
+            <span class="section-tag" style="color: #48b898;">Client Templates</span>
+            <h1 class="section-title" style="font-size: 3.2rem;">Live Website Demos &amp; Templates</h1>
+            <p class="section-desc">Apne business ke liye best design chunein aur live preview dekhein. Pasand aaye toh seedhe WhatsApp par order karein.</p>
+          </div>
+
+          <!-- Category Filter Tabs — identical to blog.html tabs -->
+          <div class="blog-categories-wrapper reveal reveal-slide-up delay-100">
+            <div class="blog-categories" id="demos-categories">
+              <button class="category-btn active" data-category="all">All Templates</button>
+              <button class="category-btn" data-category="ecommerce">E-commerce</button>
+              <button class="category-btn" data-category="retail">Local Retail</button>
+              <button class="category-btn" data-category="food">Food &amp; Dining</button>
+              <button class="category-btn" data-category="services">Professional Services</button>
+              <button class="category-btn" data-category="medical">Medical &amp; Clinic</button>
+            </div>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="reveal reveal-slide-up delay-150" style="display:flex;justify-content:center;margin-bottom:48px;">
+            <input
+              type="text"
+              id="demos-search"
+              placeholder="Template search karein..."
+              style="width:100%;max-width:400px;padding:12px 20px;border:1px solid var(--border-color-strong);border-radius:9999px;font-family:var(--font-family);font-size:0.9rem;color:var(--text-dark);background:#ffffff;outline:none;transition:border-color 0.2s ease;"
+              onfocus="this.style.borderColor='#48b898';"
+              onblur="this.style.borderColor='var(--border-color-strong)';"
+            />
+          </div>
+
+          <!-- Demos Grid — identical class to blog-grid -->
+          <div class="blog-grid reveal reveal-slide-up delay-200" id="demos-grid">
+            <!-- Rendered dynamically by main.js setupDemosShowcase() -->
+          </div>
+
+          <!-- Bottom CTA box — matches newsletter CTA dark card -->
+          <div class="blog-newsletter-cta reveal reveal-slide-up delay-300">
+            <div class="newsletter-cta-content">
+              <h3 class="newsletter-cta-title">Apna Custom Design Chahiye?</h3>
+              <p class="newsletter-cta-desc">Yahan diye gaye templates mein se koi bhi design pasand aaye, ya apni khud ki zarurat ho — hum bilkul custom website banate hain sirf aapke liye.</p>
+              <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+                <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20custom%20website%20banwani%20hai." class="btn btn-whatsapp">
+                  💬 WhatsApp Par Baat Karein
+                </a>
+                <a href="/blog.html" class="btn btn-light">
+                  Blog Hub Dekhein
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer — identical to blog.html footer -->
+    <footer class="main-footer">
+      <div class="container footer-grid-layout">
+        <div class="footer-links-section">
+          <div class="footer-col-desc">
+            <span class="footer-desc-title">Developer Bilaspur</span>
+            <p class="footer-desc-body">Hum Bilaspur ki shops ke liye aasan aur sundar websites banate hain, taaki aapka business internet par har jagah dikhe.</p>
+          </div>
+          <div class="footer-col-nav">
+            <span class="footer-col-title">Nav</span>
+            <a href="/index.html#hero">Home</a>
+            <a href="/index.html#showcase">Showcase</a>
+            <a href="/index.html#features">Modules</a>
+            <a href="/demos.html">Live Demos</a>
+            <a href="/blog.html">Blog Hub</a>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Contact</span>
+            <a href="https://wa.me/918224005193">WhatsApp</a>
+            <span class="footer-meta-info">Bilaspur, CG, India</span>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Legal</span>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms &amp; Conditions</a>
+            <a href="/disclaimer.html">Disclaimer</a>
+            <a href="/dmca.html">DMCA Policy</a>
+          </div>
+        </div>
+
+        <div class="giant-footer-logo-wrapper">
+          <h2 class="giant-footer-logo">developerbilaspur</h2>
+        </div>
+
+        <div class="footer-bottom-bar">
+          <span class="footer-copyright">© 2026 Developer Bilaspur. Built with pride.</span>
+          <span class="footer-extra-links">Chhattisgarh Web Services</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating WhatsApp CTA -->
+    <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="floating-cta" id="floating-whatsapp-cta" aria-label="Talk to us on WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="white">
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+      </svg>
+    </a>
+
+    <script type="module" src="/src/main.js"></script>
+    <!-- Mobile hamburger toggle -->
+    <script>
+      (function() {
+        const btn = document.getElementById('hamburger-btn');
+        const drawer = document.getElementById('mobile-nav-drawer');
+        if (!btn || !drawer) return;
+        btn.addEventListener('click', () => {
+          const isOpen = drawer.classList.toggle('open');
+          btn.classList.toggle('open', isOpen);
+          btn.setAttribute('aria-expanded', isOpen);
+          drawer.setAttribute('aria-hidden', !isOpen);
+        });
+        drawer.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            drawer.classList.remove('open');
+            btn.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            drawer.setAttribute('aria-hidden', 'true');
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

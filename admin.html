@@ -1,0 +1,3305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Developer Bilaspur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+  <!-- Cloudinary Upload Widget -->
+  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+</head>
+<body class="admin-body">
+
+<div class="admin-layout">
+  <div class="admin-sidebar-backdrop" id="admin-sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <img src="/logo.png" alt="Dev Bilaspur Logo" class="logo-img" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;" />
+      <span class="admin-sidebar-brand">Dev Bilaspur</span>
+    </div>
+
+    <nav class="admin-sidebar-nav">
+      <button class="admin-nav-btn active" data-tab="dashboard">
+        <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        <span>Dashboard</span>
+      </button>
+
+      <div class="wp-nav-group" id="nav-group-posts">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-posts-toggle" data-tab="all-posts" onclick="switchPostType('guide')">
+          <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          <span>Guides</span>
+          <span class="wp-nav-arrow" id="posts-arrow">▾</span>
+        </button>
+        <div class="wp-nav-sub" id="nav-sub-posts">
+          <button class="wp-nav-sub-btn active" data-tab="all-posts" onclick="switchPostType('guide')">All Guides</button>
+          <button class="wp-nav-sub-btn" id="nav-add-new-btn" data-tab="editor" onclick="openNewPost('guide')">Add New</button>
+          <button class="wp-nav-sub-btn" data-tab="categories">Categories</button>
+          <button class="wp-nav-sub-btn" data-tab="tags">Tags</button>
+        </div>
+      </div>
+
+      <div class="wp-nav-group" id="nav-group-news">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-news-toggle" data-tab="all-posts" onclick="switchPostType('news')">
+          <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <path d="M16 8h2v8h-2zM6 8h8v2H6zm0 4h8v2H6z"></path>
+          </svg>
+          <span>News Portal</span>
+          <span class="wp-nav-arrow" id="news-arrow">▾</span>
+        </button>
+        <div class="wp-nav-sub" id="nav-sub-news" style="display:none">
+          <button class="wp-nav-sub-btn" data-tab="all-posts" onclick="switchPostType('news')">All News</button>
+          <button class="wp-nav-sub-btn" id="nav-add-new-news-btn" data-tab="editor" onclick="openNewPost('news')">Add New</button>
+        </div>
+      </div>
+
+      <div class="wp-nav-group" id="nav-group-demos">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-demos-toggle" data-tab="all-demos">
+          <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>Demos</span>
+          <span class="wp-nav-arrow" id="demos-arrow">▾</span>
+        </button>
+        <div class="wp-nav-sub" id="nav-sub-demos" style="display:none">
+          <button class="wp-nav-sub-btn" data-tab="all-demos">All Demos</button>
+          <button class="wp-nav-sub-btn" id="nav-add-new-demo-btn" data-tab="demo-editor">Add New</button>
+        </div>
+      </div>
+
+      <div class="wp-nav-group" id="nav-group-appearance">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-appearance-toggle" data-tab="customize">
+          <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M8 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M16 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
+          <span>Appearance</span>
+          <span class="wp-nav-arrow" id="appearance-arrow">▾</span>
+        </button>
+        <div class="wp-nav-sub" id="nav-sub-appearance">
+          <button class="wp-nav-sub-btn" data-tab="customize">Customize</button>
+        </div>
+      </div>
+
+      <button class="admin-nav-btn" data-tab="profiles">
+        <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Profiles</span>
+      </button>
+
+      <div class="wp-nav-group" id="nav-group-settings">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-settings-toggle" data-tab="settings-general">
+          <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings</span>
+          <span class="wp-nav-arrow" id="settings-arrow">▾</span>
+        </button>
+        <div class="wp-nav-sub" id="nav-sub-settings">
+          <button class="wp-nav-sub-btn" data-tab="settings-general">General</button>
+          <button class="wp-nav-sub-btn" data-tab="settings-writing">Writing</button>
+          <button class="wp-nav-sub-btn" data-tab="settings-reading">Reading</button>
+          <button class="wp-nav-sub-btn" data-tab="settings-discussion">Discussion</button>
+          <button class="wp-nav-sub-btn" data-tab="settings-media">Media</button>
+          <button class="wp-nav-sub-btn" data-tab="settings-permalinks">Permalinks</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a href="/index.html" class="admin-back-link">← View Site</a>
+    </div>
+  </aside>
+
+  <!-- ===== MOBILE BAR ===== -->
+  <div class="admin-mobile-bar">
+    <button class="admin-mobile-toggle" id="admin-mobile-toggle">
+      <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+    </button>
+    <span class="admin-mobile-title" id="admin-mobile-title">Dashboard</span>
+    <button class="wp-mobile-add-btn" id="mobile-add-btn" title="New Post">＋</button>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <main class="admin-main">
+
+    <!-- =========================================================
+         DASHBOARD
+    ========================================================= -->
+    <section class="admin-tab active" id="tab-dashboard">
+      <div class="admin-page-header">
+        <h1 class="admin-page-title">Dashboard</h1>
+      </div>
+      <div class="wp-dashboard-grid">
+
+        <!-- At a Glance -->
+        <div class="wp-widget">
+          <div class="wp-widget-head">At a Glance</div>
+          <div class="wp-widget-body">
+            <div class="wp-glance-grid">
+              <a class="wp-glance-item" onclick="switchTab('all-posts');switchPostType('guide')">
+                <span class="wp-glance-num" id="gc-guides">0</span>
+                <span class="wp-glance-label">Guides</span>
+              </a>
+              <a class="wp-glance-item" onclick="switchTab('all-posts');switchPostType('news')">
+                <span class="wp-glance-num" id="gc-news">0</span>
+                <span class="wp-glance-label">News</span>
+              </a>
+              <a class="wp-glance-item" onclick="switchTab('all-posts');setFilter('draft')">
+                <span class="wp-glance-num" id="gc-drafts">0</span>
+                <span class="wp-glance-label">Drafts</span>
+              </a>
+              <a class="wp-glance-item" onclick="switchTab('all-demos')">
+                <span class="wp-glance-num" id="gc-demos">0</span>
+                <span class="wp-glance-label">Demos</span>
+              </a>
+              <a class="wp-glance-item" onclick="switchTab('categories')">
+                <span class="wp-glance-num" id="gc-cats">0</span>
+                <span class="wp-glance-label">Categories</span>
+              </a>
+              <a class="wp-glance-item" onclick="switchTab('profiles')">
+                <span class="wp-glance-num" id="gc-profiles">0</span>
+                <span class="wp-glance-label">Profiles</span>
+              </a>
+            </div>
+            <div class="wp-glance-site">
+              Developer Bilaspur · <span id="glance-domain">developerbilaspur.in</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity -->
+        <div class="wp-widget">
+          <div class="wp-widget-head">Activity</div>
+          <div class="wp-widget-body">
+            <p class="wp-widget-subtitle">Recently Published</p>
+            <div id="activity-feed"><p class="wp-empty-msg">No posts yet.</p></div>
+          </div>
+        </div>
+
+        <!-- Quick Draft -->
+        <div class="wp-widget">
+          <div class="wp-widget-head">Quick Draft</div>
+          <div class="wp-widget-body">
+            <form id="quick-draft-form">
+              <input type="text" class="wp-input" id="qd-title" placeholder="Title" required />
+              <textarea class="wp-textarea wp-qd-content" id="qd-content" rows="4" placeholder="What's on your mind?"></textarea>
+              <button type="submit" class="wp-btn-primary">Save Draft</button>
+            </form>
+            <div id="qd-recent"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ALL POSTS
+    ========================================================= -->
+    <section class="admin-tab" id="tab-all-posts">
+      <div class="wp-screen-header">
+        <h1 class="admin-page-title">Posts</h1>
+        <button class="wp-add-new-btn" onclick="openNewPost()">Add New</button>
+      </div>
+
+      <!-- Post Type Tabs (WordPress-inspired) -->
+      <div class="wp-substatus-tabs" id="type-tabs" style="margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+        <button class="wp-stab active" id="type-tab-guide" onclick="switchPostType('guide')">Marketing Guides</button>
+        <button class="wp-stab" id="type-tab-news" onclick="switchPostType('news')">Bilaspur News</button>
+      </div>
+
+      <div class="wp-substatus-tabs" id="status-tabs">
+        <button class="wp-stab active" data-f="all">All <span id="cnt-all">(0)</span></button>
+        <button class="wp-stab" data-f="published">Published <span id="cnt-pub">(0)</span></button>
+        <button class="wp-stab" data-f="draft">Drafts <span id="cnt-draft">(0)</span></button>
+      </div>
+
+      <div class="wp-list-toolbar">
+        <div class="wp-bulk-wrap">
+          <select id="bulk-sel" class="wp-input wp-input-sm">
+            <option value="">Bulk Actions</option>
+            <option value="trash">Move to Trash</option>
+          </select>
+          <button class="wp-btn-sm-secondary" onclick="doBulk()">Apply</button>
+        </div>
+        <div class="wp-search-wrap">
+          <input type="text" class="wp-search-box" id="post-search" placeholder="Search posts…" onkeydown="if(event.key==='Enter')doSearch()" />
+          <button class="wp-btn-sm-secondary" onclick="doSearch()">Search</button>
+        </div>
+      </div>
+
+      <div id="posts-container"></div>
+    </section>
+
+    <!-- =========================================================
+         EDITOR
+    ========================================================= -->
+    <section class="admin-tab" id="tab-editor">
+
+      <div class="wp-editor-bar">
+        <button class="wp-back-btn" onclick="closeEditor()">← All Posts</button>
+        <h2 class="wp-editor-bar-title" id="editor-bar-title">Add New Post</h2>
+        <div class="wp-editor-bar-actions">
+          <button class="wp-btn-sm-secondary" onclick="savePost('draft')">Save Draft</button>
+          <button class="wp-btn-publish-bar" id="btn-pub-bar" onclick="savePost('published')">Publish</button>
+        </div>
+      </div>
+
+      <div class="wp-editor-layout">
+
+        <!-- ===== EDITOR LEFT ===== -->
+        <div class="wp-editor-main">
+
+          <div class="wp-title-wrap">
+            <input type="text" id="ed-title" class="wp-title-field" placeholder="Add title" autocomplete="off" />
+            <div class="wp-permalink" id="wp-permalink" style="display:none">
+              <span class="wp-permalink-base">Permalink: <span class="wp-permalink-host" id="plink-host">https://developerbilaspur.in/</span></span>
+              <span class="wp-permalink-slug" id="plink-slug" contenteditable="false"></span>
+              <button class="wp-permalink-btn" id="plink-btn" onclick="toggleSlug()">Edit</button>
+            </div>
+          </div>
+
+          <!-- Editor Controls -->
+          <div class="wp-editor-controls">
+            <button class="wp-add-media-btn" onclick="goFeaturedImg()">📷 Add Media</button>
+            <div class="wp-vc-switch">
+              <button class="wp-vc-btn active" id="vc-visual" onclick="switchEditorMode('visual')">Visual</button>
+              <button class="wp-vc-btn" id="vc-code" onclick="switchEditorMode('code')">Code</button>
+            </div>
+          </div>
+
+          <!-- Visual Editor (Quill) -->
+          <div class="wp-visual-editor" id="pane-visual">
+            <div id="quill-editor"></div>
+          </div>
+
+          <!-- Code Editor -->
+          <div class="wp-code-editor" id="pane-code" style="display:none">
+            <div class="wp-quicktags">
+              <button class="wp-qt" onclick="qt('b')"><b>b</b></button>
+              <button class="wp-qt" onclick="qt('i')"><i>i</i></button>
+              <button class="wp-qt" onclick="qtLink()">link</button>
+              <button class="wp-qt" onclick="qt('blockquote')">b-quote</button>
+              <button class="wp-qt" onclick="qt('del')">del</button>
+              <button class="wp-qt" onclick="qt('ins')">ins</button>
+              <button class="wp-qt" onclick="qt('ul')">ul</button>
+              <button class="wp-qt" onclick="qt('ol')">ol</button>
+              <button class="wp-qt" onclick="qt('li')">li</button>
+              <button class="wp-qt" onclick="qt('code')">code</button>
+              <button class="wp-qt" onclick="qtMore()">more</button>
+            </div>
+            <textarea id="code-editor" class="wp-code-textarea" placeholder="<p>Write HTML here...</p>"></textarea>
+          </div>
+
+          <!-- Editor Footer -->
+          <div class="wp-editor-foot">
+            <span>Word count: <strong id="wp-wc">0</strong></span>
+            <span class="wp-autosave" id="wp-autosave">Last saved: <strong id="wp-saved-time">–</strong></span>
+          </div>
+
+          <!-- Below Editor: Excerpt + Discussion -->
+          <div class="wp-metabox" id="mb-excerpt">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-excerpt')">
+              <h3>Excerpt</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <textarea class="wp-textarea" id="ed-excerpt" rows="3" placeholder="Hand-crafted summary for search engines and RSS…"></textarea>
+            </div>
+          </div>
+
+          <div class="wp-metabox" id="mb-discussion">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-discussion')">
+              <h3>Discussion</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <label class="wp-chk-label"><input type="checkbox" id="ed-comments" checked /> Allow comments</label>
+              <label class="wp-chk-label"><input type="checkbox" id="ed-pings" checked /> Allow trackbacks and pingbacks on this post</label>
+            </div>
+          </div>
+
+          <input type="hidden" id="ed-post-id" />
+          <input type="hidden" id="ed-slug" />
+        </div>
+
+        <!-- ===== EDITOR RIGHT (Metaboxes) ===== -->
+        <div class="wp-editor-sidebar" id="wp-editor-sidebar">
+
+          <!-- PUBLISH -->
+          <div class="wp-metabox" id="mb-publish">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-publish')">
+              <h3>Publish</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <div class="wp-pub-top">
+                <button class="wp-btn-save-draft" onclick="savePost('draft')">Save Draft</button>
+                <button class="wp-btn-preview-sm">Preview</button>
+              </div>
+              <hr class="wp-mb-hr">
+
+              <div class="wp-pub-field" id="wpf-status">
+                <span class="wp-pf-lbl">Status:</span>
+                <span class="wp-pf-val" id="pf-status-txt">Draft</span>
+                <a class="wp-pf-edit-link" onclick="togglePF('status')">Edit</a>
+              </div>
+              <div class="wp-pub-field-edit" id="pfe-status" style="display:none">
+                <select id="pf-status-sel" class="wp-input">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                  <option value="pending">Pending Review</option>
+                </select>
+                <button class="wp-pf-ok" onclick="applyPF('status')">OK</button>
+                <a class="wp-pf-cancel" onclick="closePFE('status')">Cancel</a>
+              </div>
+
+              <div class="wp-pub-field" id="wpf-vis">
+                <span class="wp-pf-lbl">Visibility:</span>
+                <span class="wp-pf-val" id="pf-vis-txt">Public</span>
+                <a class="wp-pf-edit-link" onclick="togglePF('vis')">Edit</a>
+              </div>
+              <div class="wp-pub-field-edit" id="pfe-vis" style="display:none">
+                <label class="wp-radio-lbl"><input type="radio" name="ed-vis" value="public" checked /> Public</label>
+                <label class="wp-radio-lbl"><input type="radio" name="ed-vis" value="private" /> Private</label>
+                <button class="wp-pf-ok" onclick="applyPF('vis')">OK</button>
+                <a class="wp-pf-cancel" onclick="closePFE('vis')">Cancel</a>
+              </div>
+
+              <div class="wp-pub-field" id="wpf-date">
+                <span class="wp-pf-lbl">Publish:</span>
+                <span class="wp-pf-val" id="pf-date-txt">Immediately</span>
+                <a class="wp-pf-edit-link" onclick="togglePF('date')">Edit</a>
+              </div>
+              <div class="wp-pub-field-edit" id="pfe-date" style="display:none">
+                <input type="datetime-local" id="pf-date-input" class="wp-input" />
+                <button class="wp-pf-ok" onclick="applyPF('date')">OK</button>
+                <a class="wp-pf-cancel" onclick="closePFE('date')">Cancel</a>
+              </div>
+
+              <div class="wp-seo-mini-pill" id="seo-mini">📊 SEO: <span id="seo-mini-score">–</span></div>
+
+              <hr class="wp-mb-hr">
+              <div class="wp-pub-footer">
+                <a class="wp-trash-lnk" onclick="trashCurrent()">Move to Trash</a>
+                <button class="wp-btn-publish-main" id="btn-pub-main" onclick="savePost('published')">Publish</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMAT -->
+          <div class="wp-metabox" id="mb-format">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-format')">
+              <h3>Format</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <label class="wp-radio-lbl"><input type="radio" name="ed-fmt" value="standard" checked /> 📌 Standard</label>
+              <label class="wp-radio-lbl"><input type="radio" name="ed-fmt" value="video" /> 🎥 Video</label>
+              <label class="wp-radio-lbl"><input type="radio" name="ed-fmt" value="audio" /> 🎵 Audio</label>
+            </div>
+          </div>
+
+          <!-- POST TYPE -->
+          <div class="wp-metabox" id="mb-post-type">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-post-type')">
+              <h3>Post Type</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <label class="wp-radio-lbl"><input type="radio" name="ed-post-type" value="guide" checked /> 📝 Marketing Guide</label>
+              <label class="wp-radio-lbl"><input type="radio" name="ed-post-type" value="news" /> 📰 Local News</label>
+            </div>
+          </div>
+
+          <!-- CATEGORIES -->
+          <div class="wp-metabox" id="mb-cats">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-cats')">
+              <h3>Categories</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <div class="wp-cat-tabs-row">
+                <button class="wp-cat-tab active" onclick="catTab('all',this)">All Categories</button>
+                <button class="wp-cat-tab" onclick="catTab('used',this)">Most Used</button>
+              </div>
+              <div class="wp-cat-checkboxes" id="cat-checkboxes"></div>
+              <div class="wp-add-cat">
+                <a class="wp-add-cat-link" onclick="toggleAddCat()">+ Add New Category</a>
+                <div id="add-cat-form" style="display:none;margin-top:8px">
+                  <input type="text" class="wp-input" id="new-cat-inp" placeholder="New category name" />
+                  <button class="wp-btn-sm" style="margin-top:6px;width:100%" onclick="addCatInEditor()">Add New Category</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAGS -->
+          <div class="wp-metabox" id="mb-tags">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-tags')">
+              <h3>Tags</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <div class="wp-chips-wrap" id="ed-chips"></div>
+              <div class="wp-tag-inp-row">
+                <input type="text" class="wp-input" id="ed-tag-inp" placeholder="Add tag…"
+                       onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();addChip()}" />
+                <button class="wp-btn-sm" onclick="addChip()">Add</button>
+              </div>
+              <a class="wp-tag-suggest-lnk" onclick="toggleTagSug()">Choose from the most used tags</a>
+              <div class="wp-tag-sugs" id="tag-sugs" style="display:none"></div>
+            </div>
+          </div>
+
+          <!-- FEATURED IMAGE -->
+          <div class="wp-metabox" id="mb-featimg">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-featimg')">
+              <h3>Featured Image</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd" id="mb-featimg-bd">
+              <div id="featimg-empty">
+                <input type="url" class="wp-input" id="featimg-url" placeholder="Paste image URL…" />
+                <button class="wp-btn-set-img" onclick="setFeatImg()" style="margin-top:8px;width:100%">Set Featured Image</button>
+                <div style="text-align:center;margin:8px 0;color:var(--text-gray);font-size:0.8rem;">— OR —</div>
+                <button type="button" class="wp-btn-sm-secondary" onclick="openCloudinaryWidget('featimg-url', 'featimg-thumb')" style="width:100%;margin-top:4px;">☁️ Upload to Cloudinary</button>
+              </div>
+              <div id="featimg-preview" style="display:none">
+                <img id="featimg-thumb" src="" alt="Featured" class="wp-feat-thumb" />
+                <a class="wp-remove-img" onclick="removeFeatImg()">✕ Remove featured image</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUTHOR -->
+          <div class="wp-metabox" id="mb-author">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-author')">
+              <h3>Author</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <select class="wp-input" id="ed-author">
+                <option>Dev Bilaspur</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SEO -->
+          <div class="wp-metabox" id="mb-seo">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-seo')">
+              <h3>SEO</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <div class="wp-seo-tabs-row">
+                <button class="wp-seo-tab active" data-st="general">⚙ General</button>
+                <button class="wp-seo-tab" data-st="advanced">📦 Advanced</button>
+                <button class="wp-seo-tab" data-st="social">🔗 Social</button>
+              </div>
+
+              <!-- General -->
+              <div class="wp-seo-pane" id="st-general">
+                <div class="wp-snippet-card" id="seo-snippet">
+                  <div class="wp-snippet-url" id="snip-url">https://developerbilaspur.in/</div>
+                  <div class="wp-snippet-title" id="snip-title">Post Title — Developer Bilaspur</div>
+                  <div class="wp-snippet-desc" id="snip-desc">Your meta description will appear here in search results…</div>
+                </div>
+                <div class="wp-seo-field">
+                  <label>Focus Keyword</label>
+                  <input type="text" class="wp-input" id="ed-keyword" placeholder="e.g., website design Bilaspur" />
+                </div>
+                <div class="wp-seo-field">
+                  <label>Meta Title</label>
+                  <input type="text" class="wp-input" id="ed-meta-title" placeholder="SEO title…" />
+                  <div class="wp-char-counter"><span id="mt-count">0</span>/60</div>
+                </div>
+                <div class="wp-seo-field">
+                  <label>Meta Description</label>
+                  <textarea class="wp-textarea" id="ed-meta-desc" rows="3" placeholder="Meta description for search engines…"></textarea>
+                  <div class="wp-char-counter"><span id="md-count">0</span>/160</div>
+                </div>
+                <div class="wp-score-wrap">
+                  <div class="wp-score-label">SEO Score: <strong id="seo-score-num">0</strong>/100</div>
+                  <div class="wp-score-track"><div class="wp-score-fill" id="seo-score-fill"></div></div>
+                  <ul class="wp-seo-checks" id="seo-checks">
+                    <li id="chk-kw">⬜ Add a focus keyword</li>
+                    <li id="chk-kw-title">⬜ Keyword in title</li>
+                    <li id="chk-mt-len">⬜ Meta title 20–60 chars</li>
+                    <li id="chk-md">⬜ Meta description added</li>
+                    <li id="chk-wc">⬜ Content has 300+ words</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Advanced -->
+              <div class="wp-seo-pane" id="st-advanced" style="display:none">
+                <div class="wp-seo-field">
+                  <label>Canonical URL</label>
+                  <input type="url" class="wp-input" id="ed-canonical" placeholder="https://developerbilaspur.in/…" />
+                </div>
+                <div class="wp-seo-field">
+                  <label>Robots</label>
+                  <select class="wp-input" id="ed-robots">
+                    <option value="index,follow">Index, Follow (Default)</option>
+                    <option value="noindex,follow">No Index, Follow</option>
+                    <option value="index,nofollow">Index, No Follow</option>
+                    <option value="noindex,nofollow">No Index, No Follow</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Social -->
+              <div class="wp-seo-pane" id="st-social" style="display:none">
+                <div class="wp-seo-field">
+                  <label>OG Title</label>
+                  <input type="text" class="wp-input" id="ed-og-title" placeholder="Social share title…" />
+                </div>
+                <div class="wp-seo-field">
+                  <label>OG Description</label>
+                  <textarea class="wp-textarea" id="ed-og-desc" rows="2" placeholder="Social share description…"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- end sidebar -->
+      </div>
+      <!-- end editor layout -->
+    </section>
+
+    <!-- =========================================================
+         CATEGORIES
+    ========================================================= -->
+    <section class="admin-tab" id="tab-categories">
+      <div class="admin-page-header"><h1 class="admin-page-title">Categories</h1></div>
+      <div class="wp-two-col">
+        <div class="wp-tc-left">
+          <div class="admin-form-card">
+            <h3 class="admin-card-title">Add New Category</h3>
+            <form id="cat-form">
+              <div class="admin-form-group">
+                <label>Name</label>
+                <input type="text" class="wp-input" id="cat-inp-name" placeholder="Category name" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Slug</label>
+                <input type="text" class="wp-input" id="cat-inp-slug" placeholder="e.g., seo-tips (auto)" />
+              </div>
+              <div class="admin-form-group">
+                <label>Description</label>
+                <textarea class="wp-textarea" id="cat-inp-desc" rows="3" placeholder="Optional…"></textarea>
+              </div>
+              <button type="submit" class="wp-btn-primary">Add New Category</button>
+            </form>
+          </div>
+        </div>
+        <div class="wp-tc-right">
+          <div class="admin-form-card">
+            <table class="wp-table">
+              <thead><tr><th>Name</th><th>Slug</th><th>Posts</th><th></th></tr></thead>
+              <tbody id="cat-tbody"><tr><td colspan="4" class="admin-empty-msg">No categories yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAGS
+    ========================================================= -->
+    <section class="admin-tab" id="tab-tags">
+      <div class="admin-page-header"><h1 class="admin-page-title">Tags</h1></div>
+      <div class="wp-two-col">
+        <div class="wp-tc-left">
+          <div class="admin-form-card">
+            <h3 class="admin-card-title">Add New Tag</h3>
+            <form id="tag-form">
+              <div class="admin-form-group">
+                <label>Name</label>
+                <input type="text" class="wp-input" id="tag-inp-name" placeholder="Tag name" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Slug</label>
+                <input type="text" class="wp-input" id="tag-inp-slug" placeholder="e.g., web-design (auto)" />
+              </div>
+              <div class="admin-form-group">
+                <label>Description</label>
+                <textarea class="wp-textarea" id="tag-inp-desc" rows="3" placeholder="Optional…"></textarea>
+              </div>
+              <button type="submit" class="wp-btn-primary">Add New Tag</button>
+            </form>
+          </div>
+        </div>
+        <div class="wp-tc-right">
+          <div class="admin-form-card">
+            <table class="wp-table">
+              <thead><tr><th>Name</th><th>Slug</th><th>Posts</th><th></th></tr></thead>
+              <tbody id="tag-tbody"><tr><td colspan="4" class="admin-empty-msg">No tags yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PROFILES
+    ========================================================= -->
+    <section class="admin-tab" id="tab-profiles">
+      <div class="admin-page-header"><h1 class="admin-page-title">Profiles</h1></div>
+      <div class="wp-two-col">
+        <div class="wp-tc-left">
+          <div class="admin-form-card">
+            <h3 class="admin-card-title">Add New Profile</h3>
+            <form id="profile-form">
+              <div class="admin-form-row">
+                <div class="admin-form-group">
+                  <label>First Name</label>
+                  <input type="text" class="wp-input" id="prf-first" placeholder="First name" />
+                </div>
+                <div class="admin-form-group">
+                  <label>Last Name</label>
+                  <input type="text" class="wp-input" id="prf-last" placeholder="Last name" />
+                </div>
+              </div>
+              <div class="admin-form-row">
+                <div class="admin-form-group">
+                  <label>Display Name *</label>
+                  <input type="text" class="wp-input" id="prf-display" placeholder="Shown publicly" required />
+                </div>
+                <div class="admin-form-group">
+                  <label>Role</label>
+                  <select class="wp-input" id="prf-role">
+                    <option value="author">Author</option>
+                    <option value="editor">Editor</option>
+                    <option value="admin">Administrator</option>
+                    <option value="contributor">Contributor</option>
+                  </select>
+                </div>
+              </div>
+              <div class="admin-form-row">
+                <div class="admin-form-group">
+                  <label>Email</label>
+                  <input type="email" class="wp-input" id="prf-email" placeholder="name@example.com" />
+                </div>
+                <div class="admin-form-group">
+                  <label>Avatar Emoji</label>
+                  <input type="text" class="wp-input" id="prf-emoji" placeholder="👤" maxlength="2" />
+                </div>
+              </div>
+              <div class="admin-form-group">
+                <label>Website</label>
+                <input type="url" class="wp-input" id="prf-website" placeholder="https://…" />
+              </div>
+              <div class="admin-form-group">
+                <label>Biographical Info</label>
+                <textarea class="wp-textarea" id="prf-bio" rows="3" placeholder="Short bio…"></textarea>
+              </div>
+              <button type="submit" class="wp-btn-primary">Add Profile</button>
+            </form>
+          </div>
+        </div>
+        <div class="wp-tc-right">
+          <div class="admin-form-card">
+            <div id="profiles-list"><p class="admin-empty-msg">No profiles yet.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>    <!-- =========================================================
+         SETTINGS > GENERAL
+    ========================================================= -->
+    <section class="admin-tab" id="tab-settings-general">
+      <div class="admin-page-header"><h1 class="admin-page-title">General Settings</h1></div>
+      <form id="form-settings-general" onsubmit="saveAllSettings(event, 'general')">
+        <div class="wp-settings-section">
+          <div class="wp-settings-body">
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Site Title</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="g-site-title" placeholder="My Site" required />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Tagline</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="g-tagline" placeholder="Just another WordPress site" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">WordPress Address (URL)</label>
+              <div class="wp-settings-val">
+                <input type="url" class="wp-input" id="g-wp-url" value="https://developerbilaspur.in/wp" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Site Address (URL)</label>
+              <div class="wp-settings-val">
+                <input type="url" class="wp-input" id="g-site-url" value="https://developerbilaspur.in" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Administration Email Address</label>
+              <div class="wp-settings-val">
+                <input type="email" class="wp-input" id="g-admin-email" placeholder="admin@developerbilaspur.in" required />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Membership</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="g-membership" /> Anyone can register</label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">New User Default Role</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="g-default-role">
+                  <option value="subscriber">Subscriber</option>
+                  <option value="contributor">Contributor</option>
+                  <option value="author">Author</option>
+                  <option value="editor">Editor</option>
+                  <option value="administrator">Administrator</option>
+                </select>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Site Language</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="g-language">
+                  <option value="en_US">English (United States)</option>
+                  <option value="hi">हिन्दी (Hindi)</option>
+                </select>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Timezone</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="g-timezone">
+                  <option value="Asia/Kolkata">Asia/Kolkata (UTC+05:30)</option>
+                  <option value="UTC">UTC (00:00)</option>
+                  <option value="America/New_York">America/New_York (UTC-05:00)</option>
+                  <option value="Europe/London">Europe/London (UTC+00:00)</option>
+                </select>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Date Format</label>
+              <div class="wp-settings-val">
+                <label class="wp-radio-lbl"><input type="radio" name="g-date-format" value="F j, Y" checked /> July 7, 2026</label>
+                <label class="wp-radio-lbl"><input type="radio" name="g-date-format" value="Y-m-d" /> 2026-07-07</label>
+                <label class="wp-radio-lbl"><input type="radio" name="g-date-format" value="m/d/Y" /> 07/07/2026</label>
+                <label class="wp-radio-lbl"><input type="radio" name="g-date-format" value="custom" /> Custom: <input type="text" class="wp-input wp-input-sm" id="g-date-custom" value="d M Y" style="display:inline-block;width:120px;margin-left:8px;" /></label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Time Format</label>
+              <div class="wp-settings-val">
+                <label class="wp-radio-lbl"><input type="radio" name="g-time-format" value="g:i a" checked /> 11:42 am</label>
+                <label class="wp-radio-lbl"><input type="radio" name="g-time-format" value="g:i A" /> 11:42 AM</label>
+                <label class="wp-radio-lbl"><input type="radio" name="g-time-format" value="H:i" /> 11:42</label>
+                <label class="wp-radio-lbl"><input type="radio" name="g-time-format" value="custom" /> Custom: <input type="text" class="wp-input wp-input-sm" id="g-time-custom" value="H:i:s" style="display:inline-block;width:120px;margin-left:8px;" /></label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Week Starts On</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="g-week-start">
+                  <option value="1">Monday</option>
+                  <option value="0">Sunday</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="wp-settings-section" style="margin-top:24px;">
+          <div class="wp-settings-section-title" style="padding:16px 24px;border-bottom:1px solid var(--border-color);font-weight:600;font-size:1rem;color:var(--text-dark);background:rgba(255,255,255,0.02)">
+            🌐 Database & Media Cloud Integrations
+          </div>
+          <div class="wp-settings-body">
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Supabase Project URL</label>
+              <div class="wp-settings-val">
+                <input type="url" class="wp-input" id="g-supabase-url" placeholder="https://xxxx.supabase.co" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Supabase Anon Key</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="g-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Cloudinary Cloud Name</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="g-cloudinary-name" placeholder="swkp0ujs" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Cloudinary Upload Preset</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="g-cloudinary-preset" placeholder="developerbilaspur" />
+              </div>
+            </div>
+            <div class="wp-settings-row" style="border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 12px;">
+              <label class="wp-settings-lbl">Database Sync Tools</label>
+              <div class="wp-settings-val" style="display:flex; flex-direction:column; gap:8px;">
+                <button type="button" class="wp-btn-primary" style="background:#0284c7; border-color:#0284c7; width:fit-content;" onclick="seedSupabaseFromLocal()">
+                  📤 Export Local Storage to Supabase Live DB
+                </button>
+                <span style="font-size:0.8rem; color:#64748b;">
+                  Pushes your current guides, news, and demos from local storage into your empty live Supabase database.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wp-settings-submit">
+          <button type="submit" class="wp-btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         SETTINGS > WRITING
+    ========================================================= -->
+    <section class="admin-tab" id="tab-settings-writing">
+      <div class="admin-page-header"><h1 class="admin-page-title">Writing Settings</h1></div>
+      <form id="form-settings-writing" onsubmit="saveAllSettings(event, 'writing')">
+        <div class="wp-settings-section">
+          <div class="wp-settings-body">
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Default Post Category</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="w-default-category"></select>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Default Post Format</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="w-default-format">
+                  <option value="standard">Standard</option>
+                  <option value="video">Video</option>
+                  <option value="audio">Audio</option>
+                </select>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Post via email</h2>
+            <p class="wp-hint" style="padding: 10px 20px 0;">To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted.</p>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Mail Server</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="w-mail-server" placeholder="mail.example.com" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Port</label>
+              <div class="wp-settings-val">
+                <input type="number" class="wp-input" id="w-mail-port" value="110" style="width:100px;" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Login Name</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="w-mail-login" placeholder="wordpress@example.com" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Password</label>
+              <div class="wp-settings-val">
+                <input type="password" class="wp-input" id="w-mail-pass" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Default Mail Category</label>
+              <div class="wp-settings-val">
+                <select class="wp-input" id="w-mail-category"></select>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Update Services</h2>
+            <p class="wp-hint" style="padding: 10px 20px 0;">When you publish a new post, WordPress automatically notifies the following site update services. Separate multiple service URLs with line breaks.</p>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Ping Sites</label>
+              <div class="wp-settings-val">
+                <textarea class="wp-textarea" id="w-ping-sites" rows="4" placeholder="http://rpc.pingomatic.com/"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wp-settings-submit">
+          <button type="submit" class="wp-btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         SETTINGS > READING
+    ========================================================= -->
+    <section class="admin-tab" id="tab-settings-reading">
+      <div class="admin-page-header"><h1 class="admin-page-title">Reading Settings</h1></div>
+      <form id="form-settings-reading" onsubmit="saveAllSettings(event, 'reading')">
+        <div class="wp-settings-section">
+          <div class="wp-settings-body">
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Your homepage displays</label>
+              <div class="wp-settings-val">
+                <label class="wp-radio-lbl"><input type="radio" name="r-homepage-type" value="latest" checked /> Your latest posts</label>
+                <label class="wp-radio-lbl"><input type="radio" name="r-homepage-type" value="static" /> A static page (select below)</label>
+                <div style="margin-left: 20px; margin-top: 8px;">
+                  <label class="wp-hint" style="display:block;margin-bottom:4px;">Homepage:
+                    <select class="wp-input" id="r-homepage-select" style="width:200px;display:inline-block;margin-left:8px;"></select>
+                  </label>
+                  <label class="wp-hint" style="display:block;">Posts page:
+                    <select class="wp-input" id="r-posts-select" style="width:200px;display:inline-block;margin-left:8px;"></select>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Blog pages show at most</label>
+              <div class="wp-settings-val">
+                <input type="number" class="wp-input" id="r-posts-per-page" value="10" style="width:80px;display:inline-block;" /> posts
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Syndication feeds show the most recent</label>
+              <div class="wp-settings-val">
+                <input type="number" class="wp-input" id="r-feeds-count" value="10" style="width:80px;display:inline-block;" /> items
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">For each article in a feed, show</label>
+              <div class="wp-settings-val">
+                <label class="wp-radio-lbl"><input type="radio" name="r-feed-type" value="full" checked /> Full text</label>
+                <label class="wp-radio-lbl"><input type="radio" name="r-feed-type" value="excerpt" /> Excerpt</label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Search Engine Visibility</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="r-visibility" /> Discourage search engines from indexing this site</label>
+              </div>
+            </div>
+            
+            <div class="wp-settings-row" style="border-top: 1px solid var(--border-color); padding-top: 24px; margin-top: 24px;">
+              <label class="wp-settings-lbl">Static SEO Export</label>
+              <div class="wp-settings-val">
+                <p class="wp-hint" style="margin-bottom: 12px; max-width: 500px; line-height: 1.5;">
+                  Since this site runs statically, custom blog posts are stored in your browser cache. Click below to generate and download updated sitemaps to commit into your <code>public/</code> folder:
+                </p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                  <button type="button" class="wp-btn-secondary" onclick="exportSitemapPosts()" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    📥 Export sitemap-posts.xml
+                  </button>
+                  <button type="button" class="wp-btn-secondary" onclick="exportFeedRSS()" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    📥 Export feed.xml (RSS)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wp-settings-submit">
+          <button type="submit" class="wp-btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         SETTINGS > DISCUSSION
+    ========================================================= -->
+    <section class="admin-tab" id="tab-settings-discussion">
+      <div class="admin-page-header"><h1 class="admin-page-title">Discussion Settings</h1></div>
+      <form id="form-settings-discussion" onsubmit="saveAllSettings(event, 'discussion')">
+        <div class="wp-settings-section">
+          <div class="wp-settings-body">
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Default article settings</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="d-notify-links" /> Attempt to notify any blogs linked to from the article</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-allow-pingbacks" /> Allow link notifications from other blogs (pingbacks and trackbacks)</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-allow-comments" checked /> Allow people to post comments on new articles</label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Other comment settings</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="d-require-name-email" checked /> Comment author must fill out name and email</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-require-login" /> Users must be registered and logged in to comment</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-close-old-comments" /> Automatically close comments on articles older than <input type="number" class="wp-input" id="d-close-comments-days" value="14" style="width:60px;display:inline-block;margin:0 4px;" /> days</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-cookies-consent" /> Show comments cookies opt-in checkbox</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-thread-comments" /> Enable threaded (nested) comments <select class="wp-input" id="d-thread-depth" style="width:60px;display:inline-block;margin:0 4px;"><option>2</option><option>3</option><option>4</option><option selected>5</option></select> levels deep</label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Email me whenever</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="d-mail-post" checked /> Anyone posts a comment</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-mail-mod" checked /> A comment is held for moderation</label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Before a comment appears</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="d-approve-manual" /> Comment must be manually approved</label>
+                <label class="wp-chk-label"><input type="checkbox" id="d-approve-history" checked /> Comment author must have a previously approved comment</label>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Comment Moderation</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Hold in queue</label>
+              <div class="wp-settings-val">
+                Hold a comment in the queue if it contains <input type="number" class="wp-input" id="d-moderation-links" value="2" style="width:60px;display:inline-block;margin:0 4px;" /> or more links.
+                <textarea class="wp-textarea" id="d-moderation-keys" rows="3" placeholder="One word or IP per line..." style="margin-top:10px;"></textarea>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Comment Blocklist</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Disallowed Keys</label>
+              <div class="wp-settings-val">
+                <textarea class="wp-textarea" id="d-blacklist-keys" rows="3" placeholder="One word or IP per line..."></textarea>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Avatars</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Avatar Display</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="d-show-avatars" checked /> Show Avatars</label>
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Default Avatar</label>
+              <div class="wp-settings-val">
+                <label class="wp-radio-lbl"><input type="radio" name="d-default-avatar" value="mystery" checked /> Mystery Person</label>
+                <label class="wp-radio-lbl"><input type="radio" name="d-default-avatar" value="blank" /> Blank</label>
+                <label class="wp-radio-lbl"><input type="radio" name="d-default-avatar" value="logo" /> Gravatar Logo</label>
+                <label class="wp-radio-lbl"><input type="radio" name="d-default-avatar" value="identicon" /> Identicon (Generated)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wp-settings-submit">
+          <button type="submit" class="wp-btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         SETTINGS > MEDIA
+    ========================================================= -->
+    <section class="admin-tab" id="tab-settings-media">
+      <div class="admin-page-header"><h1 class="admin-page-title">Media Settings</h1></div>
+      <form id="form-settings-media" onsubmit="saveAllSettings(event, 'media')">
+        <div class="wp-settings-section">
+          <div class="wp-settings-body">
+            <h2 class="wp-settings-head">Thumbnail size</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Thumbnail Size</label>
+              <div class="wp-settings-val">
+                Width: <input type="number" class="wp-input" id="m-thumb-w" value="150" style="width:80px;display:inline-block;margin-right:12px;" />
+                Height: <input type="number" class="wp-input" id="m-thumb-h" value="150" style="width:80px;display:inline-block;" />
+                <label class="wp-chk-label" style="margin-top:8px;"><input type="checkbox" id="m-thumb-crop" checked /> Crop thumbnail to exact dimensions</label>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Medium size</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Max Dimensions</label>
+              <div class="wp-settings-val">
+                Max Width: <input type="number" class="wp-input" id="m-medium-w" value="300" style="width:80px;display:inline-block;margin-right:12px;" />
+                Max Height: <input type="number" class="wp-input" id="m-medium-h" value="300" style="width:80px;display:inline-block;" />
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Large size</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Max Dimensions</label>
+              <div class="wp-settings-val">
+                Max Width: <input type="number" class="wp-input" id="m-large-w" value="1024" style="width:80px;display:inline-block;margin-right:12px;" />
+                Max Height: <input type="number" class="wp-input" id="m-large-h" value="1024" style="width:80px;display:inline-block;" />
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Uploading Files</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Folders Structure</label>
+              <div class="wp-settings-val">
+                <label class="wp-chk-label"><input type="checkbox" id="m-folders" checked /> Organize my uploads into month- and year-based folders</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wp-settings-submit">
+          <button type="submit" class="wp-btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         SETTINGS > PERMALINKS
+    ========================================================= -->
+    <section class="admin-tab" id="tab-settings-permalinks">
+      <div class="admin-page-header"><h1 class="admin-page-title">Permalink Settings</h1></div>
+      <form id="form-settings-permalinks" onsubmit="saveAllSettings(event, 'permalinks')">
+        <div class="wp-settings-section">
+          <div class="wp-settings-body">
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Common Settings</label>
+              <div class="wp-settings-val">
+                <label class="wp-radio-lbl"><input type="radio" name="p-structure" value="plain" /> Plain <code>https://developerbilaspur.in/?p=123</code></label>
+                <label class="wp-radio-lbl"><input type="radio" name="p-structure" value="day" /> Day and name <code>https://developerbilaspur.in/2026/07/07/sample-post/</code></label>
+                <label class="wp-radio-lbl"><input type="radio" name="p-structure" value="month" /> Month and name <code>https://developerbilaspur.in/2026/07/sample-post/</code></label>
+                <label class="wp-radio-lbl"><input type="radio" name="p-structure" value="numeric" /> Numeric <code>https://developerbilaspur.in/archives/123</code></label>
+                <label class="wp-radio-lbl"><input type="radio" name="p-structure" value="postname" checked /> Post name <code>https://developerbilaspur.in/sample-post/</code></label>
+                <label class="wp-radio-lbl"><input type="radio" name="p-structure" value="custom" /> Custom Structure</label>
+                <div style="margin-top: 10px;">
+                  <input type="text" class="wp-input" id="p-custom-str" value="/%postname%/" />
+                  <div style="margin-top: 6px;">
+                    <button type="button" class="wp-token-btn" onclick="insertToken('%year%')">%year%</button>
+                    <button type="button" class="wp-token-btn" onclick="insertToken('%monthnum%')">%monthnum%</button>
+                    <button type="button" class="wp-token-btn" onclick="insertToken('%day%')">%day%</button>
+                    <button type="button" class="wp-token-btn" onclick="insertToken('%postname%')">%postname%</button>
+                    <button type="button" class="wp-token-btn" onclick="insertToken('%category%')">%category%</button>
+                    <button type="button" class="wp-token-btn" onclick="insertToken('%author%')">%author%</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 class="wp-settings-head" style="border-top: 1px solid var(--border-color)">Optional</h2>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Category base</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="p-cat-base" placeholder="category" />
+              </div>
+            </div>
+            <div class="wp-settings-row">
+              <label class="wp-settings-lbl">Tag base</label>
+              <div class="wp-settings-val">
+                <input type="text" class="wp-input" id="p-tag-base" placeholder="tag" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wp-settings-submit">
+          <button type="submit" class="wp-btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- =========================================================
+         APPEARANCE > CUSTOMIZE (LIVE CUSTOMIZER)
+    ========================================================= -->
+    <section class="admin-tab" id="tab-customize">
+      <div class="wp-customizer-container">
+        <!-- Sidebar Controls -->
+        <div class="wp-customizer-sidebar">
+          <h2 style="font-size: 1.1rem; margin-bottom: 4px; color: var(--text-dark);">Customizer</h2>
+          <p class="wp-hint" style="margin-bottom:16px;">Preview branding, layout, and overrides in real-time.</p>
+
+          <!-- Site Identity Section -->
+          <div class="wp-cust-section active" id="cust-sec-identity">
+            <div class="wp-cust-sec-hd" onclick="toggleCustSec('cust-sec-identity')">Site Identity <span>▾</span></div>
+            <div class="wp-cust-sec-bd">
+              <div class="admin-form-group">
+                <label>Site Title</label>
+                <input type="text" class="wp-input" id="cust-site-title" oninput="updateCustomizerPreview()" />
+              </div>
+              <div class="admin-form-group">
+                <label>Tagline</label>
+                <input type="text" class="wp-input" id="cust-tagline" oninput="updateCustomizerPreview()" />
+              </div>
+              <div class="admin-form-group">
+                <label>Site Logo URL</label>
+                <input type="url" class="wp-input" id="cust-logo-url" oninput="updateCustomizerPreview()" placeholder="https://example.com/logo.svg" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Branding Section -->
+          <div class="wp-cust-section" id="cust-sec-colors">
+            <div class="wp-cust-sec-hd" onclick="toggleCustSec('cust-sec-colors')">Color Scheme <span>▾</span></div>
+            <div class="wp-cust-sec-bd">
+              <div class="admin-form-group">
+                <label>Accent Brand Color</label>
+                <div class="wp-color-row">
+                  <input type="color" id="cust-accent-color" oninput="updateCustomizerPreview()" />
+                  <span id="cust-accent-hex" style="font-family:monospace;font-size:0.85rem;">#48b898</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional CSS Section -->
+          <div class="wp-cust-section" id="cust-sec-css">
+            <div class="wp-cust-sec-hd" onclick="toggleCustSec('cust-sec-css')">Additional CSS <span>▾</span></div>
+            <div class="wp-cust-sec-bd">
+              <div class="admin-form-group">
+                <label>CSS Overrides</label>
+                <textarea class="wp-textarea" id="cust-additional-css" rows="6" oninput="updateCustomizerPreview()" placeholder="body { background-color: #f3f4f6; }"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <button class="wp-btn-primary" onclick="saveCustomizerSettings()" style="width:100%;margin-top:auto;">Publish Changes</button>
+        </div>
+
+        <!-- Real-Time Desktop/Mobile Preview Mockup -->
+        <div class="wp-customizer-preview">
+          <div class="wp-customizer-device" id="customizer-preview-viewport">
+            <!-- Inline Custom Stylesheet for Live Preview Rendering -->
+            <style id="cust-preview-style"></style>
+
+            <div class="wp-cust-mock-header">
+              <div class="wp-cust-mock-logo">
+                <span id="mock-header-title">Developer Bilaspur</span>
+                <span class="wp-cust-mock-logo-span" id="mock-header-tagline">Just another WordPress site</span>
+              </div>
+              <nav class="wp-cust-mock-nav">
+                <a class="wp-cust-mock-link" href="#">Home</a>
+                <a class="wp-cust-mock-link" href="#">About</a>
+                <a class="wp-cust-mock-link" href="#">Blog Hub</a>
+              </nav>
+            </div>
+
+            <div class="wp-cust-mock-hero">
+              <h1 class="wp-cust-mock-title" id="mock-hero-title">Customized Brand Experience</h1>
+              <p class="wp-cust-mock-sub" id="mock-hero-sub">We build custom static fast pages with high performance and live content pipelines.</p>
+              <a class="wp-cust-mock-btn" href="#" id="mock-hero-cta">Sawal Puchein</a>
+            </div>
+
+            <div class="wp-cust-foot">
+              <div class="wp-cust-devices">
+                <button class="wp-cust-dev-btn active" onclick="setCustomizerDevice('desktop', this)" title="Desktop View">🖥️</button>
+                <button class="wp-cust-dev-btn" onclick="setCustomizerDevice('tablet', this)" title="Tablet View">📟</button>
+                <button class="wp-cust-dev-btn" onclick="setCustomizerDevice('mobile', this)" title="Mobile View">📱</button>
+              </div>
+              <span class="wp-hint">Preview Screen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ALL DEMOS
+    ========================================================= -->
+    <section class="admin-tab" id="tab-all-demos">
+      <div class="wp-screen-header">
+        <h1 class="admin-page-title">Website Demos</h1>
+        <button class="wp-add-new-btn" onclick="openNewDemo()">Add New</button>
+      </div>
+
+      <div class="wp-list-toolbar" style="margin-bottom: 20px;">
+        <p class="wp-hint">Demos showcased on your homepage and client templates portal.</p>
+      </div>
+
+      <div id="demos-container" class="wp-posts-list-container"></div>
+    </section>
+
+    <!-- =========================================================
+         DEMO EDITOR
+    ========================================================= -->
+    <section class="admin-tab" id="tab-demo-editor">
+      <div class="wp-editor-bar">
+        <button class="wp-back-btn" onclick="closeDemoEditor()">← All Demos</button>
+        <h2 class="wp-editor-bar-title" id="demo-editor-bar-title">Add New Demo</h2>
+        <div class="wp-editor-bar-actions">
+          <button class="wp-btn-publish-bar" onclick="saveDemo()">Save Demo</button>
+        </div>
+      </div>
+
+      <div class="wp-editor-layout">
+        <div class="wp-editor-main">
+          <div class="admin-form-card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+            <div class="admin-form-group">
+              <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Demo Title</label>
+              <input type="text" id="demo-ed-title" class="wp-input" placeholder="e.g. Chanderi Saree Store" required style="font-size: 1.2rem; height: 45px; width: 100%;" />
+            </div>
+
+            <div class="admin-form-group">
+              <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Description / Features</label>
+              <textarea id="demo-ed-desc" class="wp-input" placeholder="e.g. Premium catalog with WhatsApp checkout system and image galleries" style="height: 100px; resize: vertical; line-height: 1.5; padding: 10px; width: 100%;"></textarea>
+            </div>
+
+            <div class="admin-form-group">
+              <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Preview URL</label>
+              <input type="text" id="demo-ed-url" class="wp-input" placeholder="e.g. https://saree.developerbilaspur.in or /chanderi-saree" required style="width: 100%;" />
+            </div>
+
+            <div class="admin-form-group">
+              <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Demo Cover Image URL (Optional)</label>
+              <div style="display:flex;gap:8px;">
+                <input type="text" id="demo-ed-image" class="wp-input" placeholder="e.g. https://res.cloudinary.com/... or /demo-saree.png" style="flex:1;" />
+                <button type="button" class="wp-btn-sm-secondary" onclick="openCloudinaryWidget('demo-ed-image')" style="white-space:nowrap;padding:0 12px;">☁️ Upload</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDITOR RIGHT (Sidebar controls) -->
+        <div class="wp-editor-side">
+          <div class="wp-metabox">
+            <div class="wp-metabox-hd"><h3>Demo Parameters</h3></div>
+            <div class="wp-metabox-bd" style="display: block; padding: 16px;">
+              <div class="admin-form-group">
+                <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Category</label>
+                <select id="demo-ed-category" class="wp-input" style="width: 100%;">
+                  <option value="ecommerce">🛍️ E-commerce</option>
+                  <option value="retail">🏪 Local Retail</option>
+                  <option value="food">🍕 Food & Dining</option>
+                  <option value="services">💼 Professional Services</option>
+                  <option value="medical">🩺 Medical & Clinic</option>
+                </select>
+              </div>
+
+              <div class="admin-form-group" style="margin-top: 16px;">
+                <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Card Emoji Icon</label>
+                <input type="text" id="demo-ed-emoji" class="wp-input" placeholder="e.g. 🛍️" value="🌐" style="width: 100%;" />
+              </div>
+
+              <div class="admin-form-group" style="margin-top: 16px;">
+                <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Display Priority</label>
+                <input type="number" id="demo-ed-priority" class="wp-input" value="10" style="width: 100%;" />
+                <span class="wp-hint" style="font-size: 0.75rem; margin-top: 4px; display: block; color: var(--text-light);">Lower numbers display first (e.g. 1, 2, 3)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Quill -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script type="module">
+import { db } from '/src/db-client.js';
+
+// ==================================================================
+// STORAGE
+// ==================================================================
+const S = {
+  BLOGS: 'developer-bilaspur-blogs',
+  NEWS: 'developer-bilaspur-news',
+  CATS: 'devbilaspur-categories',
+  TAGS: 'devbilaspur-tags',
+  PROFILES: 'devbilaspur-profiles',
+  SETTINGS: 'devbilaspur-site-settings',
+  DEMOS: 'devbilaspur-demos'
+};
+const gArr = k => { try { return JSON.parse(localStorage.getItem(k)||'[]'); } catch(e){ return []; } };
+const gObj = k => { try { return JSON.parse(localStorage.getItem(k)||'{}'); } catch(e){ return {}; } };
+const sSet = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+
+// Default data
+function initDefaults() {
+  if (!localStorage.getItem(S.CATS)) {
+    sSet(S.CATS, [
+      {id:'c1',name:'SEO Tips',slug:'seo-tips',desc:''},
+      {id:'c2',name:'WhatsApp Auto',slug:'whatsapp-auto',desc:''},
+      {id:'c3',name:'Local Vyapar',slug:'local-vyapar',desc:''},
+      {id:'c4',name:'Web Design',slug:'web-design',desc:''}
+    ]);
+  }
+  if (!localStorage.getItem(S.TAGS)) {
+    sSet(S.TAGS, [
+      {id:'t1',name:'Bilaspur',slug:'bilaspur',desc:''},
+      {id:'t2',name:'Website',slug:'website',desc:''},
+      {id:'t3',name:'Digital Marketing',slug:'digital-marketing',desc:''}
+    ]);
+  }
+  if (!localStorage.getItem(S.BLOGS)) {
+    sSet(S.BLOGS, [
+      {
+        id: 'default-1',
+        title: 'Bilaspur Me Apne Local Business Ko Google Map Pe Top Kaise Layein?',
+        slug: 'bilaspur-me-apne-local-business-ko-google-map-pe-top-kaise-layein',
+        content: `<p>Agar aap Bilaspur me koi retail shop, coaching institute, restaurant ya wholesale vyapar chalate hain, toh Google Maps aapke liye grahak laane ka sabse sasta aur behtareen zariya hai. Jab bhi Vyapar Vihar ya Sadar Bazar me koi customer kisi service ko search karta hai, toh Google Maps unhe top 3 businesses dikhata hai.</p><p>Aapko apni Google My Business profile claim karni hogi. Isme shop ki opening timings, photos aur contact details sahi-sahi fill karein.</p>`,
+        excerpt: 'Aasan guide jo aapko batayegi ki kaise 3 simple steps me Google My Business profile banakar map search me 1st rank laani hai.',
+        author: 'Dev Bilaspur',
+        status: 'published',
+        visibility: 'public',
+        format: 'standard',
+        categories: ['SEO Tips'],
+        tags: ['Bilaspur', 'Digital Marketing'],
+        readtime: '5 min read',
+        emoji: '📈',
+        publishedAt: new Date('2026-07-06T10:00:00+05:30').toISOString(),
+        updatedAt: new Date('2026-07-06T10:00:00+05:30').toISOString()
+      },
+      {
+        id: 'default-2',
+        title: 'WhatsApp Auto-Reply Se Dukandaar Apni Sales Kaise Badha Sakte Hain?',
+        slug: 'whatsapp-auto-reply-se-dukandaar-apni-sales-kaise-badha-sakte-hain',
+        content: `<p>Aaj ke time me Bilaspur ke har dukandaar ke phone me din mein 50-100 WhatsApp messages aate hain - orders, price inquiries, delivery questions. Inhe manually reply karna time-consuming aur thakane wala hai. <strong>WhatsApp Auto-Reply</strong> aapko in problems se permanently chhutkaara dilata hai.</p><p>Humare custom developer script ke zariye, jaise hi koi hello bhejta hai, use automatic rate-list aur catalog link mil jata hai.</p>`,
+        excerpt: 'WhatsApp automation engine ke fayde aur use cases. Sikhein kaise chat-bot customer orders automatically process karta hai.',
+        author: 'Dev Bilaspur',
+        status: 'published',
+        visibility: 'public',
+        format: 'standard',
+        categories: ['WhatsApp Auto'],
+        tags: ['Website', 'Digital Marketing'],
+        readtime: '4 min read',
+        emoji: '💬',
+        publishedAt: new Date('2026-07-06T11:00:00+05:30').toISOString(),
+        updatedAt: new Date('2026-07-06T11:00:00+05:30').toISOString()
+      },
+      {
+        id: 'default-3',
+        title: 'Modern E-Commerce Website Ke Liye Best UX Principles [2026 Edition]',
+        slug: 'modern-e-commerce-website-ke-liye-best-ux-principles-2026-edition',
+        content: `<p>2026 mein ek website banana kaafi nahi hai - website ko <strong>convert</strong> bhi karna chahiye. Matlab jab bhi koi visitor aapki site par aaye, toh woh contact kare, order kare ya call kare. Ye 7 UX principles aapki local business website ke conversions 3x badha denge.</p><p>Fast loading speed, mobile responsive navigation, aur direct floating WhatsApp button convert karne me madad karte hain.</p>`,
+        excerpt: 'Aapke online catalog ko conversion-optimized rakhne ke naye design rules jo checkout speed aur engagement ko 3x badha denge.',
+        author: 'Dev Bilaspur',
+        status: 'published',
+        visibility: 'public',
+        format: 'standard',
+        categories: ['Web Design'],
+        tags: ['Website', 'Bilaspur'],
+        readtime: '7 min read',
+        emoji: '🕸',
+        publishedAt: new Date('2026-07-06T12:00:00+05:30').toISOString(),
+        updatedAt: new Date('2026-07-06T12:00:00+05:30').toISOString()
+      }
+    ]);
+  }
+  if (!localStorage.getItem(S.DEMOS)) {
+    sSet(S.DEMOS, [
+      {
+        id: 'demo-saree',
+        title: 'Chanderi Saree Store',
+        desc: 'Premium ecommerce saree catalog with custom cart calculations, beautiful mockups, and automated WhatsApp orders.',
+        url: '/index.html#showcase',
+        category: 'ecommerce',
+        emoji: '🛍️',
+        priority: 1
+      },
+      {
+        id: 'demo-kirana',
+        title: 'Bilaspur Kirana Mart',
+        desc: 'Digital grocery ordering list with search filters, quick add-to-cart, and WhatsApp shop delivery routing.',
+        url: 'https://wa.me/918224005193?text=Hello!%20Mujhe%20Kirana%20website%20ka%20demo%20dekhna%20hai.',
+        category: 'retail',
+        emoji: '🏪',
+        priority: 2
+      },
+      {
+        id: 'demo-cafe',
+        title: 'Sarkanda Sweets & Cafe',
+        desc: 'Modern restaurant catalog menu with price lists, responsive categories (sweets, cakes, pizzas), and direct table booking.',
+        url: 'https://wa.me/918224005193?text=Hello!%20Mujhe%20Cafe%20website%20ka%20demo%20dekhna%20hai.',
+        category: 'food',
+        emoji: '🍕',
+        priority: 3
+      },
+      {
+        id: 'demo-clinic',
+        title: 'Sadar Bazar Dental Clinic',
+        desc: 'Professional clinic landing page with doctor profile, service details, patient testimonials, and WhatsApp appointment scheduler.',
+        url: 'https://wa.me/918224005193?text=Hello!%20Mujhe%20Clinic%20website%20ka%20demo%20dekhna%20hai.',
+        category: 'services',
+        emoji: '🩺',
+        priority: 4
+      }
+    ]);
+  }
+  if (!localStorage.getItem(S.NEWS)) {
+    sSet(S.NEWS, [
+      {
+        id: 'news-1',
+        title: 'Bilaspur Station Road Pe Naya Underpass Jaldi Hoga Shuru!',
+        slug: 'bilaspur-station-road-pe-naya-underpass-jaldi-hoga-shuru',
+        excerpt: 'Railway administration aur nagar nigam ka joint project. Sadar Bazar aur station side ke vyapariyon ko milegi traffic se badi rahat.',
+        author: 'Dev Bilaspur',
+        readtime: '2 min read',
+        emoji: '🚇',
+        category: 'infrastructure',
+        image: 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&q=80&w=800',
+        content: `<p>Bilaspur city ki sabse badi traffic problem solve hone ja rahi hai. <strong>Station Road to Sadar Bazar link</strong> par ban raha naya double-lane railway underpass agle mahine se aam janta ke liye khol diya jayega. Nagar Nigam aur Railway authorities ne joint inspection kar construction speed double karne ka faisla kiya hai.</p><h2>1. Sadar Bazar Ki Dukanon Ko Hoga Fayda</h2><p>Pichle 3 saalon se railway line band hone ke karan customers ko ghumkar jana padta tha. Naya underpass shuru hote hi Sadar Bazar aur Vyapar Vihar ke beech ki doori sirf 2 minute ki reh jayegi. Local shop owners ka kehna hai ki isse daily sales me <strong>30% se 40% tak ka boost</strong> aane ki umeed hai.</p><h2>2. High-Speed Concrete Box Push Technique</h2><p>Railway ne is project me naya box pushing technology use kiya hai jiske karan trains bina roke construction complete kiya gaya. Subah 10 baje se shaam 8 baje tak peak hours me traffic load manage karne ke liye special traffic police personnel deploy kiye ja rahe hain.</p><blockquote>Local update: Sadar Bazar Vyapari Sangh ne naye underpass opening ke din special store decorations aur flat discounts ka announcement kiya hai.</blockquote>`,
+        status: 'published',
+        visibility: 'public',
+        format: 'standard',
+        publishedAt: new Date('2026-07-08T10:00:00+05:30').toISOString(),
+        updatedAt: new Date('2026-07-08T10:00:00+05:30').toISOString()
+      },
+      {
+        id: 'news-2',
+        title: 'Vyapar Vihar Me Chhattisgarh Ka Sabse Bada Saree Showroom Khula',
+        slug: 'vyapar-vihar-me-chhattisgarh-ka-sabse-bada-saree-showroom-khula',
+        excerpt: 'Premium Chanderi, Kanjeevaram aur designer collections ke sath naya fashion hub launch. Bilaspur me badhegi wedding shopping options.',
+        author: 'Dev Bilaspur',
+        readtime: '3 min read',
+        emoji: '🛍️',
+        category: 'business',
+        image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800',
+        content: `<p>Chhattisgarh ke high-end clothing segment me naya milestone set karte hue Bilaspur ke <strong>Vyapar Vihar main road</strong> par sabse bada designer saree store launch ho gaya hai. Grand opening ceremony me Raipur aur Bilaspur ke prasiddh fashion designers aur local vyapari shamil hue.</p><h2>1. 10,000 Sq. Ft. Built-up Area me Custom Collections</h2><p>Showroom ke manager ne bataya ki is store me khas taur par Madhya Pradesh ki mashhoor *Chanderi*, Varanasi ki *Banarasi Silk*, aur South India ki classic *Kanjeevaram* sarees ki live handloom catalogs rakhi gayi hain. Local weavers ko direct promote karne ke liye is store me direct purchase system lagaya gaya hai.</p><h2>2. Digital Screen & Live WhatsApp catalog cataloging</h2><p>Store owner ne tech integration ka batate hue kaha: "Humne local customer orders automate karne ke liye hamara custom WhatsApp web dashboard setup karwaya hai. Customers dukaan par aane se pehle website link par designs browse karke static cart select kart sakte hain."</p><h2>3. Opening Offer</h2><p>Inaugural week me har designer saree purchase par free gold coin offer chal raha hai. Sadar Bazar, Link Road aur Vyapar Vihar se customers ka bhari crowd pahuch raha hai.</p>`,
+        status: 'published',
+        visibility: 'public',
+        format: 'standard',
+        publishedAt: new Date('2026-07-07T09:30:00+05:30').toISOString(),
+        updatedAt: new Date('2026-07-07T09:30:00+05:30').toISOString()
+      },
+      {
+        id: 'news-3',
+        title: 'Arpa River Front Project: Bilaspur Me Naya Tourist Spot Taiyar',
+        slug: 'arpa-river-front-project-bilaspur-me-naya-tourist-spot-taiyar',
+        excerpt: 'Chowpatty style food courts, dynamic lighting aur morning walk tracks ke sath, Bilaspur ki naya shaan ban raha hai. Check details.',
+        author: 'Dev Bilaspur',
+        readtime: '3 min read',
+        emoji: '🏞️',
+        category: 'local',
+        image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=800',
+        content: `<p>Bilaspur ki lifeline Arpa Nadi ke dono kinaro par chal raha smart city <strong>Arpa River Front Project</strong> phase-1 complete ho gaya hai. Chati chowk se lekar shani mandir road tak banaye gaye is beautiful corridor ko general public ke liye open kar diya gaya hai.</p><h2>1. Food Stalls & Local Chowpatty Hub</h2><p>River front park me special 25 designer food stalls banaye gaye hain jahan Bilaspur ki local delicacies ke sath pan-Indian dishes serve ki jayengi. Nagar nigam in stalls ke liye direct auction method use kar raha hai.</p><h2>2. Dynamic LED Lighting & Selfie Zones</h2><p>Har shaam nadi kinare laser display aur musical fountains run honge jo Bilaspur ke local tourism ko promote karenge. Safe evening walk ke liye absolute secure CCTV cameras deploy kiye gaye hain.</p><blockquote>Timings: Park daily subah 5:00 AM se 9:30 AM tak morning walkers ke liye aur shaam ko 4:30 PM se 10:00 PM tak open rahega. Entry is week ke liye free rakhi gayi hai.</blockquote>`,
+        status: 'published',
+        visibility: 'public',
+        format: 'standard',
+        publishedAt: new Date('2026-07-06T14:20:00+05:30').toISOString(),
+        updatedAt: new Date('2026-07-06T14:20:00+05:30').toISOString()
+      }
+    ]);
+  }
+}
+
+// ==================================================================
+// TAB SWITCHING
+// ==================================================================
+const POST_TABS = ['all-posts','editor','categories','tags'];
+const DEMO_TABS = ['all-demos','demo-editor'];
+const APPEARANCE_TABS = ['customize'];
+const SETTINGS_TABS = ['settings-general','settings-writing','settings-reading','settings-discussion','settings-media','settings-permalinks'];
+
+const TAB_TITLES = {
+  dashboard: 'Dashboard',
+  'all-posts': 'Posts',
+  editor: 'Editor',
+  categories: 'Categories',
+  tags: 'Tags',
+  'all-demos': 'Website Demos',
+  'demo-editor': 'Demo Editor',
+  customize: 'Customize Theme',
+  profiles: 'Profiles',
+  'settings-general': 'General Settings',
+  'settings-writing': 'Writing Settings',
+  'settings-reading': 'Reading Settings',
+  'settings-discussion': 'Discussion Settings',
+  'settings-media': 'Media Settings',
+  'settings-permalinks': 'Permalink Settings'
+};
+
+window.switchTab = function(id, skipRefresh) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.id === 'tab-'+id));
+  document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  document.getElementById('admin-mobile-title').textContent = TAB_TITLES[id]||'Admin';
+  
+  // Auto-close sidebar on mobile
+  if (typeof toggleMobileSidebar === 'function') toggleMobileSidebar(false);
+  
+  // Show/hide submenus and toggle arrows
+  const isPost = POST_TABS.includes(id);
+  const isGuide = isPost && currentAdminPostType === 'guide';
+  const isNews = isPost && currentAdminPostType === 'news';
+  const isDemo = DEMO_TABS.includes(id);
+  const isApp = APPEARANCE_TABS.includes(id);
+  const isSet = SETTINGS_TABS.includes(id);
+  
+  const postsSub = document.getElementById('nav-sub-posts');
+  const postsArr = document.getElementById('posts-arrow');
+  if (postsSub) postsSub.style.display = isGuide ? 'flex' : 'none';
+  if (postsArr) postsArr.style.transform = isGuide ? 'rotate(0deg)' : 'rotate(-90deg)';
+  
+  const newsSub = document.getElementById('nav-sub-news');
+  const newsArr = document.getElementById('news-arrow');
+  if (newsSub) newsSub.style.display = isNews ? 'flex' : 'none';
+  if (newsArr) newsArr.style.transform = isNews ? 'rotate(0deg)' : 'rotate(-90deg)';
+
+  const demosSub = document.getElementById('nav-sub-demos');
+  const demosArr = document.getElementById('demos-arrow');
+  if (demosSub) demosSub.style.display = isDemo ? 'flex' : 'none';
+  if (demosArr) demosArr.style.transform = isDemo ? 'rotate(0deg)' : 'rotate(-90deg)';
+  
+  const appSub = document.getElementById('nav-sub-appearance');
+  const appArr = document.getElementById('appearance-arrow');
+  if (appSub) appSub.style.display = isApp ? 'flex' : 'none';
+  if (appArr) appArr.style.transform = isApp ? 'rotate(0deg)' : 'rotate(-90deg)';
+  
+  const setSub = document.getElementById('nav-sub-settings');
+  const setArr = document.getElementById('settings-arrow');
+  if (setSub) setSub.style.display = isSet ? 'flex' : 'none';
+  if (setArr) setArr.style.transform = isSet ? 'rotate(0deg)' : 'rotate(-90deg)';
+  
+  if (!skipRefresh) {
+    if (id==='dashboard') refreshDashboard();
+    if (id==='all-posts') renderPosts();
+    if (id==='all-demos') renderDemos();
+    if (id==='categories') renderCatsTable();
+    if (id==='tags') renderTagsTable();
+    if (id==='profiles') renderProfiles();
+    if (id.startsWith('settings-')) loadSettings(id.replace('settings-', ''));
+    if (id==='customize') loadCustomizer();
+  }
+};
+
+document.querySelectorAll('[data-tab]').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (btn.id === 'nav-posts-toggle') { e.preventDefault(); switchPostType('guide'); switchTab('all-posts'); return; }
+    if (btn.id === 'nav-news-toggle') { e.preventDefault(); switchPostType('news'); switchTab('all-posts'); return; }
+    if (btn.id === 'nav-demos-toggle') { e.preventDefault(); switchTab('all-demos'); return; }
+    if (btn.id === 'nav-appearance-toggle') { e.preventDefault(); switchTab('customize'); return; }
+    if (btn.id === 'nav-settings-toggle') { e.preventDefault(); switchTab('settings-general'); return; }
+    
+    if (btn.id === 'nav-add-new-btn') { openNewPost('guide'); return; }
+    if (btn.id === 'nav-add-new-news-btn') { openNewPost('news'); return; }
+    if (btn.dataset.tab === 'editor') { openNewPost(); return; }
+    if (btn.id === 'nav-add-new-demo-btn') { openNewDemo(); return; }
+    if (btn.dataset.tab === 'demo-editor') { openNewDemo(); return; }
+    switchTab(btn.dataset.tab);
+  });
+});
+
+document.querySelector('.wp-add-new-btn')?.addEventListener('click', () => openNewPost());
+
+window.toggleMobileSidebar = function(open) {
+  const sidebar = document.getElementById('admin-sidebar');
+  const backdrop = document.getElementById('admin-sidebar-backdrop');
+  if (sidebar) sidebar.classList.toggle('open', open);
+  if (backdrop) backdrop.classList.toggle('active', open);
+};
+
+document.getElementById('admin-mobile-toggle').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const sidebar = document.getElementById('admin-sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  toggleMobileSidebar(!isOpen);
+});
+
+document.getElementById('mobile-add-btn').addEventListener('click', () => openNewPost());
+
+// ==================================================================
+// QUILL EDITOR SETUP
+// ==================================================================
+const quill = new Quill('#quill-editor', {
+  theme: 'snow',
+  placeholder: 'Start writing your blog post here…',
+  modules: {
+    toolbar: [
+      [{ header: [1,2,3,4,5,false] }],
+      ['bold','italic','underline','strike'],
+      [{ list:'ordered' },{ list:'bullet' }],
+      ['blockquote','code-block'],
+      [{ align:[] }],
+      [{ color:[] },{ background:[] }],
+      ['link'],
+      [{ indent:'-1'},{ indent:'+1'}],
+      ['clean']
+    ]
+  }
+});
+
+quill.on('text-change', () => {
+  const txt = quill.getText().trim();
+  const wc = txt ? txt.split(/\s+/).length : 0;
+  document.getElementById('wp-wc').textContent = wc;
+  updateSEO();
+  scheduleAutoSave();
+});
+
+// Editor mode switch
+window.switchEditorMode = function(mode) {
+  document.getElementById('vc-visual').classList.toggle('active', mode==='visual');
+  document.getElementById('vc-code').classList.toggle('active', mode==='code');
+  if (mode === 'visual') {
+    const html = document.getElementById('code-editor').value;
+    if (html) quill.root.innerHTML = html;
+    document.getElementById('pane-visual').style.display = '';
+    document.getElementById('pane-code').style.display = 'none';
+  } else {
+    document.getElementById('code-editor').value = quill.root.innerHTML;
+    document.getElementById('pane-visual').style.display = 'none';
+    document.getElementById('pane-code').style.display = '';
+  }
+};
+
+document.getElementById('code-editor').addEventListener('input', () => {
+  const txt = document.getElementById('code-editor').value.replace(/<[^>]+>/g,'');
+  document.getElementById('wp-wc').textContent = txt.trim() ? txt.trim().split(/\s+/).length : 0;
+});
+
+// Quicktag helpers
+window.qt = function(tag) {
+  const ta = document.getElementById('code-editor');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const sel = ta.value.substring(s,e);
+  ta.value = ta.value.substring(0,s) + '<'+tag+'>' + sel + '</'+tag+'>' + ta.value.substring(e);
+  ta.selectionStart = s + tag.length + 2;
+  ta.selectionEnd = ta.selectionStart + sel.length;
+  ta.focus();
+};
+window.qtLink = function() {
+  const url = prompt('URL:'); if(!url) return;
+  const ta = document.getElementById('code-editor');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const sel = ta.value.substring(s,e)||'Link text';
+  ta.value = ta.value.substring(0,s)+'<a href="'+url+'">'+sel+'</a>'+ta.value.substring(e);
+  ta.focus();
+};
+window.qtMore = function() {
+  const ta = document.getElementById('code-editor');
+  const p = ta.selectionStart;
+  ta.value = ta.value.substring(0,p)+'\n<!--more-->\n'+ta.value.substring(p);
+  ta.focus();
+};
+
+// ==================================================================
+// METABOX COLLAPSE
+// ==================================================================
+window.toggleMb = function(id) {
+  document.getElementById(id).classList.toggle('wp-mb-collapsed');
+};
+
+// ==================================================================
+// DASHBOARD
+// ==================================================================
+async function refreshDashboard() {
+  const blogs = await db.getBlogs();
+  const news = await db.getNews();
+  const allPosts = [...blogs, ...news];
+  const cats = gArr(S.CATS);
+  const profiles = gArr(S.PROFILES);
+  const demos = await db.getDemos();
+  const pub = allPosts.filter(b=>b.status==='published');
+  const drafts = allPosts.filter(b=>b.status==='draft');
+  const pubBlogs = blogs.filter(b=>b.status==='published');
+  const pubNews = news.filter(n=>n.status==='published');
+  document.getElementById('gc-guides').textContent = pubBlogs.length;
+  document.getElementById('gc-news').textContent = pubNews.length;
+  document.getElementById('gc-drafts').textContent = drafts.length;
+  document.getElementById('gc-cats').textContent = cats.length;
+  document.getElementById('gc-profiles').textContent = profiles.length;
+  const gcDemos = document.getElementById('gc-demos');
+  if (gcDemos) gcDemos.textContent = demos.length;
+
+  const st = gObj(S.SETTINGS);
+  if (st.domain) document.getElementById('glance-domain').textContent = st.domain;
+
+  const feed = document.getElementById('activity-feed');
+  if (pub.length === 0) {
+    feed.innerHTML = '<p class="wp-empty-msg">No posts published yet.</p>';
+  } else {
+    feed.innerHTML = pub.slice(0,8).map(p=>`
+      <div class="wp-act-item">
+        <span class="wp-act-date">${fmtDate(p.publishedAt)}</span>
+        <a class="wp-act-title" onclick="editPost('${p.id}')">${p.title||'Untitled'}</a>
+      </div>`).join('');
+  }
+
+  const qdR = document.getElementById('qd-recent');
+  if (drafts.length) {
+    qdR.innerHTML = '<p class="wp-qd-label">Your Recent Drafts</p>' +
+      drafts.slice(0,5).map(d=>`<div class="wp-qd-item"><a onclick="editPost('${d.id}')">${d.title||'Untitled draft'}</a></div>`).join('');
+  } else qdR.innerHTML = '';
+}
+
+document.getElementById('quick-draft-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const title = document.getElementById('qd-title').value.trim();
+  const content = document.getElementById('qd-content').value.trim();
+  if (!title) return;
+  const blogs = gArr(S.BLOGS);
+  blogs.unshift({
+    id:'post-'+Date.now(), title, slug:slugify(title),
+    content:'<p>'+content+'</p>', excerpt:content.substring(0,160),
+    categories:[], tags:[], author:'Dev Bilaspur',
+    status:'draft', visibility:'public', format:'standard',
+    featuredImage:'', allowComments:true, allowPings:true,
+    publishedAt:null, updatedAt:new Date().toISOString(),
+    metaTitle:'', metaDesc:'', focusKeyword:'', emoji:'📝', readtime:'5 min read'
+  });
+  sSet(S.BLOGS, blogs);
+  e.target.reset();
+  refreshDashboard();
+  showToast('Draft saved!');
+});
+
+// ==================================================================
+// ALL POSTS LIST
+// ==================================================================
+let postFilter = 'all', postSearch = '', currentAdminPostType = 'guide';
+
+window.switchPostType = function(type) {
+  currentAdminPostType = type;
+  document.getElementById('type-tab-guide').classList.toggle('active', type === 'guide');
+  document.getElementById('type-tab-news').classList.toggle('active', type === 'news');
+  renderPosts();
+};
+
+window.setFilter = function(f) { postFilter = f; renderPosts(); };
+
+document.querySelectorAll('.wp-stab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    postFilter = tab.dataset.f;
+    document.querySelectorAll('.wp-stab').forEach(t => t.classList.toggle('active', t.dataset.f === postFilter));
+    renderPosts();
+  });
+});
+
+window.doSearch = function() {
+  postSearch = document.getElementById('post-search').value.trim().toLowerCase();
+  renderPosts();
+};
+
+async function renderPosts() {
+  let blogs = currentAdminPostType === 'guide' ? await db.getBlogs() : await db.getNews();
+  const all = blogs.length;
+  const pub = blogs.filter(b=>b.status==='published').length;
+  const dft = blogs.filter(b=>b.status==='draft').length;
+  document.getElementById('cnt-all').textContent = '('+all+')';
+  document.getElementById('cnt-pub').textContent = '('+pub+')';
+  document.getElementById('cnt-draft').textContent = '('+dft+')';
+
+  if (postFilter !== 'all') blogs = blogs.filter(b => b.status === postFilter);
+  if (postSearch) blogs = blogs.filter(b => (b.title||'').toLowerCase().includes(postSearch));
+
+  const con = document.getElementById('posts-container');
+  if (!blogs.length) {
+    con.innerHTML = '<div class="wp-no-posts"><p>No posts found.</p></div>';
+    return;
+  }
+  con.innerHTML = blogs.map(p => `
+    <div class="wp-post-card" id="pcard-${p.id}">
+      <div class="wp-pc-main">
+        <input type="checkbox" class="wp-pc-chk" value="${p.id}" />
+        <div class="wp-pc-body">
+          <div class="wp-pc-title">
+            <a class="wp-pc-title-lnk" onclick="editPost('${p.id}')">${p.title||'Untitled'}</a>
+            ${p.status==='draft'?'<span class="wp-badge-draft">— Draft</span>':''}
+            ${p.status==='private'?'<span class="wp-badge-private">— Private</span>':''}
+            ${p.sticky?'<span class="wp-badge-sticky">Sticky</span>':''}
+          </div>
+          <div class="wp-pc-actions">
+            <a onclick="editPost('${p.id}')">Edit</a>
+            <span class="wp-sep">|</span>
+            <a onclick="openQE('${p.id}')">Quick Edit</a>
+            <span class="wp-sep">|</span>
+            <a class="wp-del-lnk" onclick="trashPost('${p.id}')">Bin</a>
+            <span class="wp-sep">|</span>
+            <a href="${currentAdminPostType === 'guide' ? '/blog-detail.html' : '/news-detail.html'}?id=${p.id}" target="_blank">View</a>
+          </div>
+          <div class="wp-pc-meta">
+            ${p.categories&&p.categories.length?p.categories[0]:'Uncategorised'} &nbsp;·&nbsp;
+            ${p.author||'Dev Bilaspur'} &nbsp;·&nbsp;
+            ${p.publishedAt ? fmtDate(p.publishedAt) : 'Not published'}
+          </div>
+        </div>
+      </div>
+      <!-- Quick Edit -->
+      <div class="wp-qe-panel" id="qe-${p.id}" style="display:none">
+        <div class="wp-qe-inner">
+          <h4 class="wp-qe-heading">Quick Edit</h4>
+          <div class="wp-qe-grid">
+            <div class="wp-qe-field">
+              <label>Title</label>
+              <input type="text" class="wp-input" id="qe-title-${p.id}" value="${escAttr(p.title||'')}" />
+            </div>
+            <div class="wp-qe-field">
+              <label>Slug</label>
+              <input type="text" class="wp-input" id="qe-slug-${p.id}" value="${escAttr(p.slug||slugify(p.title||''))}" />
+            </div>
+            <div class="wp-qe-field">
+              <label>Status</label>
+              <select class="wp-input" id="qe-st-${p.id}">
+                <option value="published" ${p.status==='published'?'selected':''}>Published</option>
+                <option value="draft" ${p.status==='draft'?'selected':''}>Draft</option>
+                <option value="pending" ${p.status==='pending'?'selected':''}>Pending Review</option>
+              </select>
+            </div>
+            <div class="wp-qe-field">
+              <label>Author</label>
+              <select class="wp-input" id="qe-auth-${p.id}">
+                <option>Dev Bilaspur</option>
+                ${gArr(S.PROFILES).map(pr=>`<option ${p.author===pr.displayName?'selected':''}>${pr.displayName}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div class="wp-qe-chks">
+            <label class="wp-chk-label"><input type="checkbox" id="qe-cmt-${p.id}" ${p.allowComments!==false?'checked':''} /> Allow comments</label>
+            <label class="wp-chk-label"><input type="checkbox" id="qe-sticky-${p.id}" ${p.sticky?'checked':''} /> Sticky post</label>
+          </div>
+          <div class="wp-qe-acts">
+            <button class="admin-btn-secondary" onclick="closeQE('${p.id}')">Cancel</button>
+            <button class="wp-btn-primary" onclick="applyQE('${p.id}')">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.openQE = function(id) {
+  document.querySelectorAll('.wp-qe-panel').forEach(el => {
+    el.style.display = (el.id === 'qe-'+id && el.style.display==='none') ? '' : 'none';
+  });
+};
+window.closeQE = id => document.getElementById('qe-'+id).style.display = 'none';
+window.applyQE = async function(id) {
+  let blogs = currentAdminPostType === 'guide' ? await db.getBlogs() : await db.getNews();
+  let p = blogs.find(b=>b.id===id);
+  if (!p) return;
+  const updated = {
+    ...p,
+    title: document.getElementById('qe-title-'+id).value.trim()||p.title,
+    slug: document.getElementById('qe-slug-'+id).value.trim()||p.slug,
+    status: document.getElementById('qe-st-'+id).value,
+    author: document.getElementById('qe-auth-'+id).value,
+    allowComments: document.getElementById('qe-cmt-'+id).checked,
+    sticky: document.getElementById('qe-sticky-'+id).checked,
+    updatedAt: new Date().toISOString()
+  };
+  if (currentAdminPostType === 'guide') await db.saveBlog(updated);
+  else await db.saveNews(updated);
+  closeQE(id);
+  await renderPosts();
+  showToast('Post updated.');
+};
+window.bulkPostAction = async function() {
+  const act = document.getElementById('bulk-action-select').value;
+  if (!act) return;
+  const sel = [...document.querySelectorAll('.wp-pc-chk:checked')].map(c=>c.value);
+  if (!sel.length) { alert('Select posts first.'); return; }
+  if (act==='trash' && confirm('Delete '+sel.length+' post(s)?')) {
+    for (const id of sel) {
+      if (currentAdminPostType === 'guide') {
+        await db.deleteBlog(id);
+      } else {
+        await db.deleteNews(id);
+      }
+    }
+    await renderPosts(); await refreshDashboard();
+  }
+};
+window.trashPost = async function(id) {
+  if (!confirm('Move to trash?')) return;
+  sSet(S.BLOGS, gArr(S.BLOGS).filter(b=>b.id!==id));
+  renderPosts(); refreshDashboard();
+};
+
+// ==================================================================
+// EDITOR STATE
+// ==================================================================
+let edPostId = null;
+let edStatus = 'draft';
+let edVis = 'public';
+let edTags = [];
+let edFeatImg = '';
+let autoSaveTimer = null;
+
+function scheduleAutoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    if (document.getElementById('ed-title').value.trim()) {
+      savePost(edStatus, true); // silent auto-save
+    }
+  }, 4000);
+}
+
+window.openNewPost = function(type) {
+  if (type) currentAdminPostType = type;
+  edPostId = null; edStatus = 'draft'; edVis = 'public'; edTags = []; edFeatImg = '';
+  document.getElementById('ed-title').value = '';
+  document.getElementById('wp-permalink').style.display = 'none';
+  quill.setText('');
+  document.getElementById('code-editor').value = '';
+  document.getElementById('ed-excerpt').value = '';
+  document.getElementById('ed-post-id').value = '';
+  document.getElementById('ed-slug').value = '';
+  document.getElementById('editor-bar-title').textContent = currentAdminPostType === 'news' ? 'Add New News' : 'Add New Post';
+  document.getElementById('btn-pub-main').textContent = 'Publish';
+  document.getElementById('btn-pub-bar').textContent = 'Publish';
+  document.getElementById('pf-status-txt').textContent = 'Draft';
+  document.getElementById('pf-vis-txt').textContent = 'Public';
+  document.getElementById('pf-date-txt').textContent = 'Immediately';
+  document.getElementById('seo-mini-score').textContent = '–';
+  document.getElementById('ed-keyword').value = '';
+  document.getElementById('ed-meta-title').value = '';
+  document.getElementById('ed-meta-desc').value = '';
+  document.getElementById('wp-wc').textContent = '0';
+  document.getElementById('wp-saved-time').textContent = '–';
+  document.getElementById('ed-comments').checked = true;
+  document.getElementById('ed-pings').checked = true;
+  document.querySelector('input[name="ed-fmt"][value="standard"]').checked = true;
+  
+  const radGuide = document.querySelector('input[name="ed-post-type"][value="guide"]');
+  const radNews = document.querySelector('input[name="ed-post-type"][value="news"]');
+  if (radGuide) radGuide.checked = (currentAdminPostType === 'guide');
+  if (radNews) radNews.checked = (currentAdminPostType === 'news');
+
+  document.querySelector('input[name="ed-vis"][value="public"]').checked = true;
+  removeFeatImg(true);
+  edTags = [];
+  renderChips();
+  renderCatCheckboxes([]);
+  switchEditorMode('visual');
+  // Reset closed PFEs
+  ['status','vis','date'].forEach(f => {
+    document.getElementById('pfe-'+f).style.display='none';
+  });
+  updateSEO(); updateSnippet();
+  switchTab('editor', true);
+  document.getElementById('ed-title').focus();
+};
+
+window.editPost = async function(id) {
+  const blogs = await db.getBlogs();
+  const news = await db.getNews();
+  let p = blogs.find(b=>b.id===id);
+  let pt = 'guide';
+  if (!p) {
+    p = news.find(b=>b.id===id);
+    pt = 'news';
+  }
+  if (!p) return;
+  edPostId = id; edStatus = p.status||'draft'; edVis = p.visibility||'public';
+  edTags = Array.isArray(p.tags) ? [...p.tags] : [];
+  edFeatImg = p.featuredImage||'';
+  document.getElementById('ed-title').value = p.title||'';
+  document.getElementById('ed-post-id').value = id;
+  document.getElementById('editor-bar-title').textContent = 'Edit Post';
+  const slug = p.slug||slugify(p.title||'');
+  document.getElementById('ed-slug').value = slug;
+  document.getElementById('plink-slug').textContent = slug;
+  document.getElementById('wp-permalink').style.display = '';
+  quill.root.innerHTML = p.content||'';
+  document.getElementById('code-editor').value = p.content||'';
+  document.getElementById('ed-excerpt').value = p.excerpt||'';
+  document.getElementById('pf-status-txt').textContent = cap(p.status||'draft');
+  document.getElementById('pf-vis-txt').textContent = cap(p.visibility||'public');
+  document.getElementById('pf-date-txt').textContent = p.publishedAt ? fmtDate(p.publishedAt) : 'Immediately';
+  document.getElementById('btn-pub-main').textContent = p.status==='published'?'Update':'Publish';
+  document.getElementById('btn-pub-bar').textContent = p.status==='published'?'Update':'Publish';
+  const fmt = p.format||'standard';
+  document.querySelector(`input[name="ed-fmt"][value="${fmt}"]`).checked = true;
+  document.querySelector(`input[name="ed-post-type"][value="${pt}"]`).checked = true;
+  document.getElementById('ed-comments').checked = p.allowComments!==false;
+  document.getElementById('ed-pings').checked = p.allowPings!==false;
+  document.getElementById('ed-author').value = p.author||'Dev Bilaspur';
+  document.getElementById('ed-keyword').value = p.focusKeyword||'';
+  document.getElementById('ed-meta-title').value = p.metaTitle||'';
+  document.getElementById('ed-meta-desc').value = p.metaDesc||'';
+  const wc = quill.getText().trim().split(/\s+/).length;
+  document.getElementById('wp-wc').textContent = wc;
+  if (p.updatedAt) document.getElementById('wp-saved-time').textContent = fmtTime(p.updatedAt);
+  if (edFeatImg) showFeatImg(edFeatImg);
+  else removeFeatImg(true);
+  renderChips();
+  renderCatCheckboxes(p.categories||[]);
+  switchEditorMode('visual');
+  updateSEO(); updateSnippet();
+  switchTab('editor', true);
+};
+
+window.closeEditor = function() { edPostId=null; switchTab('all-posts'); };
+
+window.savePost = async function(status, silent) {
+  const title = document.getElementById('ed-title').value.trim();
+  if (!title) { if (!silent) { alert('Please add a title.'); document.getElementById('ed-title').focus(); } return; }
+  const isCode = document.getElementById('pane-code').style.display !== 'none';
+  let content;
+  if (isCode) { content = document.getElementById('code-editor').value; quill.root.innerHTML = content; }
+  else { content = quill.root.innerHTML; document.getElementById('code-editor').value = content; }
+  const slug = document.getElementById('ed-slug').value || slugify(title);
+  const selCats = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
+  const fmt = document.querySelector('input[name="ed-fmt"]:checked')?.value||'standard';
+  const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value||'guide';
+  const wt = quill.getText().trim();
+  const wc = wt ? wt.split(/\s+/).length : 0;
+  const readtime = Math.max(1, Math.round(wc/200)) + ' min read';
+  const existId = document.getElementById('ed-post-id').value;
+  const now = new Date().toISOString();
+  
+  // Backwards compatible properties (both featuredImage & image)
+  const postData = {
+    id: existId || ('post-'+Date.now()),
+    title, slug, content,
+    excerpt: document.getElementById('ed-excerpt').value.trim(),
+    categories: selCats,
+    tags: [...edTags],
+    author: document.getElementById('ed-author').value,
+    status,
+    visibility: edVis,
+    format: fmt,
+    post_type: postType,
+    featuredImage: edFeatImg,
+    image: edFeatImg,
+    allowComments: document.getElementById('ed-comments').checked,
+    allowPings: document.getElementById('ed-pings').checked,
+    publishedAt: status==='published' ? (existId ? ((postType==='guide'?(await db.getBlogs()):(await db.getNews())).find(b=>b.id===existId)?.publishedAt||now) : now) : null,
+    updatedAt: now,
+    sticky: false,
+    focusKeyword: document.getElementById('ed-keyword').value.trim(),
+    metaTitle: document.getElementById('ed-meta-title').value.trim(),
+    metaDesc: document.getElementById('ed-meta-desc').value.trim(),
+    emoji: postType === 'news' ? '📰' : '📝', readtime
+  };
+
+  if (existId) {
+    // Delete from old database if post type was changed
+    const blogsList = await db.getBlogs();
+    const oldType = blogsList.some(b => b.id === existId) ? 'guide' : 'news';
+    if (oldType !== postType) {
+      if (oldType === 'guide') {
+        await db.deleteBlog(existId);
+      } else {
+        await db.deleteNews(existId);
+      }
+    }
+  }
+
+  if (postType === 'guide') {
+    await db.saveBlog(postData);
+  } else {
+    await db.saveNews(postData);
+  }
+
+  if (!existId) {
+    document.getElementById('ed-post-id').value = postData.id;
+    edPostId = postData.id;
+  }
+
+  edStatus = status;
+  document.getElementById('plink-slug').textContent = slug;
+  document.getElementById('wp-permalink').style.display = '';
+  document.getElementById('ed-slug').value = slug;
+  document.getElementById('pf-status-txt').textContent = cap(status);
+  document.getElementById('btn-pub-main').textContent = status==='published'?'Update':'Publish';
+  document.getElementById('btn-pub-bar').textContent = status==='published'?'Update':'Publish';
+  document.getElementById('editor-bar-title').textContent = 'Edit Post';
+  document.getElementById('wp-saved-time').textContent = fmtTime(now);
+  refreshDashboard();
+
+  if (!silent) {
+    showToast(status==='published' ? '✅ Post published!' : '💾 Draft saved!');
+    // Auto-ping Google Indexing API on publish
+    if (status === 'published') {
+      const st = gObj(S.SETTINGS);
+      const domain = st.domain || 'https://developerbilaspur.in';
+      const pageUrl = postType === 'news'
+        ? `${domain}/news-detail?id=${postData.id}`
+        : `${domain}/blog-detail?id=${postData.id}`;
+      fetch('/api/index-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: pageUrl, type: 'URL_UPDATED' })
+      }).then(r => r.json()).then(data => {
+        if (data.success) showToast('🔍 Google pinged! Indexing request sent.');
+      }).catch(() => {}); // silent fail — non-critical
+    }
+  } else {
+    const el = document.getElementById('wp-autosave');
+    el.classList.add('wp-autosave-flash');
+    setTimeout(() => el.classList.remove('wp-autosave-flash'), 1500);
+  }
+};
+
+document.getElementById('ed-title').addEventListener('input', () => {
+  const slug = slugify(document.getElementById('ed-title').value);
+  document.getElementById('ed-slug').value = slug;
+  document.getElementById('plink-slug').textContent = slug;
+  document.getElementById('wp-permalink').style.display = document.getElementById('ed-title').value ? '' : 'none';
+  updateSnippet();
+  scheduleAutoSave();
+});
+
+// ==================================================================
+// PUBLISH BOX INLINE FIELDS
+// ==================================================================
+window.togglePF = function(f) {
+  const edit = document.getElementById('pfe-'+f);
+  const isOpen = edit.style.display !== 'none';
+  ['status','vis','date'].forEach(x => document.getElementById('pfe-'+x).style.display='none');
+  if (!isOpen) edit.style.display='';
+};
+window.closePFE = f => document.getElementById('pfe-'+f).style.display='none';
+window.applyPF = function(f) {
+  if (f==='status') {
+    const v = document.getElementById('pf-status-sel').value;
+    edStatus=v;
+    document.getElementById('pf-status-txt').textContent=cap(v);
+    document.getElementById('btn-pub-main').textContent=v==='published'?'Update':'Publish';
+  } else if (f==='vis') {
+    const v = document.querySelector('input[name="ed-vis"]:checked').value;
+    edVis=v; document.getElementById('pf-vis-txt').textContent=cap(v);
+  } else if (f==='date') {
+    const v = document.getElementById('pf-date-input').value;
+    document.getElementById('pf-date-txt').textContent = v ? fmtDate(v) : 'Immediately';
+  }
+  closePFE(f);
+};
+
+window.trashCurrent = async function() {
+  const id = document.getElementById('ed-post-id').value;
+  if (!id) { closeEditor(); return; }
+  if (!confirm('Move to trash?')) return;
+  await db.deleteBlog(id);
+  await db.deleteNews(id);
+  closeEditor(); refreshDashboard();
+};
+
+// Permalink slug toggle
+window.toggleSlug = function() {
+  const slug = document.getElementById('plink-slug');
+  const btn = document.getElementById('plink-btn');
+  if (slug.contentEditable==='true') {
+    slug.contentEditable='false'; btn.textContent='Edit';
+    document.getElementById('ed-slug').value = slug.textContent.trim();
+  } else { slug.contentEditable='true'; slug.focus(); btn.textContent='OK'; }
+};
+
+// ==================================================================
+// CATEGORIES IN EDITOR
+// ==================================================================
+function renderCatCheckboxes(selected) {
+  const cats = gArr(S.CATS);
+  const con = document.getElementById('cat-checkboxes');
+  if (!cats.length) {
+    con.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;padding:6px 0;">No categories. <a onclick="switchTab(\'categories\')" style="color:#48b898;cursor:pointer;">Add one</a></p>';
+    return;
+  }
+  con.innerHTML = cats.map(c=>`
+    <label class="wp-cat-chk-lbl">
+      <input type="checkbox" class="wp-cat-chk" value="${c.name}" ${selected.includes(c.name)?'checked':''} />
+      ${c.name}
+    </label>`).join('');
+}
+
+window.catTab = function(mode, btn) {
+  document.querySelectorAll('.wp-cat-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const sel = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
+  if (mode==='used') {
+    const blogCats={};
+    gArr(S.BLOGS).forEach(b=>(b.categories||[]).forEach(c=>blogCats[c]=(blogCats[c]||0)+1));
+    const sorted = Object.entries(blogCats).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+    const con = document.getElementById('cat-checkboxes');
+    if (!sorted.length) { con.innerHTML='<p style="color:#94a3b8;font-size:0.82rem">None used yet.</p>'; return; }
+    con.innerHTML = sorted.map(c=>`<label class="wp-cat-chk-lbl"><input type="checkbox" class="wp-cat-chk" value="${c}" ${sel.includes(c)?'checked':''} />${c}</label>`).join('');
+  } else renderCatCheckboxes(sel);
+};
+
+window.toggleAddCat = function() {
+  const f = document.getElementById('add-cat-form');
+  f.style.display = f.style.display==='none' ? '' : 'none';
+  if (f.style.display!=='none') document.getElementById('new-cat-inp').focus();
+};
+
+window.addCatInEditor = function() {
+  const name = document.getElementById('new-cat-inp').value.trim();
+  if (!name) return;
+  const cats = gArr(S.CATS);
+  if (cats.find(c=>c.name.toLowerCase()===name.toLowerCase())) { alert('Already exists'); return; }
+  cats.push({id:'c'+Date.now(),name,slug:slugify(name),desc:''});
+  sSet(S.CATS, cats);
+  document.getElementById('new-cat-inp').value='';
+  document.getElementById('add-cat-form').style.display='none';
+  const sel = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
+  sel.push(name);
+  renderCatCheckboxes(sel);
+};
+
+// ==================================================================
+// TAG CHIPS
+// ==================================================================
+function renderChips() {
+  document.getElementById('ed-chips').innerHTML = edTags.map(t=>`
+    <span class="wp-chip">${t}<button class="wp-chip-rm" onclick="removeChip('${t}')">&times;</button></span>`).join('');
+}
+window.addChip = function() {
+  const inp = document.getElementById('ed-tag-inp');
+  inp.value.split(',').map(t=>t.trim()).filter(t=>t&&!edTags.includes(t)).forEach(t=>edTags.push(t));
+  inp.value=''; renderChips();
+};
+window.removeChip = t => { edTags=edTags.filter(x=>x!==t); renderChips(); };
+window.toggleTagSug = function() {
+  const sug = document.getElementById('tag-sugs');
+  if (sug.style.display!=='none') { sug.style.display='none'; return; }
+  const avail = gArr(S.TAGS).filter(t=>!edTags.includes(t.name));
+  sug.innerHTML = avail.length
+    ? avail.map(t=>`<a class="wp-sug-item" onclick="addChipFrom('${t.name}')">${t.name}</a>`).join(' ')
+    : '<span style="color:#475569">All tags added.</span>';
+  sug.style.display='';
+};
+window.addChipFrom = function(name) {
+  if (!edTags.includes(name)) { edTags.push(name); renderChips(); }
+  document.getElementById('tag-sugs').style.display='none';
+};
+
+// ==================================================================
+// FEATURED IMAGE
+// ==================================================================
+window.setFeatImg = function() {
+  const url = document.getElementById('featimg-url').value.trim();
+  if (!url) return;
+  edFeatImg = url; showFeatImg(url);
+};
+function showFeatImg(url) {
+  document.getElementById('featimg-empty').style.display='none';
+  document.getElementById('featimg-thumb').src = url;
+  document.getElementById('featimg-preview').style.display='';
+}
+window.removeFeatImg = function(silent) {
+  edFeatImg='';
+  document.getElementById('featimg-url').value='';
+  document.getElementById('featimg-thumb').src='';
+  document.getElementById('featimg-preview').style.display='none';
+  document.getElementById('featimg-empty').style.display='';
+};
+window.goFeaturedImg = function() {
+  const mb = document.getElementById('mb-featimg');
+  if (mb.classList.contains('wp-mb-collapsed')) mb.classList.remove('wp-mb-collapsed');
+  // On mobile, scroll to sidebar
+  document.getElementById('wp-editor-sidebar').scrollIntoView({behavior:'smooth'});
+  setTimeout(() => document.getElementById('featimg-url').focus(), 300);
+};
+
+// ==================================================================
+// SEO
+// ==================================================================
+function updateSEO() {
+  const title = document.getElementById('ed-title').value.trim();
+  const kw = document.getElementById('ed-keyword').value.trim().toLowerCase();
+  const mt = document.getElementById('ed-meta-title').value.trim();
+  const md = document.getElementById('ed-meta-desc').value.trim();
+  const wc = parseInt(document.getElementById('wp-wc').textContent)||0;
+  let score=0, chks={};
+  chks.kw = kw.length>0; if(chks.kw) score+=25;
+  chks.kwt = kw && title.toLowerCase().includes(kw); if(chks.kwt) score+=25;
+  chks.mtl = mt.length>=20 && mt.length<=60; if(chks.mtl) score+=15;
+  chks.md = md.length>=50; if(chks.md) score+=20;
+  chks.wc = wc>=300; if(chks.wc) score+=15;
+  document.getElementById('seo-score-num').textContent = score;
+  document.getElementById('seo-mini-score').textContent = score+'/100';
+  const fill = document.getElementById('seo-score-fill');
+  fill.style.width = score+'%';
+  fill.style.background = score>=70?'#22c55e':score>=40?'#f59e0b':'#ef4444';
+  const items = [
+    ['chk-kw', chks.kw, 'Focus keyword added', 'Add a focus keyword'],
+    ['chk-kw-title', chks.kwt, 'Keyword in title', 'Use keyword in post title'],
+    ['chk-mt-len', chks.mtl, 'Meta title 20–60 chars', 'Meta title 20–60 chars'],
+    ['chk-md', chks.md, 'Meta description added (50+ chars)', 'Add meta description (50+ chars)'],
+    ['chk-wc', chks.wc, 'Content has 300+ words', '300+ words recommended']
+  ];
+  items.forEach(([id, pass, ok, fail]) => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = (pass?'✅ ':'⬜ ') + (pass?ok:fail); el.className = 'wp-seo-check '+(pass?'passed':'pending'); }
+  });
+}
+
+function updateSnippet() {
+  const title = document.getElementById('ed-meta-title').value || document.getElementById('ed-title').value;
+  const slug = document.getElementById('ed-slug').value || slugify(title);
+  const desc = document.getElementById('ed-meta-desc').value || document.getElementById('ed-excerpt').value;
+  const st = gObj(S.SETTINGS);
+  const domain = st.domain||'developerbilaspur.in';
+  document.getElementById('snip-url').textContent = 'https://'+domain+'/'+slug;
+  document.getElementById('snip-title').textContent = (title||'Post Title')+' — '+(st.siteName||'Developer Bilaspur');
+  document.getElementById('snip-desc').textContent = desc||'Your meta description will appear here in search results…';
+}
+
+['ed-keyword','ed-meta-title','ed-meta-desc','ed-og-title','ed-og-desc'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input',()=>{ updateSEO(); updateSnippet();
+    if(id==='ed-meta-title') document.getElementById('mt-count').textContent=el.value.length;
+    if(id==='ed-meta-desc') document.getElementById('md-count').textContent=el.value.length;
+  });
+});
+document.getElementById('ed-excerpt').addEventListener('input', updateSnippet);
+
+document.querySelectorAll('.wp-seo-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.wp-seo-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.wp-seo-pane').forEach(p=>p.style.display='none');
+    tab.classList.add('active');
+    document.getElementById('st-'+tab.dataset.st).style.display='';
+  });
+});
+
+// ==================================================================
+// CATEGORIES SCREEN
+// ==================================================================
+document.getElementById('cat-inp-name').addEventListener('input',()=>{
+  if (!document.getElementById('cat-inp-slug').dataset.manual)
+    document.getElementById('cat-inp-slug').value = slugify(document.getElementById('cat-inp-name').value);
+});
+document.getElementById('cat-inp-slug').addEventListener('input',()=>
+  document.getElementById('cat-inp-slug').dataset.manual='1');
+
+document.getElementById('cat-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name = document.getElementById('cat-inp-name').value.trim();
+  if(!name) return;
+  const slug = document.getElementById('cat-inp-slug').value.trim()||slugify(name);
+  const cats = gArr(S.CATS);
+  if (cats.find(c=>c.name.toLowerCase()===name.toLowerCase())) { alert('Category already exists.'); return; }
+  cats.push({id:'c'+Date.now(),name,slug,desc:document.getElementById('cat-inp-desc').value.trim()});
+  sSet(S.CATS, cats);
+  e.target.reset();
+  delete document.getElementById('cat-inp-slug').dataset.manual;
+  renderCatsTable();
+  showToast('Category added!');
+});
+
+function renderCatsTable() {
+  const cats = gArr(S.CATS), blogs = gArr(S.BLOGS);
+  const tbody = document.getElementById('cat-tbody');
+  if(!cats.length){tbody.innerHTML='<tr><td colspan="4" class="admin-empty-msg">No categories.</td></tr>';return;}
+  tbody.innerHTML = cats.map(c=>{
+    const cnt = blogs.filter(b=>(b.categories||[]).includes(c.name)).length;
+    return `<tr>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.slug}</td>
+      <td>${cnt}</td>
+      <td><button class="admin-tbl-btn admin-tbl-delete" onclick="deleteCat('${c.id}')">Delete</button></td>
+    </tr>`;
+  }).join('');
+}
+
+window.deleteCat = function(id) {
+  if(!confirm('Delete this category?')) return;
+  sSet(S.CATS, gArr(S.CATS).filter(c=>c.id!==id));
+  renderCatsTable();
+};
+
+// ==================================================================
+// TAGS SCREEN
+// ==================================================================
+document.getElementById('tag-inp-name').addEventListener('input',()=>
+  document.getElementById('tag-inp-slug').value=slugify(document.getElementById('tag-inp-name').value));
+
+document.getElementById('tag-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name = document.getElementById('tag-inp-name').value.trim();
+  if(!name) return;
+  const slug = document.getElementById('tag-inp-slug').value.trim()||slugify(name);
+  const tags = gArr(S.TAGS);
+  if(tags.find(t=>t.name.toLowerCase()===name.toLowerCase())){alert('Tag already exists.');return;}
+  tags.push({id:'t'+Date.now(),name,slug,desc:document.getElementById('tag-inp-desc').value.trim()});
+  sSet(S.TAGS, tags);
+  e.target.reset();
+  renderTagsTable();
+  showToast('Tag added!');
+});
+
+function renderTagsTable() {
+  const tags = gArr(S.TAGS), blogs = gArr(S.BLOGS);
+  const tbody = document.getElementById('tag-tbody');
+  if(!tags.length){tbody.innerHTML='<tr><td colspan="4" class="admin-empty-msg">No tags.</td></tr>';return;}
+  tbody.innerHTML = tags.map(t=>{
+    const cnt = blogs.filter(b=>(b.tags||[]).includes(t.name)).length;
+    return `<tr>
+      <td><strong>${t.name}</strong></td>
+      <td>${t.slug}</td>
+      <td>${cnt}</td>
+      <td><button class="admin-tbl-btn admin-tbl-delete" onclick="deleteTag('${t.id}')">Delete</button></td>
+    </tr>`;
+  }).join('');
+}
+
+window.deleteTag = function(id) {
+  if(!confirm('Delete this tag?'))return;
+  sSet(S.TAGS, gArr(S.TAGS).filter(t=>t.id!==id));
+  renderTagsTable();
+};
+
+// ==================================================================
+// PROFILES
+// ==================================================================
+document.getElementById('profile-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const displayName = document.getElementById('prf-display').value.trim();
+  if(!displayName) return;
+  const profiles = gArr(S.PROFILES);
+  profiles.push({
+    id:'p'+Date.now(),
+    firstName:document.getElementById('prf-first').value.trim(),
+    lastName:document.getElementById('prf-last').value.trim(),
+    displayName,
+    role:document.getElementById('prf-role').value,
+    email:document.getElementById('prf-email').value.trim(),
+    emoji:document.getElementById('prf-emoji').value.trim()||'👤',
+    website:document.getElementById('prf-website').value.trim(),
+    bio:document.getElementById('prf-bio').value.trim(),
+    createdAt:new Date().toISOString()
+  });
+  sSet(S.PROFILES, profiles);
+  e.target.reset();
+  renderProfiles(); updateAuthorDD();
+  showToast('Profile added!');
+});
+
+function renderProfiles() {
+  const profiles = gArr(S.PROFILES);
+  const con = document.getElementById('profiles-list');
+  if(!profiles.length){con.innerHTML='<p class="admin-empty-msg">No profiles yet.</p>';return;}
+  con.innerHTML = profiles.map((p,i)=>`
+    <div class="admin-profile-card">
+      <div class="admin-profile-avatar">${p.emoji||'👤'}</div>
+      <div class="admin-profile-info">
+        <strong class="admin-profile-name">${p.displayName}</strong>
+        <span class="admin-profile-role">${cap(p.role)}</span>
+        ${p.email?`<span class="admin-profile-email">${p.email}</span>`:''}
+        ${p.bio?`<p class="admin-profile-bio">${p.bio}</p>`:''}
+      </div>
+      <button class="admin-profile-delete" onclick="deleteProfile(${i})">&times;</button>
+    </div>`).join('');
+}
+
+window.deleteProfile = function(i) {
+  if(!confirm('Delete?'))return;
+  const p = gArr(S.PROFILES); p.splice(i,1); sSet(S.PROFILES,p);
+  renderProfiles(); updateAuthorDD();
+};
+
+function updateAuthorDD() {
+  const sel = document.getElementById('ed-author');
+  if (sel) {
+    sel.innerHTML = '<option>Dev Bilaspur</option>' +
+      gArr(S.PROFILES).map(p=>`<option>${p.displayName}</option>`).join('');
+  }
+}
+
+// ==================================================================
+// SETTINGS CONTROLLER (WORDPRESS PARITY)
+// ==================================================================
+const SETTINGS_KEY = 'devbilaspur-site-settings';
+
+const getSettings = () => {
+  const defaults = {
+    siteName: 'Developer Bilaspur',
+    tagline: 'Just another WordPress site',
+    domain: 'developerbilaspur.in',
+    whatsapp: '918224005193',
+    accentColor: '#48b898',
+    heroTitle: 'Customized Brand Experience',
+    heroSubtitle: 'We build custom static fast pages with high performance and live content pipelines.',
+    adminEmail: 'admin@developerbilaspur.in',
+    membership: false,
+    defaultRole: 'subscriber',
+    language: 'en_US',
+    timezone: 'Asia/Kolkata',
+    dateFormat: 'F j, Y',
+    dateCustom: 'd M Y',
+    timeFormat: 'g:i a',
+    timeCustom: 'H:i:s',
+    weekStart: '1',
+    wDefaultCategory: 'SEO Tips',
+    wDefaultFormat: 'standard',
+    wMailServer: 'mail.example.com',
+    wMailPort: 110,
+    wMailLogin: 'wordpress@example.com',
+    wMailPass: '',
+    wMailCategory: 'SEO Tips',
+    wPingSites: 'http://rpc.pingomatic.com/',
+    rHomepageType: 'latest',
+    rHomepageSelect: 'index.html',
+    rPostsSelect: 'blog.html',
+    rPostsPerPage: 10,
+    rFeedsCount: 10,
+    rFeedType: 'full',
+    rVisibility: false,
+    dNotifyLinks: true,
+    dAllowPingbacks: true,
+    dAllowComments: true,
+    dRequireNameEmail: true,
+    dRequireLogin: false,
+    dCloseOldComments: false,
+    dCloseCommentsDays: 14,
+    dCookiesConsent: true,
+    dThreadComments: true,
+    dThreadDepth: 5,
+    dMailPost: true,
+    dMailMod: true,
+    dApproveManual: false,
+    dApproveHistory: true,
+    dModerationLinks: 2,
+    dModerationKeys: '',
+    dBlacklistKeys: '',
+    dShowAvatars: true,
+    dDefaultAvatar: 'mystery',
+    mThumbW: 150,
+    mThumbH: 150,
+    mThumbCrop: true,
+    mMediumW: 300,
+    mMediumH: 300,
+    mLargeW: 1024,
+    mLargeH: 1024,
+    mFolders: true,
+    pStructure: 'postname',
+    pCustomStr: '/%postname%/',
+    pCatBase: 'category',
+    pTagBase: 'tag',
+    logoURL: '',
+    customCSS: ''
+  };
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    return raw ? { ...defaults, ...JSON.parse(raw) } : defaults;
+  } catch (e) {
+    return defaults;
+  }
+};
+
+window.loadSettings = function(type) {
+  if (!type) {
+    const act = document.querySelector('.admin-tab.active')?.id.replace('tab-', '');
+    if (act && act.startsWith('settings-')) {
+      type = act.replace('settings-', '');
+    } else {
+      type = 'general';
+    }
+  }
+  
+  const s = getSettings();
+  
+  if (type === 'general') {
+    document.getElementById('g-site-title').value = s.siteName;
+    document.getElementById('g-tagline').value = s.tagline;
+    document.getElementById('g-wp-url').value = 'https://' + s.domain + '/wp';
+    document.getElementById('g-site-url').value = 'https://' + s.domain;
+    document.getElementById('g-admin-email').value = s.adminEmail;
+    document.getElementById('g-membership').checked = s.membership;
+    document.getElementById('g-default-role').value = s.defaultRole;
+    document.getElementById('g-language').value = s.language;
+    document.getElementById('g-timezone').value = s.timezone;
+    
+    const dateRadios = document.getElementsByName('g-date-format');
+    let matchedDate = false;
+    dateRadios.forEach(r => {
+      if (r.value === s.dateFormat) { r.checked = true; matchedDate = true; }
+    });
+    if (!matchedDate) {
+      document.querySelector('input[name="g-date-format"][value="custom"]').checked = true;
+      document.getElementById('g-date-custom').value = s.dateFormat;
+    }
+    
+    const timeRadios = document.getElementsByName('g-time-format');
+    let matchedTime = false;
+    timeRadios.forEach(r => {
+      if (r.value === s.timeFormat) { r.checked = true; matchedTime = true; }
+    });
+    if (!matchedTime) {
+      document.querySelector('input[name="g-time-format"][value="custom"]').checked = true;
+      document.getElementById('g-time-custom').value = s.timeFormat;
+    }
+    document.getElementById('g-week-start').value = s.weekStart;
+    
+    // Load Live DB and Cloudinary configs
+    document.getElementById('g-supabase-url').value = localStorage.getItem('supabase_url') || '';
+    document.getElementById('g-supabase-key').value = localStorage.getItem('supabase_key') || '';
+    document.getElementById('g-cloudinary-name').value = localStorage.getItem('cloudinary_name') || '';
+    document.getElementById('g-cloudinary-preset').value = localStorage.getItem('cloudinary_preset') || '';
+  }
+  
+  if (type === 'writing') {
+    const cats = gArr(S.CATS).map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+    document.getElementById('w-default-category').innerHTML = cats;
+    document.getElementById('w-mail-category').innerHTML = cats;
+    
+    document.getElementById('w-default-category').value = s.wDefaultCategory;
+    document.getElementById('w-default-format').value = s.wDefaultFormat;
+    document.getElementById('w-mail-server').value = s.wMailServer;
+    document.getElementById('w-mail-port').value = s.wMailPort;
+    document.getElementById('w-mail-login').value = s.wMailLogin;
+    document.getElementById('w-mail-pass').value = s.wMailPass;
+    document.getElementById('w-mail-category').value = s.wMailCategory;
+    document.getElementById('w-ping-sites').value = s.wPingSites;
+  }
+  
+  if (type === 'reading') {
+    const pagesHTML = `
+      <option value="index.html">Home Page (index.html)</option>
+      <option value="blog.html">Blog Hub (blog.html)</option>
+      <option value="blog-detail.html">Blog Detail (blog-detail.html)</option>
+    `;
+    document.getElementById('r-homepage-select').innerHTML = pagesHTML;
+    document.getElementById('r-posts-select').innerHTML = pagesHTML;
+    
+    document.querySelector(`input[name="r-homepage-type"][value="${s.rHomepageType}"]`).checked = true;
+    document.getElementById('r-homepage-select').value = s.rHomepageSelect;
+    document.getElementById('r-posts-select').value = s.rPostsSelect;
+    document.getElementById('r-posts-per-page').value = s.rPostsPerPage;
+    document.getElementById('r-feeds-count').value = s.rFeedsCount;
+    document.querySelector(`input[name="r-feed-type"][value="${s.rFeedType}"]`).checked = true;
+    document.getElementById('r-visibility').checked = s.rVisibility;
+  }
+  
+  if (type === 'discussion') {
+    document.getElementById('d-notify-links').checked = s.dNotifyLinks;
+    document.getElementById('d-allow-pingbacks').checked = s.dAllowPingbacks;
+    document.getElementById('d-allow-comments').checked = s.dAllowComments;
+    document.getElementById('d-require-name-email').checked = s.dRequireNameEmail;
+    document.getElementById('d-require-login').checked = s.dRequireLogin;
+    document.getElementById('d-close-old-comments').checked = s.dCloseOldComments;
+    document.getElementById('d-close-comments-days').value = s.dCloseCommentsDays;
+    document.getElementById('d-cookies-consent').checked = s.dCookiesConsent;
+    document.getElementById('d-thread-comments').checked = s.dThreadComments;
+    document.getElementById('d-thread-depth').value = s.dThreadDepth;
+    document.getElementById('d-mail-post').checked = s.dMailPost;
+    document.getElementById('d-mail-mod').checked = s.dMailMod;
+    document.getElementById('d-approve-manual').checked = s.dApproveManual;
+    document.getElementById('d-approve-history').checked = s.dApproveHistory;
+    document.getElementById('d-moderation-links').value = s.dModerationLinks;
+    document.getElementById('d-moderation-keys').value = s.dModerationKeys;
+    document.getElementById('d-blacklist-keys').value = s.dBlacklistKeys;
+    document.getElementById('d-show-avatars').checked = s.dShowAvatars;
+    document.querySelector(`input[name="d-default-avatar"][value="${s.dDefaultAvatar}"]`).checked = true;
+  }
+  
+  if (type === 'media') {
+    document.getElementById('m-thumb-w').value = s.mThumbW;
+    document.getElementById('m-thumb-h').value = s.mThumbH;
+    document.getElementById('m-thumb-crop').checked = s.mThumbCrop;
+    document.getElementById('m-medium-w').value = s.mMediumW;
+    document.getElementById('m-medium-h').value = s.mMediumH;
+    document.getElementById('m-large-w').value = s.mLargeW;
+    document.getElementById('m-large-h').value = s.mLargeH;
+    document.getElementById('m-folders').checked = s.mFolders;
+  }
+  
+  if (type === 'permalinks') {
+    document.querySelector(`input[name="p-structure"][value="${s.pStructure}"]`).checked = true;
+    document.getElementById('p-custom-str').value = s.pCustomStr;
+    document.getElementById('p-cat-base').value = s.pCatBase;
+    document.getElementById('p-tag-base').value = s.pTagBase;
+  }
+};
+
+window.saveAllSettings = function(e, type) {
+  if (e) e.preventDefault();
+  const current = getSettings();
+  let updated = { ...current };
+  
+  if (type === 'general') {
+    updated.siteName = document.getElementById('g-site-title').value.trim();
+    updated.tagline = document.getElementById('g-tagline').value.trim();
+    try {
+      const urlObj = new URL(document.getElementById('g-site-url').value);
+      updated.domain = urlObj.hostname;
+    } catch(err) {
+      updated.domain = current.domain;
+    }
+    updated.adminEmail = document.getElementById('g-admin-email').value.trim();
+    updated.membership = document.getElementById('g-membership').checked;
+    updated.defaultRole = document.getElementById('g-default-role').value;
+    updated.language = document.getElementById('g-language').value;
+    updated.timezone = document.getElementById('g-timezone').value;
+    
+    const dateVal = document.querySelector('input[name="g-date-format"]:checked').value;
+    updated.dateFormat = dateVal === 'custom' ? document.getElementById('g-date-custom').value.trim() : dateVal;
+    
+    const timeVal = document.querySelector('input[name="g-time-format"]:checked').value;
+    updated.timeFormat = timeVal === 'custom' ? document.getElementById('g-time-custom').value.trim() : timeVal;
+    
+    updated.weekStart = document.getElementById('g-week-start').value;
+    
+    // Save Live DB and Cloudinary configs
+    localStorage.setItem('supabase_url', document.getElementById('g-supabase-url').value.trim());
+    localStorage.setItem('supabase_key', document.getElementById('g-supabase-key').value.trim());
+    localStorage.setItem('cloudinary_name', document.getElementById('g-cloudinary-name').value.trim());
+    localStorage.setItem('cloudinary_preset', document.getElementById('g-cloudinary-preset').value.trim());
+  }
+  
+  if (type === 'writing') {
+    updated.wDefaultCategory = document.getElementById('w-default-category').value;
+    updated.wDefaultFormat = document.getElementById('w-default-format').value;
+    updated.wMailServer = document.getElementById('w-mail-server').value.trim();
+    updated.wMailPort = parseInt(document.getElementById('w-mail-port').value)||110;
+    updated.wMailLogin = document.getElementById('w-mail-login').value.trim();
+    updated.wMailPass = document.getElementById('w-mail-pass').value;
+    updated.wMailCategory = document.getElementById('w-mail-category').value;
+    updated.wPingSites = document.getElementById('w-ping-sites').value.trim();
+  }
+  
+  if (type === 'reading') {
+    updated.rHomepageType = document.querySelector('input[name="r-homepage-type"]:checked').value;
+    updated.rHomepageSelect = document.getElementById('r-homepage-select').value;
+    updated.rPostsSelect = document.getElementById('r-posts-select').value;
+    updated.rPostsPerPage = parseInt(document.getElementById('r-posts-per-page').value)||10;
+    updated.rFeedsCount = parseInt(document.getElementById('r-feeds-count').value)||10;
+    updated.rFeedType = document.querySelector('input[name="r-feed-type"]:checked').value;
+    updated.rVisibility = document.getElementById('r-visibility').checked;
+  }
+  
+  if (type === 'discussion') {
+    updated.dNotifyLinks = document.getElementById('d-notify-links').checked;
+    updated.dAllowPingbacks = document.getElementById('d-allow-pingbacks').checked;
+    updated.dAllowComments = document.getElementById('d-allow-comments').checked;
+    updated.dRequireNameEmail = document.getElementById('d-require-name-email').checked;
+    updated.dRequireLogin = document.getElementById('d-require-login').checked;
+    updated.dCloseOldComments = document.getElementById('d-close-old-comments').checked;
+    updated.dCloseCommentsDays = parseInt(document.getElementById('d-close-comments-days').value)||14;
+    updated.dCookiesConsent = document.getElementById('d-cookies-consent').checked;
+    updated.dThreadComments = document.getElementById('d-thread-comments').checked;
+    updated.dThreadDepth = parseInt(document.getElementById('d-thread-depth').value)||5;
+    updated.dMailPost = document.getElementById('d-mail-post').checked;
+    updated.dMailMod = document.getElementById('d-mail-mod').checked;
+    updated.dApproveManual = document.getElementById('d-approve-manual').checked;
+    updated.dApproveHistory = document.getElementById('d-approve-history').checked;
+    updated.dModerationLinks = parseInt(document.getElementById('d-moderation-links').value)||2;
+    updated.dModerationKeys = document.getElementById('d-moderation-keys').value.trim();
+    updated.dBlacklistKeys = document.getElementById('d-blacklist-keys').value.trim();
+    updated.dShowAvatars = document.getElementById('d-show-avatars').checked;
+    updated.dDefaultAvatar = document.querySelector('input[name="d-default-avatar"]:checked').value;
+  }
+  
+  if (type === 'media') {
+    updated.mThumbW = parseInt(document.getElementById('m-thumb-w').value)||150;
+    updated.mThumbH = parseInt(document.getElementById('m-thumb-h').value)||150;
+    updated.mThumbCrop = document.getElementById('m-thumb-crop').checked;
+    updated.mMediumW = parseInt(document.getElementById('m-medium-w').value)||300;
+    updated.mMediumH = parseInt(document.getElementById('m-medium-h').value)||300;
+    updated.mLargeW = parseInt(document.getElementById('m-large-w').value)||1024;
+    updated.mLargeH = parseInt(document.getElementById('m-large-h').value)||1024;
+    updated.mFolders = document.getElementById('m-folders').checked;
+  }
+  
+  if (type === 'permalinks') {
+    updated.pStructure = document.querySelector('input[name="p-structure"]:checked').value;
+    updated.pCustomStr = document.getElementById('p-custom-str').value.trim();
+    updated.pCatBase = document.getElementById('p-cat-base').value.trim();
+    updated.pTagBase = document.getElementById('p-tag-base').value.trim();
+  }
+  
+  sSet(SETTINGS_KEY, updated);
+  showToast('✅ Settings saved!');
+  refreshDashboard();
+};
+
+window.seedSupabaseFromLocal = async function() {
+  if (!db.isConfigured()) {
+    alert("Please configure and save your Supabase credentials first!");
+    return;
+  }
+  if (!confirm("This will push your browser's local posts, news, and website demos to your live Supabase database. This solves the empty database/dashboard issue. Continue?")) {
+    return;
+  }
+
+  showToast("⏳ Uploading local data to live database...");
+  
+  try {
+    // 1. Seed Blogs
+    const localBlogs = gArr(S.BLOGS);
+    if (localBlogs.length > 0) {
+      for (const blog of localBlogs) {
+        await db.saveBlog(blog);
+      }
+    }
+    
+    // 2. Seed News
+    const localNews = gArr(S.NEWS);
+    if (localNews.length > 0) {
+      for (const newsItem of localNews) {
+        await db.saveNews(newsItem);
+      }
+    }
+    
+    // 3. Seed Demos
+    const localDemos = gArr(S.DEMOS);
+    if (localDemos.length > 0) {
+      for (const demo of localDemos) {
+        await db.saveDemo(demo);
+      }
+    }
+    
+    showToast("✅ Supabase database loaded with your articles!");
+    await refreshDashboard();
+    await renderPosts();
+    await renderDemos();
+  } catch (err) {
+    console.error("Seeding error:", err);
+    alert("Error uploading data: " + err.message);
+  }
+};
+
+window.insertToken = function(token) {
+  const inp = document.getElementById('p-custom-str');
+  const pos = inp.selectionStart;
+  const val = inp.value;
+  inp.value = val.substring(0, pos) + token + val.substring(inp.selectionEnd);
+  inp.focus();
+  inp.selectionStart = inp.selectionEnd = pos + token.length;
+};
+
+// ==================================================================
+// LIVE CUSTOMIZER PREVIEW ENGINE
+// ==================================================================
+window.toggleCustSec = function(id) {
+  const el = document.getElementById(id);
+  const active = el.classList.contains('active');
+  document.querySelectorAll('.wp-cust-section').forEach(s => s.classList.remove('active'));
+  if (!active) el.classList.add('active');
+};
+
+window.setCustomizerDevice = function(device, btn) {
+  document.querySelectorAll('.wp-cust-dev-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const viewport = document.getElementById('customizer-preview-viewport');
+  viewport.className = 'wp-customizer-device ' + device;
+};
+
+window.updateCustomizerPreview = function() {
+  const title = document.getElementById('cust-site-title').value.trim() || 'Developer Bilaspur';
+  const tagline = document.getElementById('cust-tagline').value.trim() || 'Just another WordPress site';
+  const accent = document.getElementById('cust-accent-color').value;
+  const customCSS = document.getElementById('cust-additional-css').value;
+  
+  document.getElementById('cust-accent-hex').textContent = accent.toUpperCase();
+  document.getElementById('mock-header-title').textContent = title;
+  document.getElementById('mock-header-tagline').textContent = tagline;
+  document.getElementById('mock-hero-title').textContent = title + ' Services';
+  document.getElementById('mock-hero-sub').textContent = tagline + '. High-speed rendering & clean visual experience.';
+  
+  const styleEl = document.getElementById('cust-preview-style');
+  styleEl.innerHTML = `
+    #customizer-preview-viewport {
+      --color-accent: ${accent} !important;
+    }
+    .wp-cust-mock-btn {
+      background-color: ${accent} !important;
+      box-shadow: 0 4px 14px ${accent}40 !important;
+    }
+    ${customCSS}
+  `;
+};
+
+window.loadCustomizer = function() {
+  const s = getSettings();
+  document.getElementById('cust-site-title').value = s.siteName;
+  document.getElementById('cust-tagline').value = s.tagline;
+  document.getElementById('cust-logo-url').value = s.logoURL;
+  document.getElementById('cust-accent-color').value = s.accentColor;
+  document.getElementById('cust-accent-hex').textContent = s.accentColor.toUpperCase();
+  document.getElementById('cust-additional-css').value = s.customCSS;
+  updateCustomizerPreview();
+};
+
+window.saveCustomizerSettings = function() {
+  const s = getSettings();
+  s.siteName = document.getElementById('cust-site-title').value.trim();
+  s.tagline = document.getElementById('cust-tagline').value.trim();
+  s.logoURL = document.getElementById('cust-logo-url').value.trim();
+  s.accentColor = document.getElementById('cust-accent-color').value;
+  s.customCSS = document.getElementById('cust-additional-css').value;
+  sSet(SETTINGS_KEY, s);
+  
+  document.documentElement.style.setProperty('--color-accent', s.accentColor);
+  
+  showToast('✅ Customizer adjustments published!');
+  refreshDashboard();
+};
+
+// ==================================================================
+// WEBSITE DEMOS CONTROLLER
+// ==================================================================
+let editingDemoId = null;
+
+window.renderDemos = async function() {
+  let demos = await db.getDemos();
+  demos.sort((a,b) => {
+    const pa = parseInt(a.priority) || 10;
+    const pb = parseInt(b.priority) || 10;
+    if (pa !== pb) return pa - pb;
+    return (a.title || '').localeCompare(b.title || '');
+  });
+
+  const con = document.getElementById('demos-container');
+  if (!demos.length) {
+    con.innerHTML = '<div class="wp-no-posts"><p>No website demos found. Click "Add New" to build one!</p></div>';
+    return;
+  }
+
+  con.innerHTML = demos.map(d => `
+    <div class="wp-post-card" id="dcard-${d.id}">
+      <div class="wp-pc-main">
+        <div style="margin-right: 16px; min-width: 50px; height: 50px; border-radius: 6px; overflow: hidden; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); flex-shrink: 0;">
+          ${d.image ? `<img src="${d.image}" style="width: 100%; height: 100%; object-fit: cover;" />` : `<span style="font-size: 1.5rem;">${d.emoji || '🌐'}</span>`}
+        </div>
+        <div class="wp-pc-body">
+          <div class="wp-pc-title">
+            <a class="wp-pc-title-lnk" onclick="editDemo('${d.id}')">${d.title || 'Untitled Demo'}</a>
+            <span class="wp-badge-sticky" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">
+              ${cap(d.category)}
+            </span>
+          </div>
+          <div class="wp-pc-actions">
+            <a onclick="editDemo('${d.id}')">Edit</a>
+            <span class="wp-sep">|</span>
+            <a class="wp-del-lnk" onclick="deleteDemo('${d.id}')">Delete</a>
+            <span class="wp-sep">|</span>
+            <a href="${d.url}" target="_blank">View Live</a>
+          </div>
+          <div class="wp-pc-meta">
+            Priority: <strong>${d.priority || 10}</strong> &nbsp;·&nbsp; Link: <span style="font-family:monospace;font-size:0.8rem;color:#64748b;">${d.url}</span>
+          </div>
+          <div style="font-size: 0.82rem; color: #475569; margin-top: 6px;">
+            ${d.desc || 'No description provided.'}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+};
+
+window.openNewDemo = function() {
+  editingDemoId = null;
+  document.getElementById('demo-editor-bar-title').textContent = 'Add New Demo';
+  document.getElementById('demo-ed-title').value = '';
+  document.getElementById('demo-ed-desc').value = '';
+  document.getElementById('demo-ed-url').value = '';
+  document.getElementById('demo-ed-category').value = 'ecommerce';
+  document.getElementById('demo-ed-emoji').value = '🌐';
+  document.getElementById('demo-ed-image').value = '';
+  document.getElementById('demo-ed-priority').value = '10';
+  switchTab('demo-editor');
+};
+
+window.closeDemoEditor = function() {
+  editingDemoId = null;
+  switchTab('all-demos');
+};
+
+window.editDemo = async function(id) {
+  const demos = await db.getDemos();
+  const d = demos.find(item => item.id === id);
+  if (!d) return;
+
+  editingDemoId = id;
+  document.getElementById('demo-editor-bar-title').textContent = 'Edit Demo: ' + d.title;
+  document.getElementById('demo-ed-title').value = d.title || '';
+  document.getElementById('demo-ed-desc').value = d.desc || '';
+  document.getElementById('demo-ed-url').value = d.url || '';
+  document.getElementById('demo-ed-category').value = d.category || 'ecommerce';
+  document.getElementById('demo-ed-emoji').value = d.emoji || '🌐';
+  document.getElementById('demo-ed-image').value = d.image || '';
+  document.getElementById('demo-ed-priority').value = d.priority || '10';
+
+  switchTab('demo-editor');
+};
+
+window.saveDemo = async function() {
+  const title = document.getElementById('demo-ed-title').value.trim();
+  const desc = document.getElementById('demo-ed-desc').value.trim();
+  const url = document.getElementById('demo-ed-url').value.trim();
+  const category = document.getElementById('demo-ed-category').value;
+  const emoji = document.getElementById('demo-ed-emoji').value.trim() || '🌐';
+  const image = document.getElementById('demo-ed-image').value.trim();
+  const priority = parseInt(document.getElementById('demo-ed-priority').value) || 10;
+
+  if (!title) {
+    alert('Please enter a title for the demo.');
+    return;
+  }
+  if (!url) {
+    alert('Please enter a preview URL.');
+    return;
+  }
+
+  const demoData = { title, desc, url, category, emoji, image, priority };
+
+  if (editingDemoId) {
+    await db.saveDemo({ id: editingDemoId, ...demoData });
+    showToast('✅ Demo updated successfully!');
+  } else {
+    const id = 'demo-' + Date.now();
+    await db.saveDemo({ id, ...demoData });
+    showToast('✅ Demo published successfully!');
+  }
+
+  closeDemoEditor();
+  await renderDemos();
+};
+
+window.deleteDemo = async function(id) {
+  if (!confirm('Are you sure you want to delete this website demo?')) return;
+  await db.deleteDemo(id);
+  showToast('🗑️ Demo deleted successfully!');
+  await renderDemos();
+};
+
+// ==================================================================
+// UTILITIES
+// ==================================================================
+function slugify(t){return(t||'').toLowerCase().replace(/[^\w\s-]/g,'').replace(/[\s_]+/g,'-').replace(/^-+|-+$/g,'');}
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'';}
+function escAttr(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function fmtDate(iso){if(!iso)return'–';return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+function fmtTime(iso){if(!iso)return'–';return new Date(iso).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}
+
+function showToast(msg) {
+  let t = document.getElementById('wp-toast');
+  if(!t){t=document.createElement('div');t.id='wp-toast';document.body.appendChild(t);}
+  t.textContent = msg;
+  t.classList.add('wp-toast-show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('wp-toast-show'),3000);
+}
+
+// Cloudinary Upload Widget handler
+window.openCloudinaryWidget = function(targetInputId, previewImgId) {
+  const cloudName = localStorage.getItem('cloudinary_name') || '';
+  const preset = localStorage.getItem('cloudinary_preset') || '';
+  if (!cloudName || !preset) {
+    alert('⚠️ Please configure your Cloudinary Cloud Name and Upload Preset in settings first!');
+    switchTab('settings-general');
+    return;
+  }
+  
+  const myWidget = cloudinary.createUploadWidget({
+    cloudName: cloudName, 
+    uploadPreset: preset,
+    cropping: true,
+    croppingAspectRatio: 1.777, // 16:9 aspect ratio
+    showSkipCropButton: false
+  }, (error, result) => { 
+    if (!error && result && result.event === "success") { 
+      const webpUrl = result.info.secure_url;
+      document.getElementById(targetInputId).value = webpUrl;
+      if (previewImgId) {
+        const preview = document.getElementById(previewImgId);
+        if (preview) {
+          preview.src = webpUrl;
+          preview.style.display = 'block';
+        }
+      }
+      if (targetInputId === 'featimg-url') {
+        setFeatImg();
+      }
+      showToast('🖼️ Image uploaded successfully to Cloudinary!');
+    }
+  });
+  myWidget.open();
+};
+
+// ==================================================================
+// SITEMAP & RSS DOWNLOAD EXPORTERS
+// ==================================================================
+window.exportSitemapPosts = function() {
+  const custom = gArr('developer-bilaspur-blogs');
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Default guides -->
+  <url>
+    <loc>https://developerbilaspur.in/blog-detail.html?id=default-1</loc>
+    <lastmod>2026-07-06T10:00:00+05:30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://developerbilaspur.in/blog-detail.html?id=default-2</loc>
+    <lastmod>2026-07-06T11:00:00+05:30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://developerbilaspur.in/blog-detail.html?id=default-3</loc>
+    <lastmod>2026-07-06T12:00:00+05:30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+
+  custom.forEach(post => {
+    const pubIso = post.publishedAt || new Date().toISOString();
+    xml += `
+  <url>
+    <loc>https://developerbilaspur.in/blog-detail.html?id=${post.id}</loc>
+    <lastmod>${pubIso}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+  });
+
+  xml += `\n</urlset>`;
+  
+  triggerDownload(xml, 'sitemap-posts.xml', 'application/xml');
+  showToast('📥 sitemap-posts.xml exported successfully!');
+};
+
+window.exportFeedRSS = function() {
+  const custom = gArr('developer-bilaspur-blogs');
+  const nowStr = new Date().toUTCString();
+  let xml = `<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Developer Bilaspur Blog</title>
+    <link>https://developerbilaspur.in/blog.html</link>
+    <description>Premium web design, local SEO aur WhatsApp auto-reply automation tips for Bilaspur business owners.</description>
+    <language>hi</language>
+    <lastBuildDate>${nowStr}</lastBuildDate>
+    <atom:link href="https://developerbilaspur.in/feed.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Bilaspur Me Apne Local Business Ko Google Map Pe Top Kaise Layein?</title>
+      <link>https://developerbilaspur.in/blog-detail.html?id=default-1</link>
+      <guid>https://developerbilaspur.in/blog-detail.html?id=default-1</guid>
+      <pubDate>Mon, 06 Jul 2026 10:00:00 +0530</pubDate>
+      <description>Aasan guide jo aapko batayegi ki kaise 3 simple steps me Google My Business profile banakar map search me 1st rank laani hai.</description>
+    </item>
+    <item>
+      <title>WhatsApp Auto-Reply Se Dukandaar Apni Sales Kaise Badha Sakte Hain?</title>
+      <link>https://developerbilaspur.in/blog-detail.html?id=default-2</link>
+      <guid>https://developerbilaspur.in/blog-detail.html?id=default-2</guid>
+      <pubDate>Mon, 06 Jul 2026 11:00:00 +0530</pubDate>
+      <description>WhatsApp automation engine ke fayde aur use cases. Sikhein kaise chat-bot customer orders automatically process karta hai.</description>
+    </item>
+    <item>
+      <title>Modern E-Commerce Website Ke Liye Best UX Principles [2026 Edition]</title>
+      <link>https://developerbilaspur.in/blog-detail.html?id=default-3</link>
+      <guid>https://developerbilaspur.in/blog-detail.html?id=default-3</guid>
+      <pubDate>Mon, 06 Jul 2026 12:00:00 +0530</pubDate>
+      <description>Aapke online catalog ko conversion-optimized rakhne ke naye design rules jo checkout speed aur engagement ko 3x badha denge.</description>
+    </item>`;
+
+  custom.forEach(post => {
+    const pubRfc = post.publishedAt ? new Date(post.publishedAt).toUTCString() : nowStr;
+    xml += `
+    <item>
+      <title>${escXml(post.title)}</title>
+      <link>https://developerbilaspur.in/blog-detail.html?id=${post.id}</link>
+      <guid>https://developerbilaspur.in/blog-detail.html?id=${post.id}</guid>
+      <pubDate>${pubRfc}</pubDate>
+      <description>${escXml(post.excerpt)}</description>
+    </item>`;
+  });
+
+  xml += `\n  </channel>\n</rss>`;
+  
+  triggerDownload(xml, 'feed.xml', 'application/xml');
+  showToast('📥 feed.xml (RSS) exported successfully!');
+};
+
+function escXml(str) {
+  return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
+function triggerDownload(content, filename, contentType) {
+  const blob = new Blob([content], { type: contentType });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// ==================================================================
+// INIT
+// ==================================================================
+(async function(){
+  initDefaults();
+  
+  const s = getSettings();
+  document.documentElement.style.setProperty('--color-accent', s.accentColor);
+  
+  await refreshDashboard();
+  await renderPosts();
+  await renderDemos();
+  renderCatCheckboxes([]);
+  updateAuthorDD();
+  loadSettings('general');
+  updateSEO();
+  updateSnippet();
+})();
+</script>
+</body>
+</html>
+
+

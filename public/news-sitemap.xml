@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://developerbilaspur.in/news-detail.html?id=news-1</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Developer Bilaspur News</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-08T10:00:00+05:30</news:publication_date>
+      <news:title>Bilaspur Station Road Pe Naya Underpass Jaldi Hoga Shuru!</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://developerbilaspur.in/news-detail.html?id=news-2</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Developer Bilaspur News</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-07T09:30:00+05:30</news:publication_date>
+      <news:title>Vyapar Vihar Me Chhattisgarh Ka Sabse Bada Saree Showroom Khula</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://developerbilaspur.in/news-detail.html?id=news-3</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Developer Bilaspur News</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-07-06T14:20:00+05:30</news:publication_date>
+      <news:title>Arpa River Front Project: Bilaspur Me Naya Tourist Spot Taiyar</news:title>
+    </news:news>
+  </url>
+</urlset>

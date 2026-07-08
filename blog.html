@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Developer Bilaspur Blog - High speed web design, SEO tips, and WhatsApp order automation tutorials for local business owners." />
+    
+    <!-- Google Discover requirement: max-image-preview:large -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Quill.js WYSIWYG Editor Styles -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    
+    <title>Blog Hub | Developer Bilaspur</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=2" />
+  </head>
+  <body>
+    <!-- Advanced Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Minimal Header -->
+    <header class="main-header" id="header">
+      <div class="container header-container">
+        <a href="/index.html" class="logo">
+          <img src="/logo.png" alt="Developer Bilaspur Logo" class="logo-img" />
+          <span class="logo-text">Developer<span class="logo-highlight">Bilaspur</span></span>
+        </a>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="/index.html#live-demos" class="nav-link">Live Demos</a>
+          <a href="/index.html#features" class="nav-link">Humare Modules</a>
+          <a href="/blog.html" class="nav-link">Blog Hub</a>
+          <a href="/news.html" class="nav-link">Bilaspur News</a>
+        </nav>
+        <div class="header-right">
+          <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="header-btn" id="header-cta">
+            Sawal Puchein
+          </a>
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+      <a href="/index.html" class="mobile-nav-link">Home</a>
+      <a href="/index.html#live-demos" class="mobile-nav-link">Live Demos</a>
+      <a href="/index.html#features" class="mobile-nav-link">Humare Modules</a>
+      <a href="/blog.html" class="mobile-nav-link">Blog Hub</a>
+      <a href="/news.html" class="mobile-nav-link">Bilaspur News</a>
+      <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="mobile-nav-link mobile-cta">Sawal Puchein</a>
+    </nav>
+
+    <main>
+      <!-- Dedicated Blog Section (Backlinko Style) -->
+      <section class="blog-section" id="blog" style="padding-top: 160px;">
+        <div class="container">
+          
+          <!-- Section Header -->
+          <div class="section-header reveal reveal-slide-up">
+            <span class="section-tag" style="color: #48b898;">Knowledge Hub</span>
+            <h1 class="section-title" style="font-size: 3.2rem;">Latest Marketing & Web Guides</h1>
+            <p class="section-desc">Dukan ko Google search aur maps par grow karne ki aasan guides.</p>
+          </div>
+
+          <!-- Category Tabs (Horizontal scrollable on mobile) -->
+          <div class="blog-categories-wrapper reveal reveal-slide-up delay-100">
+            <div class="blog-categories" id="blog-categories">
+              <button class="category-btn active" data-category="all">All Guides</button>
+              <button class="category-btn" data-category="seo">SEO Tips</button>
+              <button class="category-btn" data-category="whatsapp">WhatsApp Auto</button>
+              <button class="category-btn" data-category="vyapar">Local Vyapar</button>
+              <button class="category-btn" data-category="web">Web Design</button>
+            </div>
+          </div>
+
+          <!-- Blog Cards Grid -->
+          <div class="blog-grid reveal reveal-slide-up delay-200" id="blog-grid">
+            <!-- Rendered Dynamically by main.js -->
+          </div>
+
+          <!-- Newsletter CTA Box (Backlinko Style Conversion Box) -->
+          <div class="blog-newsletter-cta reveal reveal-slide-up delay-300">
+            <div class="newsletter-cta-content">
+              <h3 class="newsletter-cta-title">Join 5,000+ Local Vyapari In Bilaspur</h3>
+              <p class="newsletter-cta-desc">Get actionable web design & digital marketing tips directly in your inbox. No spam. Unsubscribe anytime.</p>
+              <form class="newsletter-cta-form" id="newsletter-form">
+                <input type="email" placeholder="Apna Email Address Likhein" class="newsletter-input" required>
+                <button type="submit" class="newsletter-submit-btn">Free tips paayein</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer with Giant Typography (Antigravity Style) -->
+    <footer class="main-footer">
+      <div class="container footer-grid-layout">
+        <div class="footer-links-section">
+          <div class="footer-col-desc">
+            <span class="footer-desc-title">Developer Bilaspur</span>
+            <p class="footer-desc-body">Hum Bilaspur ki shops ke liye aasan aur sundar websites banate hain, taaki aapka business internet par har jagah dikhe.</p>
+          </div>
+          <div class="footer-col-nav">
+            <span class="footer-col-title">Nav</span>
+            <a href="/index.html#hero">Hero</a>
+            <a href="/index.html#showcase">Showcase</a>
+            <a href="/index.html#features">Modules</a>
+            <a href="/index.html#problem-solution">Headaches</a>
+            <a href="#blog">Blog Hub</a>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Contact</span>
+            <a href="https://wa.me/918224005193">WhatsApp</a>
+            <span class="footer-meta-info">Bilaspur, CG, India</span>
+            <a href="#" id="manage-blogs-trigger" style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Manage Hub</a>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Legal Links</span>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms & Conditions</a>
+            <a href="/disclaimer.html">Disclaimer</a>
+            <a href="/dmca.html">DMCA Policy</a>
+          </div>
+        </div>
+
+        <!-- Giant Stark Typography Logo at bottom -->
+        <div class="giant-footer-logo-wrapper">
+          <h2 class="giant-footer-logo">developerbilaspur</h2>
+        </div>
+
+        <div class="footer-bottom-bar">
+          <span class="footer-copyright">© 2026 Developer Bilaspur. Built with pride.</span>
+          <span class="footer-extra-links">Chhattisgarh Web Services</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Big Floating CTA Button -->
+    <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="floating-cta" id="floating-whatsapp-cta" aria-label="Talk to us on WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="white">
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+      </svg>
+    </a>
+
+    <!-- Blog Manager Admin Modal Overlay -->
+    <div class="admin-modal-overlay" id="admin-modal-overlay">
+      <div class="admin-modal-box">
+        <div class="admin-modal-header">
+          <h3>Manage Blog Publisher</h3>
+          <button class="admin-close-btn" id="admin-close-btn">&times;</button>
+        </div>
+        <form class="admin-modal-form" id="admin-publish-form">
+          <div class="form-group">
+            <label for="post-title">Guide Title</label>
+            <input type="text" id="post-title" placeholder="e.g., Bilaspur Me SEO Kaise Karein" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-category">Category</label>
+              <select id="post-category" required>
+                <option value="seo">SEO Tips</option>
+                <option value="whatsapp">WhatsApp Auto</option>
+                <option value="vyapar">Local Vyapar</option>
+                <option value="web">Web Design</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="post-readtime">Read Time</label>
+              <input type="text" id="post-readtime" placeholder="e.g., 5 min read" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-emoji">Emoji Graphic</label>
+              <input type="text" id="post-emoji" placeholder="e.g., one emoji like star or smiley" required maxlength="2">
+            </div>
+            <div class="form-group">
+              <label for="post-author">Author</label>
+              <input type="text" id="post-author" value="Dev Bilaspur" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="post-excerpt">Short Summary / Excerpt</label>
+            <input type="text" id="post-excerpt" placeholder="Write a 1-2 sentence description of the guide..." required>
+          </div>
+          <div class="form-group">
+            <label>Design Blog Content</label>
+            <!-- Quill.js Editor Container -->
+            <div id="post-editor-wrapper" style="height: 180px; margin-bottom: 8px;"></div>
+          </div>
+          <button type="submit" class="admin-publish-btn">Publish Guide</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Quill.js Rich Editor Library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <!-- Mobile hamburger toggle -->
+    <script>
+      (function() {
+        const btn = document.getElementById('hamburger-btn');
+        const drawer = document.getElementById('mobile-nav-drawer');
+        if (!btn || !drawer) return;
+        btn.addEventListener('click', () => {
+          const isOpen = drawer.classList.toggle('open');
+          btn.classList.toggle('open', isOpen);
+          btn.setAttribute('aria-expanded', isOpen);
+          drawer.setAttribute('aria-hidden', !isOpen);
+        });
+        drawer.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            drawer.classList.remove('open');
+            btn.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            drawer.setAttribute('aria-hidden', 'true');
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
+

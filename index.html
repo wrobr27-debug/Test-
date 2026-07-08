@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Developer Bilaspur - Premium websites, WhatsApp auto-orders, and online catalogs for local business owners." />
+    
+    <!-- Google Discover requirement: max-image-preview:large -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Quill.js WYSIWYG Editor Styles -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    
+    <title>Developer Bilaspur | Premium Developer Portfolio</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=2" />
+  </head>
+  <body>
+    <!-- Advanced Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Minimal Header -->
+    <header class="main-header" id="header">
+      <div class="container header-container">
+        <a href="#" class="logo">
+          <img src="/logo.png" alt="Developer Bilaspur Logo" class="logo-img" />
+          <span class="logo-text">Developer<span class="logo-highlight">Bilaspur</span></span>
+        </a>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="#live-demos" class="nav-link">Live Demos</a>
+          <a href="#features" class="nav-link">Humare Modules</a>
+          <a href="/blog.html" class="nav-link">Blog Hub</a>
+          <a href="/news.html" class="nav-link">Bilaspur News</a>
+        </nav>
+        <div class="header-right">
+          <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="header-btn" id="header-cta">
+            Sawal Puchein
+          </a>
+          <!-- Hamburger for mobile -->
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+      <a href="#live-demos" class="mobile-nav-link">Live Demos</a>
+      <a href="#features" class="mobile-nav-link">Humare Modules</a>
+      <a href="/blog.html" class="mobile-nav-link">Blog Hub</a>
+      <a href="/news.html" class="mobile-nav-link">Bilaspur News</a>
+      <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="mobile-nav-link mobile-cta">Sawal Puchein</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Centered Hero Section (Google Antigravity Style) -->
+      <section class="hero-section" id="hero">
+        <div class="container hero-centered">
+          <!-- Small badge / mini logo above headline -->
+          <div class="hero-logo-badge reveal reveal-slide-up">
+            <img src="/logo.png" alt="Dev Bilaspur Logo" style="width: 22px; height: 22px; object-fit: contain; margin-right: 6px;" />
+            <span class="badge-text">Developer Bilaspur</span>
+          </div>
+
+          <h1 class="hero-title reveal reveal-slide-up delay-100">Aapke Business Ke Liye Har Tarah Ki Premium & Simple Websites</h1>
+          <p class="hero-subtext reveal reveal-slide-up delay-200">Bilaspur ke vyapariyon aur local shops ke liye simple websites, WhatsApp auto-ordering aur digital catalogs. Bina kisi tech headache ke, apni dukan online lekar jayein.<span class="typing-cursor">|</span></p>
+          
+          <div class="hero-actions-centered reveal reveal-slide-up delay-300">
+            <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="btn btn-whatsapp" id="hero-primary-cta">
+              WhatsApp par baat karein
+            </a>
+            <a href="#features" class="btn btn-light" id="hero-secondary-cta">
+              Explore modules
+            </a>
+          </div>
+          <span class="cta-helper-text reveal reveal-slide-up delay-400">No advance fees required â€¢ Live hone par payment</span>
+        </div>
+      </section>
+
+      <!-- Advanced IDE + Live Preview Split Mockup (Hero Showcase) -->
+      <section class="preview-section" id="showcase">
+        <div class="container">
+          <div class="preview-browser-mockup reveal reveal-slide-up reveal-scale delay-200">
+            <div class="browser-header">
+              <div class="browser-dots">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+              </div>
+              <div class="browser-address-bar">developerbilaspur.in/editor/aadya-store</div>
+              <div class="browser-header-spacer" style="width: 42px; flex-shrink: 0;"></div>
+            </div>
+            <div class="browser-content ide-split">
+              <!-- Left Side: Code Editor -->
+              <div class="ide-code-side">
+                <div class="ide-file-tab">index.html</div>
+                <pre class="ide-code"><code><span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"dukan-header"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;h1&gt;</span>Aadya Modern Retail<span class="c-tag">&lt;/h1&gt;</span>
+  <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"status-open"</span><span class="c-tag">&gt;</span>Active<span class="c-tag">&lt;/span&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"product-card"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;img</span> <span class="c-attr">src</span>=<span class="c-str">"/chanderi-saree.jpg"</span><span class="c-tag">/&gt;</span>
+  <span class="c-tag">&lt;h3&gt;</span>Premium Chanderi Saree<span class="c-tag">&lt;/h3&gt;</span>
+  <span class="c-tag">&lt;span&gt;</span>₹1,200<span class="c-tag">&lt;/span&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></code></pre>
+              </div>
+              <!-- Right Side: Rendering preview -->
+              <div class="ide-preview-side">
+                <div class="preview-header">Live Preview</div>
+                <div class="preview-content-box">
+                  <div class="dukan-preview-header">
+                    <span class="dukan-name">Aadya Modern Retail</span>
+                    <span class="dukan-status-badge">Open Now</span>
+                  </div>
+                  <div class="dukan-preview-product">
+                    <div class="dukan-product-img" style="overflow: hidden;">
+                      <img src="/chanderi-saree.jpg" alt="Premium Chanderi Saree" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <div class="dukan-product-info">
+                      <h4>Premium Chanderi Saree</h4>
+                      <p class="dukan-price">₹1,200</p>
+                      <button class="dukan-order-btn">Order on WhatsApp</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Website Demos Section -->
+      <section class="blog-section" id="live-demos">
+        <div class="container">
+
+          <!-- Section Header -->
+          <div class="section-header reveal reveal-slide-up">
+            <span class="section-tag">Client Templates</span>
+            <h2 class="section-title">Local Businesses Ke Liye Live Website Demos</h2>
+            <p class="section-desc">Alag-alag industries ke liye custom high-speed templates. Live demo chalao ya WhatsApp par waisa hi design order karo.</p>
+          </div>
+
+          <!-- Dynamic Grid Container -->
+          <div class="blog-grid reveal reveal-slide-up delay-200" id="home-demos-grid">
+            <!-- Demos injected by main.js -->
+          </div>
+
+          <!-- CTA -->
+          <div style="text-align: center; margin-top: 16px;">
+            <a href="/demos.html" class="feature-pill-btn">Saare Demos Dekhein &rarr;</a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Split Modules Section (Defining What We Do - Antigravity Style) -->
+      <section class="split-features-section" id="features">
+        <div class="container flex-features-container">
+          
+          <!-- Module 1: Dukan Website -->
+          <div class="feature-split-row">
+            <div class="feature-split-text reveal reveal-slide-right">
+              <span class="feature-label">Module 01</span>
+              <h2 class="feature-heading">Dukan Ki Website</h2>
+              <p class="feature-body-text">Get found on Google. Hum aapki shop ke liye high-speed personal website design karte hain. Jab bhi Bilaspur me koi aapke segment ki shops search karega, aapki business details top par dikhegi.</p>
+              <div class="feature-action-wrapper">
+                <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20dukan%20website%20ki%20details%20chahiye." class="feature-pill-btn">Website Demo</a>
+              </div>
+            </div>
+            <div class="feature-split-mockup reveal reveal-slide-left reveal-scale">
+              <div class="mockup-panel split-mockup-layout">
+                <div class="mockup-header-bar">
+                  <div class="browser-dots">
+                    <span class="dot-red"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-green"></span>
+                  </div>
+                  <span class="mockup-title">Google Search to Shop Flow</span>
+                </div>
+                <div class="split-mockup-content">
+                  <div class="split-pane-left google-search-mockup">
+                    <div class="google-result-item">
+                      <span class="google-url">https://aadya-retail.com</span>
+                      <h3 class="google-title-text">Aadya Modern Retail Bilaspur</h3>
+                      <p class="google-snippet-text">Sadar Bazar ki best clothing shop. Fabric, Chanderi sarees aur suits online order karein.</p>
+                      <div class="google-quick-links">
+                        <span>• Home Catalog</span>
+                        <span>• Order WhatsApp</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="split-pane-right mobile-shop-preview">
+                    <div class="mini-phone-screen">
+                      <div class="phone-status-bar">Aadya Retail</div>
+                      <div class="phone-shop-body">
+                        <span class="phone-welcome">Namaste! 👋</span>
+                        <div class="phone-item-card">
+                          <div style="width: 32px; height: 32px; border-radius: 4px; overflow: hidden; margin-bottom: 4px;">
+                            <img src="/chanderi-saree.jpg" alt="Saree" style="width: 100%; height: 100%; object-fit: cover;" />
+                          </div>
+                          <span class="phone-item-title">Chanderi Silk Saree</span>
+                          <span class="phone-item-price">₹1,200</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 2: WhatsApp Orders Automation -->
+          <div class="feature-split-row row-reverse">
+            <div class="feature-split-text reveal reveal-slide-left">
+              <span class="feature-label">Module 02</span>
+              <h2 class="feature-heading">WhatsApp Order Automation</h2>
+              <p class="feature-body-text">Auto-reply to customers. Customer ke "Hello" ya "Rate list" likhte hi humara custom developer script automatically unhe catalog link bhej deta hai. Aapko phone uthakar manually reply karne ki zarurat nahi.</p>
+              <div class="feature-action-wrapper">
+                <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20WhatsApp%20ordering%20ki%20details%20chahiye." class="feature-pill-btn">Test automation</a>
+              </div>
+            </div>
+            <div class="feature-split-mockup reveal reveal-slide-right reveal-scale">
+              <div class="mockup-panel split-mockup-layout dark-theme-panel">
+                <div class="mockup-header-bar dark-header">
+                  <div class="browser-dots">
+                    <span class="dot-red"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-green"></span>
+                  </div>
+                  <span class="mockup-title">Auto-Reply Script Engine</span>
+                </div>
+                <div class="split-mockup-content dark-theme-content">
+                  <div class="split-pane-left terminal-mockup">
+                    <div class="t-line"><span class="t-green">✔</span> Active Node server</div>
+                    <div class="t-line"><span class="t-blue">[10:15 AM]</span> Incoming WhatsApp msg</div>
+                    <div class="t-line">  Content: <span class="t-yellow">"Saree price?"</span></div>
+                    <div class="t-line"><span class="t-purple">[Processing]</span> Key match: [price]</div>
+                    <div class="t-line"><span class="t-green">[Auto-Reply]</span> Sent catalog link</div>
+                    <div class="t-line"><span class="t-blue">[10:16 AM]</span> Incoming WhatsApp msg</div>
+                    <div class="t-line">  Content: <span class="t-yellow">"Order Saree"</span></div>
+                    <div class="t-line"><span class="t-green">[Sent]</span> Order saved successfully</div>
+                  </div>
+                  <div class="split-pane-right whatsapp-chat-mockup">
+                    <div class="chat-header">Aadya Automation Bot</div>
+                    <div class="chat-body">
+                      <div class="chat-bubble bubble-left">Saree price?</div>
+                      <div class="chat-bubble bubble-right">Namaste! Chanderi Silk Saree ki price ₹1,200 hai. Order ke liye type karein "Order Saree".</div>
+                      <div class="chat-bubble bubble-left">Order Saree</div>
+                      <div class="chat-bubble bubble-right">Perfect choice! Aapka order book ho gaya hai. Merchant ko details send kar di gayi hain.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 3: Digital Catalog Management -->
+          <div class="feature-split-row">
+            <div class="feature-split-text reveal reveal-slide-right">
+              <span class="feature-label">Module 03</span>
+              <h2 class="feature-heading">Online Catalog</h2>
+              <p class="feature-body-text">Stop sending photos manually. Apne saare products ki inventory ek dashboard se handle karein. Aap apne mobile se kabhi bhi item ka rate, stock, aur photos change kar sakte hain, jo website par instantly live ho jayega.</p>
+              <div class="feature-action-wrapper">
+                <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20online%20catalog%20ki%20details%20chahiye." class="feature-pill-btn">Catalog Features</a>
+              </div>
+            </div>
+            <div class="feature-split-mockup reveal reveal-slide-left reveal-scale">
+              <div class="mockup-panel split-mockup-layout">
+                <div class="mockup-header-bar">
+                  <div class="browser-dots">
+                    <span class="dot-red"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-green"></span>
+                  </div>
+                  <span class="mockup-title">Real-Time Inventory Sync</span>
+                </div>
+                <div class="split-mockup-content">
+                  <div class="split-pane-left inventory-admin-mockup">
+                    <div class="admin-item-row">
+                      <span class="admin-item-label">Saree Stock</span>
+                      <div class="admin-control-box">
+                        <input type="text" class="admin-input-val" value="12 pcs" disabled>
+                        <span class="admin-toggle-btn active-toggle">In Stock</span>
+                      </div>
+                    </div>
+                    <div class="admin-item-row">
+                      <span class="admin-item-label">Dupatta Stock</span>
+                      <div class="admin-control-box">
+                        <input type="text" class="admin-input-val" value="0 pcs" disabled>
+                        <span class="admin-toggle-btn inactive-toggle">Out of Stock</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="split-pane-right catalog-shop-mockup">
+                    <div class="catalog-mini-list">
+                      <div class="mini-catalog-item">
+                        <span>Chanderi Saree</span>
+                        <span class="mini-badge-instock">In Stock</span>
+                      </div>
+                      <div class="mini-catalog-item out-of-stock-item">
+                        <span>Silk Dupatta</span>
+                        <span class="mini-badge-outstock">Out of Stock</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Kyu Chahiye Section (Problem vs Solution) -->
+      <section class="problem-solution-section" id="problem-solution">
+        <div class="container">
+          <div class="section-header reveal reveal-slide-up">
+            <span class="section-tag">Kyu Chahiye Website?</span>
+            <h2 class="section-title">Dukaan Ke Masle Aur Humara Solution</h2>
+            <p class="section-desc">Dukan chalane ki daily headaches ko simple solution se khatam karein.</p>
+          </div>
+          
+          <div class="comparison-container">
+            <!-- Problem Card -->
+            <div class="comparison-card card-problem reveal reveal-slide-right">
+              <div class="card-status-badge status-problem">
+                Dukan Ki Headache
+              </div>
+              <h3 class="comparison-title">Din bhar grahak phone karke rate ya stock puchte hain?</h3>
+              <ul class="comparison-list">
+                <li>
+                  <span class="list-icon icon-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                  </span>
+                  <span>WhatsApp par bar-bar products ki photos aur details bhejna</span>
+                </li>
+                <li>
+                  <span class="list-icon icon-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                  </span>
+                  <span>Customer ke phone call uthate-uthate pareshan ho jana</span>
+                </li>
+                <li>
+                  <span class="list-icon icon-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                  </span>
+                  <span>Dukaan band hone ke baad shaam ko orders chhoot jana</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- Solution Card -->
+            <div class="comparison-card card-solution reveal reveal-slide-left delay-100">
+              <div class="card-status-badge status-solution">
+                Humara Solution
+              </div>
+              <h3 class="comparison-title text-white">Aapki website par rate aur stock hamesha dikhega.</h3>
+              <p class="solution-highlight">Grahak wahi dekh kar seedhe order karega, bina call kiye.</p>
+              <ul class="comparison-list">
+                <li>
+                  <span class="list-icon icon-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                  </span>
+                  <span class="text-light">24 Ghante dukan chalu, grahak khud catalog dekhenge</span>
+                </li>
+                <li>
+                  <span class="list-icon icon-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                  </span>
+                  <span class="text-light">Orders seedhe aapke personal WhatsApp par receive honge</span>
+                </li>
+                <li>
+                  <span class="list-icon icon-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                  </span>
+                  <span class="text-light">Bina coding knowledge ke, aap apne mobile se handle karein</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Local Proof Section -->
+      <section class="local-proof-section" id="local-proof">
+        <div class="container local-grid">
+          <div class="local-image-wrapper reveal reveal-slide-right">
+            <img src="/proof.png" alt="Bilaspur local markets Sadar Bazar Sarkanda" class="local-img" id="local-proof-img" width="600" height="400" loading="lazy" />
+          </div>
+          <div class="local-content reveal reveal-slide-left">
+            <span class="local-tag">Bilaspur's Local Partner</span>
+            <h2 class="local-title">Bilaspur ke Har Vyapari Ke Liye Sundar & Aasan Websites</h2>
+            <p class="local-desc">Hum bahar ki koi agency nahi hain. Hum aapke apne shahar Bilaspur ke hain. Aap humse kabhi bhi aakar mil sakte hain.</p>
+            <div class="areas-badge-container">
+              <span class="area-badge reveal reveal-slide-up delay-100">Vyapar Vihar</span>
+              <span class="area-badge reveal reveal-slide-up delay-200">Sadar Bazar</span>
+              <span class="area-badge reveal reveal-slide-up delay-300">Sarkanda</span>
+              <span class="area-badge reveal reveal-slide-up delay-400">Link Road</span>
+              <span class="area-badge reveal reveal-slide-up delay-500">Mangla</span>
+            </div>
+            <p class="local-footer-text">"Serving Vyapar Vihar, Sadar Bazar, and Sarkanda's top businesses."</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Bilaspur Local News Section -->
+      <section class="blog-section" id="home-news" style="border-bottom: 1px solid var(--border-color); padding-bottom: 80px;">
+        <div class="container">
+          
+          <!-- Section Header -->
+          <div class="section-header reveal reveal-slide-up">
+            <span class="section-tag" style="color: #48b898;">Bilaspur City Updates</span>
+            <h2 class="section-title">Khabar Bilaspur Ki</h2>
+            <p class="section-desc">Local updates, infrastructure projects aur naye store openings ki taaza khabrein.</p>
+          </div>
+
+          <!-- News Cards Grid -->
+          <div class="blog-grid reveal reveal-slide-up delay-100" id="home-news-grid">
+            <!-- Rendered Dynamically by main.js -->
+          </div>
+
+          <div style="display: flex; justify-content: center; margin-top: 40px;" class="reveal reveal-slide-up delay-150">
+            <a href="/news.html" class="header-btn" style="text-decoration: none; display: inline-block;">View All News →</a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Premium Blog Section (Backlinko Style) -->
+      <section class="blog-section" id="blog">
+        <div class="container">
+          
+          <!-- Section Header -->
+          <div class="section-header reveal reveal-slide-up">
+            <span class="section-tag" style="color: #48b898;">Knowledge Hub</span>
+            <h2 class="section-title">Latest Marketing & Web Guides</h2>
+            <p class="section-desc">Dukan ko Google search aur maps par grow karne ki aasan guides.</p>
+          </div>
+
+          <!-- Category Tabs (Horizontal scrollable on mobile) -->
+          <div class="blog-categories-wrapper reveal reveal-slide-up delay-100">
+            <div class="blog-categories" id="blog-categories">
+              <button class="category-btn active" data-category="all">All Guides</button>
+              <button class="category-btn" data-category="seo">SEO Tips</button>
+              <button class="category-btn" data-category="whatsapp">WhatsApp Auto</button>
+              <button class="category-btn" data-category="vyapar">Local Vyapar</button>
+              <button class="category-btn" data-category="web">Web Design</button>
+            </div>
+          </div>
+
+          <!-- Blog Cards Grid -->
+          <div class="blog-grid reveal reveal-slide-up delay-200" id="blog-grid">
+            <!-- Rendered Dynamically by main.js -->
+          </div>
+
+          <!-- Newsletter CTA Box (Backlinko Style Conversion Box) -->
+          <div class="blog-newsletter-cta reveal reveal-slide-up delay-300">
+            <div class="newsletter-cta-content">
+              <h3 class="newsletter-cta-title">Join 5,000+ Local Vyapari In Bilaspur</h3>
+              <p class="newsletter-cta-desc">Get actionable web design & digital marketing tips directly in your inbox. No spam. Unsubscribe anytime.</p>
+              <form class="newsletter-cta-form" id="newsletter-form">
+                <input type="email" placeholder="Apna Email Address Likhein" class="newsletter-input" required>
+                <button type="submit" class="newsletter-submit-btn">Free tips paayein</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer with Giant Typography (Antigravity Style) -->
+    <footer class="main-footer">
+      <div class="container footer-grid-layout">
+        <div class="footer-links-section">
+          <div class="footer-col-desc">
+            <span class="footer-desc-title">Developer Bilaspur</span>
+            <p class="footer-desc-body">Hum Bilaspur ki shops ke liye aasan aur sundar websites banate hain, taaki aapka business internet par har jagah dikhe.</p>
+          </div>
+          <div class="footer-col-nav">
+            <span class="footer-col-title">Nav</span>
+            <a href="#hero">Hero</a>
+            <a href="#showcase">Showcase</a>
+            <a href="#features">Modules</a>
+            <a href="#problem-solution">Headaches</a>
+            <a href="blog.html">Blog Hub</a>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Contact</span>
+            <a href="https://wa.me/918224005193">WhatsApp</a>
+            <span class="footer-meta-info">Bilaspur, CG, India</span>
+            <a href="#" id="manage-blogs-trigger" style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Manage Hub</a>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Legal Links</span>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms & Conditions</a>
+            <a href="/disclaimer.html">Disclaimer</a>
+            <a href="/dmca.html">DMCA Policy</a>
+          </div>
+        </div>
+
+        <!-- Giant Stark Typography Logo at bottom -->
+        <div class="giant-footer-logo-wrapper">
+          <h2 class="giant-footer-logo">developerbilaspur</h2>
+        </div>
+
+        <div class="footer-bottom-bar">
+          <span class="footer-copyright">© 2026 Developer Bilaspur. Built with pride.</span>
+          <span class="footer-extra-links">Chhattisgarh Web Services</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Big Floating CTA Button -->
+    <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="floating-cta" id="floating-whatsapp-cta" aria-label="Talk to us on WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="white">
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+      </svg>
+    </a>
+
+    <!-- Blog Manager Admin Modal Overlay -->
+    <div class="admin-modal-overlay" id="admin-modal-overlay">
+      <div class="admin-modal-box">
+        <div class="admin-modal-header">
+          <h3>Manage Blog Publisher</h3>
+          <button class="admin-close-btn" id="admin-close-btn">&times;</button>
+        </div>
+        <form class="admin-modal-form" id="admin-publish-form">
+          <div class="form-group">
+            <label for="post-title">Guide Title</label>
+            <input type="text" id="post-title" placeholder="e.g., Bilaspur Me SEO Kaise Karein" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-category">Category</label>
+              <select id="post-category" required>
+                <option value="seo">SEO Tips</option>
+                <option value="whatsapp">WhatsApp Auto</option>
+                <option value="vyapar">Local Vyapar</option>
+                <option value="web">Web Design</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="post-readtime">Read Time</label>
+              <input type="text" id="post-readtime" placeholder="e.g., 5 min read" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-emoji">Emoji Graphic</label>
+              <input type="text" id="post-emoji" placeholder="e.g., one emoji like star or smiley" required maxlength="2">
+            </div>
+            <div class="form-group">
+              <label for="post-author">Author</label>
+              <input type="text" id="post-author" value="Dev Bilaspur" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="post-excerpt">Short Summary / Excerpt</label>
+            <input type="text" id="post-excerpt" placeholder="Write a 1-2 sentence description of the guide..." required>
+          </div>
+          <div class="form-group">
+            <label>Design Blog Content</label>
+            <!-- Quill.js Editor Container -->
+            <div id="post-editor-wrapper" style="height: 180px; margin-bottom: 8px;"></div>
+          </div>
+          <button type="submit" class="admin-publish-btn">Publish Guide</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Quill.js Rich Editor Library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <!-- Mobile hamburger toggle -->
+    <script>
+      (function() {
+        const btn = document.getElementById('hamburger-btn');
+        const drawer = document.getElementById('mobile-nav-drawer');
+        if (!btn || !drawer) return;
+        btn.addEventListener('click', () => {
+          const isOpen = drawer.classList.toggle('open');
+          btn.classList.toggle('open', isOpen);
+          btn.setAttribute('aria-expanded', isOpen);
+          drawer.setAttribute('aria-hidden', !isOpen);
+        });
+        // Close drawer when any link inside it is clicked
+        drawer.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            drawer.classList.remove('open');
+            btn.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            drawer.setAttribute('aria-hidden', 'true');
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
+

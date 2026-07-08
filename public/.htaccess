@@ -1,0 +1,12 @@
+# Apache Configuration for Clean URLs on Hostinger/cPanel
+RewriteEngine On
+
+# Redirect external .html requests to clean URLs
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.html [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Resolve clean URLs to .html files internally
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Dev Bilaspur - Web developer, local SEO consultant, and technology editor for Developer Bilaspur." />
+    
+    <!-- Google Discover requirement: max-image-preview:large -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <title>About Dev Bilaspur | Developer Bilaspur</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=2" />
+  </head>
+  <body>
+    <!-- Advanced Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="main-header" id="header">
+      <div class="container header-container">
+        <a href="/index.html" class="logo">
+          <img src="/logo.png" alt="Developer Bilaspur Logo" class="logo-img" />
+          <span class="logo-text">Developer<span class="logo-highlight">Bilaspur</span></span>
+        </a>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="/index.html#live-demos" class="nav-link">Live Demos</a>
+          <a href="/index.html#features" class="nav-link">Humare Modules</a>
+          <a href="/blog.html" class="nav-link">Blog Hub</a>
+          <a href="/news.html" class="nav-link">Bilaspur News</a>
+        </nav>
+        <div class="header-right">
+          <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="header-btn" id="header-cta">
+            Sawal Puchein
+          </a>
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+      <a href="/index.html" class="mobile-nav-link">Home</a>
+      <a href="/index.html#live-demos" class="mobile-nav-link">Live Demos</a>
+      <a href="/index.html#features" class="mobile-nav-link">Humare Modules</a>
+      <a href="/blog.html" class="mobile-nav-link">Blog Hub</a>
+      <a href="/news.html" class="mobile-nav-link">Bilaspur News</a>
+      <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="mobile-nav-link mobile-cta">Sawal Puchein</a>
+    </nav>
+
+    <main>
+      <!-- Author Profile Section -->
+      <section class="blog-section" id="author-profile" style="padding-top: 160px; padding-bottom: 100px;">
+        <div class="container" style="max-width: 800px;">
+          
+          <div class="reveal reveal-slide-up" style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap; margin-bottom: 48px; border: 1px solid var(--border-color); padding: 32px; border-radius: 16px; background: rgba(15, 23, 42, 0.01);">
+            <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-accent); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: 700; box-shadow: 0 8px 20px rgba(72, 184, 152, 0.25);">
+              DB
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom: 6px;">
+                <h1 style="font-size: 2.2rem; margin: 0; color: var(--text-dark); font-family: 'Outfit', sans-serif;">Dev Bilaspur</h1>
+                <span style="display: inline-flex; align-items: center; justify-content: center; background: #e0f2fe; color: #0284c7; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; gap: 2px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block; vertical-align:middle;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified Publisher
+                </span>
+              </div>
+              <p style="color: var(--text-light); font-size: 1.05rem; margin-top: 4px; margin-bottom: 12px; font-weight: 500;">Founder & Editor @ Developer Bilaspur</p>
+              <div style="display: flex; gap: 16px; font-size: 0.88rem;">
+                <a href="https://wa.me/918224005193" style="color: var(--color-accent); font-weight: 600; text-decoration: none;">💬 WhatsApp editorial</a>
+                <span style="color: var(--border-color);">|</span>
+                <a href="mailto:support@developerbilaspur.in" style="color: var(--color-accent); font-weight: 600; text-decoration: none;">✉️ Email Support</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editorial Bio Content -->
+          <div class="reveal reveal-slide-up delay-100" style="color: var(--text-dark); line-height: 1.8; font-size: 1.05rem; margin-bottom: 60px;">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; margin-bottom: 16px;">Editorial Guidelines & E-E-A-T Commitment</h2>
+            <p>Mera naam <strong>Dev Bilaspur</strong> hai. Main Chhattisgarh ka ek web engineer aur local SEO optimizer hoon. Maine aisi websites aur WhatsApp automation panels design kiye hain jo retail businesses, Sweets stores aur dental clinics ko automatic order processing aur digital identity banane me help karte hain.</p>
+            
+            <p>Humare blog aur news hub par published har content in guidelines ko follow karta hai:</p>
+            <ul style="padding-left: 20px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px;">
+              <li><strong>Personal Experience:</strong> Hum sirf un tools aur SEO workflows ke baare me likhte hain jinhe humne khud test ya execute kiya hai.</li>
+              <li><strong>Local Value:</strong> News and updates sirf Bilaspur city ke janta aur vyapariyon ke direct labh ke liye target hoti hain.</li>
+              <li><strong>Zero Clickbait:</strong> Headlines aur summaries 100% factual hoti hain, bina kisi sensational content ke.</li>
+            </ul>
+          </div>
+
+          <!-- Author's Feed Tabs -->
+          <div class="blog-categories-wrapper reveal reveal-slide-up delay-150" style="margin-bottom: 32px;">
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; margin-bottom: 16px;">Articles Published By Dev Bilaspur</h3>
+          </div>
+
+          <!-- Cards Grid -->
+          <div class="blog-grid reveal reveal-slide-up delay-200" id="author-posts-grid">
+            <!-- Dynamically Rendered Combined Feed (Guides + News) -->
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="container footer-grid-layout">
+        <div class="footer-links-section">
+          <div class="footer-col-desc">
+            <span class="footer-desc-title">Developer Bilaspur</span>
+            <p class="footer-desc-body">Hum Bilaspur ki shops ke liye aasan aur sundar websites banate hain, taaki aapka business internet par har jagah dikhe.</p>
+          </div>
+          <div class="footer-col-nav">
+            <span class="footer-col-title">Nav</span>
+            <a href="/index.html#hero">Hero</a>
+            <a href="/index.html#showcase">Showcase</a>
+            <a href="/blog.html">Blog Hub</a>
+            <a href="/news.html">Bilaspur News</a>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Contact</span>
+            <a href="https://wa.me/918224005193">WhatsApp</a>
+            <span class="footer-meta-info">Bilaspur, CG, India</span>
+          </div>
+          <div class="footer-col-social">
+            <span class="footer-col-title">Legal Links</span>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms & Conditions</a>
+            <a href="/disclaimer.html">Disclaimer</a>
+            <a href="/dmca.html">DMCA Policy</a>
+          </div>
+        </div>
+
+        <div class="giant-footer-logo-wrapper">
+          <h2 class="giant-footer-logo">developerbilaspur</h2>
+        </div>
+
+        <div class="footer-bottom-bar">
+          <span class="footer-copyright">© 2026 Developer Bilaspur. Built with pride.</span>
+          <span class="footer-extra-links">Chhattisgarh Web Services</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- WhatsApp FAB -->
+    <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai." class="floating-cta" id="floating-whatsapp-cta" aria-label="Talk to us on WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="white">
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+      </svg>
+    </a>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/author-feed.js"></script>
+    <!-- Mobile hamburger toggle -->
+    <script>
+      (function() {
+        const btn = document.getElementById('hamburger-btn');
+        const drawer = document.getElementById('mobile-nav-drawer');
+        if (!btn || !drawer) return;
+        btn.addEventListener('click', () => {
+          const isOpen = drawer.classList.toggle('open');
+          btn.classList.toggle('open', isOpen);
+          btn.setAttribute('aria-expanded', isOpen);
+          drawer.setAttribute('aria-hidden', !isOpen);
+        });
+        drawer.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            drawer.classList.remove('open');
+            btn.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            drawer.setAttribute('aria-hidden', 'true');
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
