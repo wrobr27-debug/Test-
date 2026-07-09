@@ -4302,6 +4302,43 @@ section {
   }
 }
 
+/* Admin Role Switcher Widget */
+.admin-role-switcher {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(72, 184, 152, 0.05); /* very light teal highlight */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-role-switcher label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.admin-role-switcher select {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-dark);
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-role-switcher select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(72, 184, 152, 0.15);
+}
+
 
 
 

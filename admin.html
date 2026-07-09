@@ -24,6 +24,17 @@
       <span class="admin-sidebar-brand">Dev Bilaspur</span>
     </div>
 
+    <!-- Active User Role Switcher -->
+    <div class="admin-role-switcher">
+      <label for="current-user-role">Logged In As</label>
+      <select id="current-user-role">
+        <option value="admin">Administrator</option>
+        <option value="editor">Editor</option>
+        <option value="author">Author (Dev Bilaspur)</option>
+        <option value="contributor">Contributor (Dev Bilaspur)</option>
+      </select>
+    </div>
+
     <nav class="admin-sidebar-nav">
       <button class="admin-nav-btn active" data-tab="dashboard">
         <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
@@ -86,7 +97,7 @@
         </div>
       </div>
 
-      <button class="admin-nav-btn" data-tab="profiles">
+      <button class="admin-nav-btn" id="nav-profiles-btn" data-tab="profiles">
         <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         <span>Profiles</span>
       </button>
@@ -1577,7 +1588,80 @@ const TAB_TITLES = {
   'settings-permalinks': 'Permalink Settings'
 };
 
+window.applyRoleLimits = function() {
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  
+  const switcher = document.getElementById('current-user-role');
+  if (switcher) switcher.value = role;
+
+  const postsNav = document.getElementById('nav-group-posts');
+  const newsNav = document.getElementById('nav-group-news');
+  const demosNav = document.getElementById('nav-group-demos');
+  const appNav = document.getElementById('nav-group-appearance');
+  const profilesBtn = document.getElementById('nav-profiles-btn');
+  const settingsNav = document.getElementById('nav-group-settings');
+
+  // Reset display values
+  if (postsNav) postsNav.style.display = 'block';
+  if (newsNav) newsNav.style.display = 'block';
+  if (demosNav) demosNav.style.display = 'block';
+  if (appNav) appNav.style.display = 'block';
+  if (profilesBtn) profilesBtn.style.display = 'flex';
+  if (settingsNav) settingsNav.style.display = 'block';
+
+  // Apply visibility limits
+  if (role === 'editor') {
+    if (appNav) appNav.style.display = 'none';
+    if (settingsNav) settingsNav.style.display = 'none';
+  } else if (role === 'author' || role === 'contributor') {
+    if (appNav) appNav.style.display = 'none';
+    if (settingsNav) settingsNav.style.display = 'none';
+    if (demosNav) demosNav.style.display = 'none';
+    if (profilesBtn) profilesBtn.style.display = 'none';
+  }
+
+  // Author metabox visibility limit (only Admins and Editors can assign authors)
+  const mbAuthor = document.getElementById('mb-author');
+  if (mbAuthor) {
+    mbAuthor.style.display = (role === 'admin' || role === 'editor') ? 'block' : 'none';
+  }
+
+  // Contributor options restriction
+  const statusSel = document.getElementById('pf-status-sel');
+  if (statusSel) {
+    const pubOption = statusSel.querySelector('option[value="published"]');
+    if (role === 'contributor') {
+      if (pubOption) pubOption.disabled = true;
+      if (statusSel.value === 'published') statusSel.value = 'draft';
+    } else {
+      if (pubOption) pubOption.disabled = false;
+    }
+  }
+
+  const pubMain = document.getElementById('btn-pub-main');
+  const pubBar = document.getElementById('btn-pub-bar');
+  if (role === 'contributor') {
+    if (pubMain) pubMain.textContent = 'Submit for Review';
+    if (pubBar) pubBar.textContent = 'Submit for Review';
+  } else {
+    // Standard text handling is managed inside editPost / resetEditor
+  }
+};
+
 window.switchTab = function(id, skipRefresh) {
+  // Role-based navigation guard
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  const disallowedTabs = {
+    editor: ['settings-general', 'settings-writing', 'settings-reading', 'settings-discussion', 'settings-media', 'settings-permalinks', 'customize'],
+    author: ['settings-general', 'settings-writing', 'settings-reading', 'settings-discussion', 'settings-media', 'settings-permalinks', 'customize', 'all-demos', 'demo-editor', 'profiles'],
+    contributor: ['settings-general', 'settings-writing', 'settings-reading', 'settings-discussion', 'settings-media', 'settings-permalinks', 'customize', 'all-demos', 'demo-editor', 'profiles']
+  };
+
+  if (disallowedTabs[role] && disallowedTabs[role].includes(id)) {
+    window.switchTab('dashboard');
+    return;
+  }
+
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.id === 'tab-'+id));
   document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
   document.getElementById('admin-mobile-title').textContent = TAB_TITLES[id]||'Admin';
@@ -1795,8 +1879,16 @@ window.toggleMb = function(id) {
 // DASHBOARD
 // ==================================================================
 async function refreshDashboard() {
-  const blogs = await db.getBlogs();
-  const news = await db.getNews();
+  let blogs = await db.getBlogs();
+  let news = await db.getNews();
+  
+  // Role-based post filtering for Dashboard overview
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  if (role === 'author' || role === 'contributor') {
+    blogs = blogs.filter(b => b.author === 'Dev Bilaspur');
+    news = news.filter(n => n.author === 'Dev Bilaspur');
+  }
+
   const allPosts = [...blogs, ...news];
   const cats = gArr(S.CATS);
   const profiles = gArr(S.PROFILES);
@@ -1884,6 +1976,13 @@ window.doSearch = function() {
 
 async function renderPosts() {
   let blogs = currentAdminPostType === 'guide' ? await db.getBlogs() : await db.getNews();
+  
+  // Role-based post filtering (Authors & Contributors only see their own posts)
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  if (role === 'author' || role === 'contributor') {
+    blogs = blogs.filter(b => b.author === 'Dev Bilaspur');
+  }
+
   const all = blogs.length;
   const pub = blogs.filter(b=>b.status==='published').length;
   const dft = blogs.filter(b=>b.status==='draft').length;
@@ -1942,7 +2041,7 @@ async function renderPosts() {
             <div class="wp-qe-field">
               <label>Status</label>
               <select class="wp-input" id="qe-st-${p.id}">
-                <option value="published" ${p.status==='published'?'selected':''}>Published</option>
+                <option value="published" ${p.status==='published'?'selected':''} ${role==='contributor'?'disabled':''}>Published</option>
                 <option value="draft" ${p.status==='draft'?'selected':''}>Draft</option>
                 <option value="pending" ${p.status==='pending'?'selected':''}>Pending Review</option>
               </select>
@@ -1979,12 +2078,24 @@ window.applyQE = async function(id) {
   let blogs = currentAdminPostType === 'guide' ? await db.getBlogs() : await db.getNews();
   let p = blogs.find(b=>b.id===id);
   if (!p) return;
+
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  let status = document.getElementById('qe-st-'+id).value;
+  let author = document.getElementById('qe-auth-'+id).value;
+  
+  if (role === 'author' || role === 'contributor') {
+    author = 'Dev Bilaspur';
+    if (role === 'contributor' && status === 'published') {
+      status = 'pending';
+    }
+  }
+
   const updated = {
     ...p,
     title: document.getElementById('qe-title-'+id).value.trim()||p.title,
     slug: document.getElementById('qe-slug-'+id).value.trim()||p.slug,
-    status: document.getElementById('qe-st-'+id).value,
-    author: document.getElementById('qe-auth-'+id).value,
+    status,
+    author,
     allowComments: document.getElementById('qe-cmt-'+id).checked,
     sticky: document.getElementById('qe-sticky-'+id).checked,
     updatedAt: new Date().toISOString()
@@ -2134,6 +2245,8 @@ window.editPost = async function(id) {
 window.closeEditor = function() { edPostId=null; switchTab('all-posts'); };
 
 window.savePost = async function(status, silent) {
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  
   const title = document.getElementById('ed-title').value.trim();
   if (!title) { if (!silent) { alert('Please add a title.'); document.getElementById('ed-title').focus(); } return; }
   const isCode = document.getElementById('pane-code').style.display !== 'none';
@@ -2149,6 +2262,17 @@ window.savePost = async function(status, silent) {
   const readtime = Math.max(1, Math.round(wc/200)) + ' min read';
   const existId = document.getElementById('ed-post-id').value;
   const now = new Date().toISOString();
+
+  // Contributor rule: contributors can never publish directly
+  let targetStatus = status;
+  if (role === 'contributor' && targetStatus === 'published') {
+    targetStatus = 'pending';
+  }
+
+  let targetAuthor = document.getElementById('ed-author').value;
+  if (role === 'author' || role === 'contributor') {
+    targetAuthor = 'Dev Bilaspur';
+  }
   
   // Backwards compatible properties (both featuredImage & image)
   const postData = {
@@ -2157,8 +2281,8 @@ window.savePost = async function(status, silent) {
     excerpt: document.getElementById('ed-excerpt').value.trim(),
     categories: selCats,
     tags: [...edTags],
-    author: document.getElementById('ed-author').value,
-    status,
+    author: targetAuthor,
+    status: targetStatus,
     visibility: edVis,
     format: fmt,
     post_type: postType,
@@ -2166,7 +2290,7 @@ window.savePost = async function(status, silent) {
     image: edFeatImg,
     allowComments: document.getElementById('ed-comments').checked,
     allowPings: document.getElementById('ed-pings').checked,
-    publishedAt: status==='published' ? (existId ? ((postType==='guide'?(await db.getBlogs()):(await db.getNews())).find(b=>b.id===existId)?.publishedAt||now) : now) : null,
+    publishedAt: targetStatus==='published' ? (existId ? ((postType==='guide'?(await db.getBlogs()):(await db.getNews())).find(b=>b.id===existId)?.publishedAt||now) : now) : null,
     updatedAt: now,
     sticky: false,
     focusKeyword: document.getElementById('ed-keyword').value.trim(),
@@ -2807,6 +2931,11 @@ window.loadSettings = function(type) {
 };
 
 window.saveAllSettings = function(e, type) {
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  if (role !== 'admin') {
+    alert('Security Alert: You do not have permission to modify settings.');
+    return;
+  }
   if (e) e.preventDefault();
   const current = getSettings();
   let updated = { ...current };
@@ -3017,6 +3146,11 @@ window.loadCustomizer = function() {
 };
 
 window.saveCustomizerSettings = function() {
+  const role = localStorage.getItem('admin_user_role') || 'admin';
+  if (role !== 'admin') {
+    alert('Security Alert: You do not have permission to modify customization settings.');
+    return;
+  }
   const s = getSettings();
   s.siteName = document.getElementById('cust-site-title').value.trim();
   s.tagline = document.getElementById('cust-tagline').value.trim();
@@ -3332,6 +3466,25 @@ function triggerDownload(content, filename, contentType) {
   
   const s = getSettings();
   document.documentElement.style.setProperty('--color-accent', s.accentColor);
+  
+  // Initialize role switcher and apply limits
+  window.applyRoleLimits();
+  const switcher = document.getElementById('current-user-role');
+  if (switcher) {
+    switcher.addEventListener('change', () => {
+      localStorage.setItem('admin_user_role', switcher.value);
+      window.applyRoleLimits();
+      refreshDashboard();
+      renderPosts();
+      
+      // Auto-redirect if on a disallowed tab
+      const activeTabBtn = document.querySelector('.admin-nav-btn.active, .wp-nav-sub-btn.active');
+      const activeTabId = activeTabBtn?.dataset.tab;
+      if (activeTabId) {
+        window.switchTab(activeTabId, true);
+      }
+    });
+  }
   
   await refreshDashboard();
   await renderPosts();
