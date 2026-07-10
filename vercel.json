@@ -4,8 +4,20 @@
   "functions": {
     "api/index-url.js": {
       "maxDuration": 10
+    },
+    "api/news-detail.js": {
+      "maxDuration": 10
+    },
+    "api/blog-detail.js": {
+      "maxDuration": 10
     }
   },
+  "rewrites": [
+    { "source": "/news-detail", "destination": "/api/news-detail" },
+    { "source": "/news-detail.html", "destination": "/api/news-detail" },
+    { "source": "/blog-detail", "destination": "/api/blog-detail" },
+    { "source": "/blog-detail.html", "destination": "/api/blog-detail" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
