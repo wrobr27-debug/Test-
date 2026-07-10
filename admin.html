@@ -3713,7 +3713,7 @@ window.saveAllSettings = function(e, type) {
 };
 
 window.seedSupabaseFromLocal = async function() {
-  if (!db.isConfigured()) {
+  if (!useSupabase()) {
     alert("Please configure and save your Supabase credentials first!");
     return;
   }

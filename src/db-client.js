@@ -5,8 +5,8 @@ const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 
 export function useSupabase() {
   const url = localStorage.getItem('supabase_url');
-  const key = localStorage.getItem('supabase_key');
-  return !!(url && key);
+  if (url === 'none') return false;
+  return true;
 }
 
 async function fetchSupabase(table, options = {}) {
