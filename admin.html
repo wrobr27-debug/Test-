@@ -3622,8 +3622,8 @@ window.saveAllSettings = function(e, type) {
     // Save to Supabase User Metadata in background if logged in!
     const sessionToken = localStorage.getItem('supabase_session_token');
     if (sessionToken) {
-      const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
-      const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+      const url = localStorage.getItem('supabase_url') || import.meta.env.VITE_SUPABASE_URL || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+      const key = localStorage.getItem('supabase_key') || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
       
       fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
         method: 'PUT',
@@ -4209,8 +4209,8 @@ function triggerDownload(content, filename, contentType) {
 
 const auth = {
   async signUp(email, password, displayName, role) {
-    const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
-    const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+    const url = localStorage.getItem('supabase_url') || import.meta.env.VITE_SUPABASE_URL || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+    const key = localStorage.getItem('supabase_key') || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
     
     const res = await fetch(`${url.replace(/\/$/, '')}/auth/v1/signup`, {
       method: 'POST',
@@ -4235,8 +4235,8 @@ const auth = {
   },
 
   async signIn(email, password) {
-    const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
-    const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+    const url = localStorage.getItem('supabase_url') || import.meta.env.VITE_SUPABASE_URL || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+    const key = localStorage.getItem('supabase_key') || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
 
     const res = await fetch(`${url.replace(/\/$/, '')}/auth/v1/token?grant_type=password`, {
       method: 'POST',
@@ -4254,8 +4254,8 @@ const auth = {
   },
 
   async logout() {
-    const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
-    const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+    const url = localStorage.getItem('supabase_url') || import.meta.env.VITE_SUPABASE_URL || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+    const key = localStorage.getItem('supabase_key') || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
     const token = localStorage.getItem('supabase_session_token');
     
     if (token) {
@@ -4480,8 +4480,8 @@ window.adminLogout = function() {
     
     // Sync settings from Supabase Auth User Metadata on load if available
     if (sessionToken) {
-      const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
-      const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+      const url = localStorage.getItem('supabase_url') || import.meta.env.VITE_SUPABASE_URL || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+      const key = localStorage.getItem('supabase_key') || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
       
       fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
         headers: {
