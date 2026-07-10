@@ -1616,11 +1616,16 @@ section {
 }
 
 @media (max-width: 768px) {
-  .hamburger-btn {
+  .main-header {
+    padding-top: 12px;
+  }
+  
+  .mobile-nav-drawer {
     display: flex;
+    top: 84px; /* 72px + 12px mobile padding */
   }
 
-  .mobile-nav-drawer {
+  .hamburger-btn {
     display: flex;
   }
 
