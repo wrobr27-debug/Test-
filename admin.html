@@ -14,6 +14,69 @@
 </head>
 <body class="admin-body">
 
+<!-- Supabase Auth Login Overlay -->
+<div class="admin-login-overlay" id="admin-login-overlay" style="display: none;">
+  <div class="admin-login-card">
+    <div class="admin-login-logo">
+      <img src="/logo.png" alt="Dev Bilaspur Logo" />
+      <h2>Dev Bilaspur Admin</h2>
+    </div>
+    
+    <!-- Login Form -->
+    <form id="login-form">
+      <div class="admin-form-group">
+        <label>Email Address</label>
+        <input type="email" class="wp-input" id="login-email" required placeholder="name@example.com" />
+      </div>
+      <div class="admin-form-group">
+        <label>Password</label>
+        <div class="password-input-wrapper" style="position: relative;">
+          <input type="password" class="wp-input" id="login-password" required placeholder="••••••••" style="padding-right: 40px;" />
+          <button type="button" class="password-toggle-btn" data-target="login-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px;">
+            <svg class="eye-icon eye-off" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            <svg class="eye-icon eye-on" style="width:18px;height:18px;display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="wp-btn-primary" style="width: 100%; margin-top: 10px;">Log In</button>
+      <p class="login-toggle-msg">Don't have an account? <a id="go-to-signup">Register here</a></p>
+    </form>
+    
+    <!-- Signup Form -->
+    <form id="signup-form" style="display: none;">
+      <div class="admin-form-group">
+        <label>Full Name</label>
+        <input type="text" class="wp-input" id="signup-name" required placeholder="Dev Bilaspur" />
+      </div>
+      <div class="admin-form-group">
+        <label>Email Address</label>
+        <input type="email" class="wp-input" id="signup-email" required placeholder="name@example.com" />
+      </div>
+      <div class="admin-form-group">
+        <label>Password</label>
+        <div class="password-input-wrapper" style="position: relative;">
+          <input type="password" class="wp-input" id="signup-password" required placeholder="At least 6 characters" minlength="6" style="padding-right: 40px;" />
+          <button type="button" class="password-toggle-btn" data-target="signup-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px;">
+            <svg class="eye-icon eye-off" style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            <svg class="eye-icon eye-on" style="width:18px;height:18px;display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label>Role</label>
+        <select class="wp-input" id="signup-role">
+          <option value="contributor">Contributor</option>
+          <option value="author">Author</option>
+          <option value="editor">Editor</option>
+          <option value="admin">Administrator</option>
+        </select>
+      </div>
+      <button type="submit" class="wp-btn-primary" style="width: 100%; margin-top: 10px;">Create Account</button>
+      <p class="login-toggle-msg">Already have an account? <a id="go-to-login">Log in here</a></p>
+    </form>
+  </div>
+</div>
+
 <div class="admin-layout">
   <div class="admin-sidebar-backdrop" id="admin-sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
 
@@ -26,13 +89,19 @@
 
     <!-- Active User Role Switcher -->
     <div class="admin-role-switcher">
-      <label for="current-user-role">Logged In As</label>
+      <label for="current-user-role" id="role-switcher-label">Logged In As</label>
       <select id="current-user-role">
         <option value="admin">Administrator</option>
         <option value="editor">Editor</option>
         <option value="author">Author (Dev Bilaspur)</option>
         <option value="contributor">Contributor (Dev Bilaspur)</option>
       </select>
+      
+      <!-- Profile Badge for Supabase sessions -->
+      <div class="admin-login-profile-badge" id="admin-profile-badge" style="display: none;">
+        <span class="profile-name" id="badge-user-name">Guest</span>
+        <span class="profile-role" id="badge-user-role">Subscriber</span>
+      </div>
     </div>
 
     <nav class="admin-sidebar-nav">
@@ -42,13 +111,13 @@
       </button>
 
       <div class="wp-nav-group" id="nav-group-posts">
-        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-posts-toggle" data-tab="all-posts">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-posts-toggle" data-tab="all-guides">
           <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
           <span>Guides</span>
           <span class="wp-nav-arrow" id="posts-arrow">▾</span>
         </button>
         <div class="wp-nav-sub" id="nav-sub-posts">
-          <button class="wp-nav-sub-btn active" data-tab="all-posts">All Guides</button>
+          <button class="wp-nav-sub-btn active" data-tab="all-guides">All Guides</button>
           <button class="wp-nav-sub-btn" id="nav-add-new-btn" data-tab="editor">Add New</button>
           <button class="wp-nav-sub-btn" data-tab="categories">Categories</button>
           <button class="wp-nav-sub-btn" data-tab="tags">Tags</button>
@@ -56,7 +125,7 @@
       </div>
 
       <div class="wp-nav-group" id="nav-group-news">
-        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-news-toggle" data-tab="all-posts">
+        <button class="admin-nav-btn wp-nav-group-toggle" id="nav-news-toggle" data-tab="all-news">
           <svg class="admin-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:12px;width:18px;height:18px">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <path d="M16 8h2v8h-2zM6 8h8v2H6zm0 4h8v2H6z"></path>
@@ -65,7 +134,7 @@
           <span class="wp-nav-arrow" id="news-arrow">▾</span>
         </button>
         <div class="wp-nav-sub" id="nav-sub-news" style="display:none">
-          <button class="wp-nav-sub-btn" data-tab="all-posts">All News</button>
+          <button class="wp-nav-sub-btn" data-tab="all-news">All News</button>
           <button class="wp-nav-sub-btn" id="nav-add-new-news-btn" data-tab="editor">Add New</button>
         </div>
       </div>
@@ -121,6 +190,10 @@
 
     <div class="admin-sidebar-footer">
       <a href="/index.html" class="admin-back-link">← View Site</a>
+      <button class="admin-logout-btn" id="admin-logout-btn" style="width: 100%; margin-top: 10px; padding: 8px 12px; font-size: 0.8rem; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #ef4444; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: background 0.2s;">
+        <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Log Out
+      </button>
     </div>
   </aside>
 
@@ -209,39 +282,68 @@
     <!-- =========================================================
          ALL POSTS
     ========================================================= -->
-    <section class="admin-tab" id="tab-all-posts">
+    <!-- =========================================================
+         ALL GUIDES
+    ========================================================= -->
+    <section class="admin-tab" id="tab-all-guides">
       <div class="wp-screen-header">
-        <h1 class="admin-page-title">Posts</h1>
-        <button class="wp-add-new-btn" id="posts-page-add-btn">Add New</button>
+        <h1 class="admin-page-title">Marketing Guides</h1>
+        <button class="wp-add-new-btn" id="guides-page-add-btn">Add New</button>
       </div>
 
-      <!-- Post Type Tabs (WordPress-inspired) -->
-      <div class="wp-substatus-tabs" id="type-tabs" style="margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-        <button class="wp-stab active" id="type-tab-guide">Marketing Guides</button>
-        <button class="wp-stab" id="type-tab-news">Bilaspur News</button>
-      </div>
-
-      <div class="wp-substatus-tabs" id="status-tabs">
-        <button class="wp-stab active" data-f="all">All <span id="cnt-all">(0)</span></button>
-        <button class="wp-stab" data-f="published">Published <span id="cnt-pub">(0)</span></button>
-        <button class="wp-stab" data-f="draft">Drafts <span id="cnt-draft">(0)</span></button>
+      <div class="wp-substatus-tabs" id="guide-status-tabs">
+        <button class="wp-stab active" data-f="all" data-type="guide">All <span id="cnt-all-guides">(0)</span></button>
+        <button class="wp-stab" data-f="published" data-type="guide">Published <span id="cnt-pub-guides">(0)</span></button>
+        <button class="wp-stab" data-f="draft" data-type="guide">Drafts <span id="cnt-draft-guides">(0)</span></button>
       </div>
 
       <div class="wp-list-toolbar">
         <div class="wp-bulk-wrap">
-          <select id="bulk-sel" class="wp-input wp-input-sm">
+          <select class="wp-input wp-input-sm" id="bulk-action-guides">
             <option value="">Bulk Actions</option>
-            <option value="trash">Move to Trash</option>
+            <option value="trash">Move to Bin</option>
           </select>
-          <button class="wp-btn-sm-secondary" onclick="doBulk()">Apply</button>
+          <button class="wp-btn-sm-secondary" id="apply-bulk-guides">Apply</button>
         </div>
         <div class="wp-search-wrap">
-          <input type="text" class="wp-search-box" id="post-search" placeholder="Search posts…" onkeydown="if(event.key==='Enter')doSearch()" />
-          <button class="wp-btn-sm-secondary" onclick="doSearch()">Search</button>
+          <input type="text" class="wp-search-box" id="guide-search" placeholder="Search guides…" />
+          <button class="wp-btn-sm-secondary" id="btn-search-guides">Search</button>
         </div>
       </div>
 
-      <div id="posts-container"></div>
+      <div id="guides-container"></div>
+    </section>
+
+    <!-- =========================================================
+         ALL NEWS
+    ========================================================= -->
+    <section class="admin-tab" id="tab-all-news">
+      <div class="wp-screen-header">
+        <h1 class="admin-page-title">Bilaspur News</h1>
+        <button class="wp-add-new-btn" id="news-page-add-btn">Add New</button>
+      </div>
+
+      <div class="wp-substatus-tabs" id="news-status-tabs">
+        <button class="wp-stab active" data-f="all" data-type="news">All <span id="cnt-all-news">(0)</span></button>
+        <button class="wp-stab" data-f="published" data-type="news">Published <span id="cnt-pub-news">(0)</span></button>
+        <button class="wp-stab" data-f="draft" data-type="news">Drafts <span id="cnt-draft-news">(0)</span></button>
+      </div>
+
+      <div class="wp-list-toolbar">
+        <div class="wp-bulk-wrap">
+          <select class="wp-input wp-input-sm" id="bulk-action-news">
+            <option value="">Bulk Actions</option>
+            <option value="trash">Move to Bin</option>
+          </select>
+          <button class="wp-btn-sm-secondary" id="apply-bulk-news">Apply</button>
+        </div>
+        <div class="wp-search-wrap">
+          <input type="text" class="wp-search-box" id="news-search" placeholder="Search news…" />
+          <button class="wp-btn-sm-secondary" id="btn-search-news">Search</button>
+        </div>
+      </div>
+
+      <div id="news-container"></div>
     </section>
 
     <!-- =========================================================
@@ -254,6 +356,7 @@
         <h2 class="wp-editor-bar-title" id="editor-bar-title">Add New Post</h2>
         <div class="wp-editor-bar-actions">
           <button class="wp-btn-sm-secondary" onclick="savePost('draft')">Save Draft</button>
+          <button class="wp-btn-sm-secondary" onclick="previewPost()">Preview</button>
           <button class="wp-btn-publish-bar" id="btn-pub-bar" onclick="savePost('published')">Publish</button>
         </div>
       </div>
@@ -274,7 +377,8 @@
 
           <!-- Editor Controls -->
           <div class="wp-editor-controls">
-            <button class="wp-add-media-btn" onclick="goFeaturedImg()">📷 Add Media</button>
+            <input type="file" id="quill-media-uploader" style="display:none;" accept="image/*" />
+            <button class="wp-add-media-btn" type="button" onclick="document.getElementById('quill-media-uploader').click()">📷 Add Media</button>
             <div class="wp-vc-switch">
               <button class="wp-vc-btn active" id="vc-visual" onclick="switchEditorMode('visual')">Visual</button>
               <button class="wp-vc-btn" id="vc-code" onclick="switchEditorMode('code')">Code</button>
@@ -330,6 +434,92 @@
             </div>
           </div>
 
+          <!-- SEO -->
+          <div class="wp-metabox" id="mb-seo">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-seo')">
+              <h3>SEO Analyzer</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd">
+              <div class="wp-seo-tabs-row">
+                <button class="wp-seo-tab active" data-st="general">⚙ General</button>
+                <button class="wp-seo-tab" data-st="advanced">📦 Advanced</button>
+                <button class="wp-seo-tab" data-st="social">🔗 Social</button>
+              </div>
+
+              <!-- General -->
+              <div class="wp-seo-pane" id="st-general">
+                <div class="wp-seo-main-fields">
+                  <div class="wp-snippet-card" id="seo-snippet">
+                    <div class="wp-snippet-url" id="snip-url">https://developerbilaspur.in/</div>
+                    <div class="wp-snippet-title" id="snip-title">Post Title — Developer Bilaspur</div>
+                    <div class="wp-snippet-desc" id="snip-desc">Your meta description will appear here in search results…</div>
+                  </div>
+                  <div class="wp-seo-field">
+                    <label>Focus Keyword</label>
+                    <input type="text" class="wp-input" id="ed-keyword" placeholder="e.g., website design Bilaspur" />
+                  </div>
+                  <div class="wp-seo-field">
+                    <label>Meta Title</label>
+                    <input type="text" class="wp-input" id="ed-meta-title" placeholder="SEO title…" />
+                    <div class="wp-char-counter"><span id="mt-count">0</span>/60</div>
+                  </div>
+                  <div class="wp-seo-field">
+                    <label>Meta Description</label>
+                    <textarea class="wp-textarea" id="ed-meta-desc" rows="3" placeholder="Meta description for search engines…"></textarea>
+                    <div class="wp-char-counter"><span id="md-count">0</span>/160</div>
+                  </div>
+                </div>
+                
+                <div class="wp-seo-sidebar-fields">
+                  <div class="wp-score-wrap" style="margin-top:0">
+                    <div class="wp-score-label">SEO Score: <strong id="seo-score-num">0</strong>/100</div>
+                    <div class="wp-score-track"><div class="wp-score-fill" id="seo-score-fill"></div></div>
+                    <ul class="wp-seo-checks" id="seo-checks">
+                      <li id="chk-kw">⬜ Add a focus keyword</li>
+                      <li id="chk-kw-title">⬜ Keyword in title</li>
+                      <li id="chk-mt-len">⬜ Meta title 20–60 chars</li>
+                      <li id="chk-md">⬜ Meta description (110–160 chars)</li>
+                      <li id="chk-wc">⬜ Content has 300+ words</li>
+                      <li id="chk-qfirst">⬜ "Question-First" H2/H3 + under 40-word answer</li>
+                      <li id="chk-table">⬜ Structured data table (HTML &lt;table&gt;)</li>
+                      <li id="chk-bold">⬜ NLP Entity Bolding (&lt;strong&gt;/&lt;b&gt; tags)</li>
+                      <li id="chk-eeat">⬜ Human Signature (Lived experience or original quotes)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Advanced -->
+              <div class="wp-seo-pane" id="st-advanced" style="display:none">
+                <div class="wp-seo-field">
+                  <label>Canonical URL</label>
+                  <input type="url" class="wp-input" id="ed-canonical" placeholder="https://developerbilaspur.in/…" />
+                </div>
+                <div class="wp-seo-field">
+                  <label>Robots</label>
+                  <select class="wp-input" id="ed-robots">
+                    <option value="index,follow">Index, Follow (Default)</option>
+                    <option value="noindex,follow">No Index, Follow</option>
+                    <option value="index,nofollow">Index, No Follow</option>
+                    <option value="noindex,nofollow">No Index, No Follow</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Social -->
+              <div class="wp-seo-pane" id="st-social" style="display:none">
+                <div class="wp-seo-field">
+                  <label>OG Title</label>
+                  <input type="text" class="wp-input" id="ed-og-title" placeholder="Social share title…" />
+                </div>
+                <div class="wp-seo-field">
+                  <label>OG Description</label>
+                  <textarea class="wp-textarea" id="ed-og-desc" rows="2" placeholder="Social share description…"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <input type="hidden" id="ed-post-id" />
           <input type="hidden" id="ed-slug" />
         </div>
@@ -345,7 +535,7 @@
             <div class="wp-metabox-bd">
               <div class="wp-pub-top">
                 <button class="wp-btn-save-draft" onclick="savePost('draft')">Save Draft</button>
-                <button class="wp-btn-preview-sm">Preview</button>
+                <button class="wp-btn-preview-sm" onclick="previewPost()">Preview</button>
               </div>
               <hr class="wp-mb-hr">
 
@@ -464,11 +654,15 @@
               <h3>Featured Image</h3><span class="wp-mb-arr">▲</span>
             </div>
             <div class="wp-metabox-bd" id="mb-featimg-bd">
+              <input type="file" id="featimg-file-uploader" style="display:none;" accept="image/*" />
               <div id="featimg-empty">
                 <input type="url" class="wp-input" id="featimg-url" placeholder="Paste image URL…" />
                 <button class="wp-btn-set-img" onclick="setFeatImg()" style="margin-top:8px;width:100%">Set Featured Image</button>
                 <div style="text-align:center;margin:8px 0;color:var(--text-gray);font-size:0.8rem;">— OR —</div>
-                <button type="button" class="wp-btn-sm-secondary" onclick="openCloudinaryWidget('featimg-url', 'featimg-thumb')" style="width:100%;margin-top:4px;">☁️ Upload to Cloudinary</button>
+                <button type="button" class="wp-btn-sm-secondary" onclick="window.triggerFeaturedImageUpload()" style="width:100%;margin-top:4px; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  Upload Image
+                </button>
               </div>
               <div id="featimg-preview" style="display:none">
                 <img id="featimg-thumb" src="" alt="Featured" class="wp-feat-thumb" />
@@ -489,82 +683,7 @@
             </div>
           </div>
 
-          <!-- SEO -->
-          <div class="wp-metabox" id="mb-seo">
-            <div class="wp-metabox-hd" onclick="toggleMb('mb-seo')">
-              <h3>SEO</h3><span class="wp-mb-arr">▲</span>
-            </div>
-            <div class="wp-metabox-bd">
-              <div class="wp-seo-tabs-row">
-                <button class="wp-seo-tab active" data-st="general">⚙ General</button>
-                <button class="wp-seo-tab" data-st="advanced">📦 Advanced</button>
-                <button class="wp-seo-tab" data-st="social">🔗 Social</button>
-              </div>
 
-              <!-- General -->
-              <div class="wp-seo-pane" id="st-general">
-                <div class="wp-snippet-card" id="seo-snippet">
-                  <div class="wp-snippet-url" id="snip-url">https://developerbilaspur.in/</div>
-                  <div class="wp-snippet-title" id="snip-title">Post Title — Developer Bilaspur</div>
-                  <div class="wp-snippet-desc" id="snip-desc">Your meta description will appear here in search results…</div>
-                </div>
-                <div class="wp-seo-field">
-                  <label>Focus Keyword</label>
-                  <input type="text" class="wp-input" id="ed-keyword" placeholder="e.g., website design Bilaspur" />
-                </div>
-                <div class="wp-seo-field">
-                  <label>Meta Title</label>
-                  <input type="text" class="wp-input" id="ed-meta-title" placeholder="SEO title…" />
-                  <div class="wp-char-counter"><span id="mt-count">0</span>/60</div>
-                </div>
-                <div class="wp-seo-field">
-                  <label>Meta Description</label>
-                  <textarea class="wp-textarea" id="ed-meta-desc" rows="3" placeholder="Meta description for search engines…"></textarea>
-                  <div class="wp-char-counter"><span id="md-count">0</span>/160</div>
-                </div>
-                <div class="wp-score-wrap">
-                  <div class="wp-score-label">SEO Score: <strong id="seo-score-num">0</strong>/100</div>
-                  <div class="wp-score-track"><div class="wp-score-fill" id="seo-score-fill"></div></div>
-                  <ul class="wp-seo-checks" id="seo-checks">
-                    <li id="chk-kw">⬜ Add a focus keyword</li>
-                    <li id="chk-kw-title">⬜ Keyword in title</li>
-                    <li id="chk-mt-len">⬜ Meta title 20–60 chars</li>
-                    <li id="chk-md">⬜ Meta description added</li>
-                    <li id="chk-wc">⬜ Content has 300+ words</li>
-                  </ul>
-                </div>
-              </div>
-
-              <!-- Advanced -->
-              <div class="wp-seo-pane" id="st-advanced" style="display:none">
-                <div class="wp-seo-field">
-                  <label>Canonical URL</label>
-                  <input type="url" class="wp-input" id="ed-canonical" placeholder="https://developerbilaspur.in/…" />
-                </div>
-                <div class="wp-seo-field">
-                  <label>Robots</label>
-                  <select class="wp-input" id="ed-robots">
-                    <option value="index,follow">Index, Follow (Default)</option>
-                    <option value="noindex,follow">No Index, Follow</option>
-                    <option value="index,nofollow">Index, No Follow</option>
-                    <option value="noindex,nofollow">No Index, No Follow</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Social -->
-              <div class="wp-seo-pane" id="st-social" style="display:none">
-                <div class="wp-seo-field">
-                  <label>OG Title</label>
-                  <input type="text" class="wp-input" id="ed-og-title" placeholder="Social share title…" />
-                </div>
-                <div class="wp-seo-field">
-                  <label>OG Description</label>
-                  <textarea class="wp-textarea" id="ed-og-desc" rows="2" placeholder="Social share description…"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
         <!-- end sidebar -->
@@ -817,7 +936,7 @@
         
         <div class="wp-settings-section" style="margin-top:24px;">
           <div class="wp-settings-section-title" style="padding:16px 24px;border-bottom:1px solid var(--border-color);font-weight:600;font-size:1rem;color:var(--text-dark);background:rgba(255,255,255,0.02)">
-            🌐 Database & Media Cloud Integrations
+            🌐 Supabase Database Integration
           </div>
           <div class="wp-settings-body">
             <div class="wp-settings-row">
@@ -832,6 +951,25 @@
                 <input type="text" class="wp-input" id="g-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
               </div>
             </div>
+            <div class="wp-settings-row" style="border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 12px;">
+              <label class="wp-settings-lbl">Database Sync Tools</label>
+              <div class="wp-settings-val" style="display:flex; flex-direction:column; gap:8px;">
+                <button type="button" class="wp-btn-primary" style="background:#0284c7; border-color:#0284c7; width:fit-content;" onclick="seedSupabaseFromLocal()">
+                  📤 Export Local Storage to Supabase Live DB
+                </button>
+                <span style="font-size:0.8rem; color:#64748b;">
+                  Pushes your current guides, news, and demos from local storage into your empty live Supabase database.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wp-settings-section" style="margin-top:24px;">
+          <div class="wp-settings-section-title" style="padding:16px 24px;border-bottom:1px solid var(--border-color);font-weight:600;font-size:1rem;color:var(--text-dark);background:rgba(255,255,255,0.02)">
+            ☁️ Cloudinary Media Storage Integration
+          </div>
+          <div class="wp-settings-body">
             <div class="wp-settings-row">
               <label class="wp-settings-lbl">Cloudinary Cloud Name</label>
               <div class="wp-settings-val">
@@ -842,17 +980,6 @@
               <label class="wp-settings-lbl">Cloudinary Upload Preset</label>
               <div class="wp-settings-val">
                 <input type="text" class="wp-input" id="g-cloudinary-preset" placeholder="developerbilaspur" />
-              </div>
-            </div>
-            <div class="wp-settings-row" style="border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 12px;">
-              <label class="wp-settings-lbl">Database Sync Tools</label>
-              <div class="wp-settings-val" style="display:flex; flex-direction:column; gap:8px;">
-                <button type="button" class="wp-btn-primary" style="background:#0284c7; border-color:#0284c7; width:fit-content;" onclick="seedSupabaseFromLocal()">
-                  📤 Export Local Storage to Supabase Live DB
-                </button>
-                <span style="font-size:0.8rem; color:#64748b;">
-                  Pushes your current guides, news, and demos from local storage into your empty live Supabase database.
-                </span>
               </div>
             </div>
           </div>
@@ -1328,17 +1455,57 @@
             </div>
 
             <div class="admin-form-group">
-              <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Demo Cover Image URL (Optional)</label>
-              <div style="display:flex;gap:8px;">
-                <input type="text" id="demo-ed-image" class="wp-input" placeholder="e.g. https://res.cloudinary.com/... or /demo-saree.png" style="flex:1;" />
-                <button type="button" class="wp-btn-sm-secondary" onclick="openCloudinaryWidget('demo-ed-image')" style="white-space:nowrap;padding:0 12px;">☁️ Upload</button>
+              <label style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-dark);">Featured Cover Image</label>
+              <input type="file" id="demo-file-uploader" style="display:none;" accept="image/*" />
+              <div id="demo-img-empty">
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="demo-ed-image" class="wp-input" placeholder="Paste image URL here…" style="flex:1;" />
+                  <button type="button" class="wp-btn-sm-secondary" onclick="window.triggerDemoImageUpload()" style="white-space:nowrap;padding:0 12px; display:flex; align-items:center; gap:6px;">
+                    <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Upload
+                  </button>
+                </div>
+                <button type="button" class="wp-btn-primary" onclick="setDemoImgFromUrl()" style="margin-top: 8px; width: 100%; font-size: 0.85rem; padding: 6px 12px;">Set Cover Image</button>
+              </div>
+              <div id="demo-img-preview" style="display:none; margin-top: 10px; position: relative;">
+                <img id="demo-img-thumb" src="" alt="Demo Cover" class="wp-feat-thumb" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color);" />
+                <a class="wp-remove-img" onclick="removeDemoImg()" style="color: #ef4444; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: block; margin-top: 6px; text-decoration: none;">✕ Remove cover image</a>
               </div>
             </div>
           </div>
         </div>
 
         <!-- EDITOR RIGHT (Sidebar controls) -->
-        <div class="wp-editor-side">
+        <div class="wp-editor-sidebar">
+          
+          <!-- PUBLISH METABOX FOR DEMO -->
+          <div class="wp-metabox" id="mb-demo-publish">
+            <div class="wp-metabox-hd" onclick="toggleMb('mb-demo-publish')">
+              <h3>Publish</h3><span class="wp-mb-arr">▲</span>
+            </div>
+            <div class="wp-metabox-bd" style="display: block; padding: 16px;">
+              <div class="wp-pub-top" style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button class="wp-btn-save-draft" onclick="saveDemo()" style="flex: 1;">Save Draft</button>
+                <button class="wp-btn-preview-sm" onclick="previewDemo()" style="flex: 1;">Preview</button>
+              </div>
+              <hr class="wp-mb-hr" style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+              <div class="wp-pub-field" style="margin-bottom: 8px; font-size: 0.82rem; color: var(--text-gray);">
+                <span class="wp-pf-lbl" style="font-weight: 600;">Status:</span>
+                <span class="wp-pf-val" style="color: var(--text-dark);">Published</span>
+              </div>
+              <div class="wp-pub-field" style="margin-bottom: 12px; font-size: 0.82rem; color: var(--text-gray);">
+                <span class="wp-pf-lbl" style="font-weight: 600;">Visibility:</span>
+                <span class="wp-pf-val" style="color: var(--text-dark);">Public</span>
+              </div>
+              <hr class="wp-mb-hr" style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+              <div class="wp-pub-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                <a class="wp-trash-lnk" onclick="trashDemoCurrent()" style="color:#ef4444; font-size: 0.82rem; font-weight: 600; cursor:pointer;">Delete Demo</a>
+                <button class="wp-btn-publish-main" onclick="saveDemo()">Save Demo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PARAMETERS METABOX -->
           <div class="wp-metabox">
             <div class="wp-metabox-hd"><h3>Demo Parameters</h3></div>
             <div class="wp-metabox-bd" style="display: block; padding: 16px;">
@@ -1375,7 +1542,7 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 <script type="module">
-import { db } from '/src/db-client.js';
+import { db, useSupabase } from '/src/db-client.js';
 
 // ==================================================================
 // STORAGE
@@ -1395,22 +1562,49 @@ const sSet = (k,v) => localStorage.setItem(k, JSON.stringify(v));
 
 // Default data
 function initDefaults() {
-  if (!localStorage.getItem(S.CATS)) {
+  // Purge old schemas if detected
+  try {
+    const oldNews = JSON.parse(localStorage.getItem(S.NEWS) || '[]');
+    if (oldNews.length > 0 && !oldNews[0].status) {
+      localStorage.removeItem(S.NEWS);
+    }
+    const oldBlogs = JSON.parse(localStorage.getItem(S.BLOGS) || '[]');
+    if (oldBlogs.length > 0 && !oldBlogs[0].status) {
+      localStorage.removeItem(S.BLOGS);
+    }
+  } catch(e) {
+    localStorage.removeItem(S.NEWS);
+    localStorage.removeItem(S.BLOGS);
+  }
+
+  const catsVal = localStorage.getItem(S.CATS);
+  if (!catsVal || catsVal === '[]') {
     sSet(S.CATS, [
-      {id:'c1',name:'SEO Tips',slug:'seo-tips',desc:''},
-      {id:'c2',name:'WhatsApp Auto',slug:'whatsapp-auto',desc:''},
-      {id:'c3',name:'Local Vyapar',slug:'local-vyapar',desc:''},
-      {id:'c4',name:'Web Design',slug:'web-design',desc:''}
+      {id:'c1',name:'SEO Tips',slug:'seo',desc:''},
+      {id:'c2',name:'WhatsApp Auto',slug:'whatsapp',desc:''},
+      {id:'c3',name:'Local Vyapar',slug:'vyapar',desc:''},
+      {id:'c4',name:'Web Design',slug:'web',desc:''}
     ]);
   }
-  if (!localStorage.getItem(S.TAGS)) {
+  const newsCatsVal = localStorage.getItem('devbilaspur-news-categories');
+  if (!newsCatsVal || newsCatsVal === '[]') {
+    sSet('devbilaspur-news-categories', [
+      {id:'nc1',name:'City Development',slug:'infrastructure',desc:''},
+      {id:'nc2',name:'Store Openings',slug:'business',desc:''},
+      {id:'nc3',name:'Events & Festivals',slug:'events',desc:''},
+      {id:'nc4',name:'Local Buzz',slug:'local',desc:''}
+    ]);
+  }
+  const tagsVal = localStorage.getItem(S.TAGS);
+  if (!tagsVal || tagsVal === '[]') {
     sSet(S.TAGS, [
       {id:'t1',name:'Bilaspur',slug:'bilaspur',desc:''},
       {id:'t2',name:'Website',slug:'website',desc:''},
       {id:'t3',name:'Digital Marketing',slug:'digital-marketing',desc:''}
     ]);
   }
-  if (!localStorage.getItem(S.BLOGS)) {
+  const blogsVal = localStorage.getItem(S.BLOGS);
+  if (!blogsVal || blogsVal === '[]') {
     sSet(S.BLOGS, [
       {
         id: 'default-1',
@@ -1465,7 +1659,8 @@ function initDefaults() {
       }
     ]);
   }
-  if (!localStorage.getItem(S.DEMOS)) {
+  const demosVal = localStorage.getItem(S.DEMOS);
+  if (!demosVal || demosVal === '[]') {
     sSet(S.DEMOS, [
       {
         id: 'demo-saree',
@@ -1505,7 +1700,8 @@ function initDefaults() {
       }
     ]);
   }
-  if (!localStorage.getItem(S.NEWS)) {
+  const newsVal = localStorage.getItem(S.NEWS);
+  if (!newsVal || newsVal === '[]') {
     sSet(S.NEWS, [
       {
         id: 'news-1',
@@ -1565,14 +1761,15 @@ function initDefaults() {
 // ==================================================================
 // TAB SWITCHING
 // ==================================================================
-const POST_TABS = ['all-posts','editor','categories','tags'];
+const POST_TABS = ['all-guides','all-news','editor','categories','tags'];
 const DEMO_TABS = ['all-demos','demo-editor'];
 const APPEARANCE_TABS = ['customize'];
 const SETTINGS_TABS = ['settings-general','settings-writing','settings-reading','settings-discussion','settings-media','settings-permalinks'];
 
 const TAB_TITLES = {
   dashboard: 'Dashboard',
-  'all-posts': 'Posts',
+  'all-guides': 'Guides',
+  'all-news': 'News Portal',
   editor: 'Editor',
   categories: 'Categories',
   tags: 'Tags',
@@ -1589,10 +1786,38 @@ const TAB_TITLES = {
 };
 
 window.applyRoleLimits = function() {
+  const isSupabaseActive = useSupabase() && localStorage.getItem('supabase_session_token');
   const role = localStorage.getItem('admin_user_role') || 'admin';
+  const name = localStorage.getItem('admin_user_name') || 'Dev Bilaspur';
   
   const switcher = document.getElementById('current-user-role');
-  if (switcher) switcher.value = role;
+  const switcherLabel = document.getElementById('role-switcher-label');
+  const profileBadge = document.getElementById('admin-profile-badge');
+  const badgeName = document.getElementById('badge-user-name');
+  const badgeRole = document.getElementById('badge-user-role');
+  const logoutBtn = document.getElementById('admin-logout-btn');
+
+  if (isSupabaseActive) {
+    if (switcher) switcher.style.display = 'none';
+    if (switcherLabel) switcherLabel.style.display = 'none';
+    if (profileBadge) {
+      profileBadge.style.display = 'flex';
+      if (badgeName) badgeName.textContent = name;
+      if (badgeRole) {
+        const roleLabels = { admin: 'Administrator', editor: 'Editor', author: 'Author', contributor: 'Contributor' };
+        badgeRole.textContent = roleLabels[role] || role.toUpperCase();
+      }
+    }
+    if (logoutBtn) logoutBtn.style.display = 'flex';
+  } else {
+    if (switcher) {
+      switcher.style.display = 'block';
+      switcher.value = role;
+    }
+    if (switcherLabel) switcherLabel.style.display = 'block';
+    if (profileBadge) profileBadge.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'none';
+  }
 
   const postsNav = document.getElementById('nav-group-posts');
   const newsNav = document.getElementById('nav-group-news');
@@ -1662,6 +1887,9 @@ window.switchTab = function(id, skipRefresh) {
     return;
   }
 
+  if (id === 'all-guides') currentAdminPostType = 'guide';
+  if (id === 'all-news') currentAdminPostType = 'news';
+
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.id === 'tab-'+id));
   document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
   document.getElementById('admin-mobile-title').textContent = TAB_TITLES[id]||'Admin';
@@ -1671,8 +1899,8 @@ window.switchTab = function(id, skipRefresh) {
   
   // Show/hide submenus and toggle arrows
   const isPost = POST_TABS.includes(id);
-  const isGuide = isPost && currentAdminPostType === 'guide';
-  const isNews = isPost && currentAdminPostType === 'news';
+  const isGuide = id === 'all-guides' || (id === 'editor' && currentAdminPostType === 'guide') || id === 'categories' || id === 'tags';
+  const isNews = id === 'all-news' || (id === 'editor' && currentAdminPostType === 'news');
   const isDemo = DEMO_TABS.includes(id);
   const isApp = APPEARANCE_TABS.includes(id);
   const isSet = SETTINGS_TABS.includes(id);
@@ -1704,7 +1932,8 @@ window.switchTab = function(id, skipRefresh) {
   
   if (!skipRefresh) {
     if (id==='dashboard') refreshDashboard();
-    if (id==='all-posts') renderPosts();
+    if (id==='all-guides') renderPostList('guide');
+    if (id==='all-news') renderPostList('news');
     if (id==='all-demos') renderDemos();
     if (id==='categories') renderCatsTable();
     if (id==='tags') renderTagsTable();
@@ -1716,8 +1945,8 @@ window.switchTab = function(id, skipRefresh) {
 
 document.querySelectorAll('[data-tab]').forEach(btn => {
   btn.addEventListener('click', (e) => {
-    if (btn.id === 'nav-posts-toggle') { e.preventDefault(); window.switchPostType('guide'); window.switchTab('all-posts'); return; }
-    if (btn.id === 'nav-news-toggle') { e.preventDefault(); window.switchPostType('news'); window.switchTab('all-posts'); return; }
+    if (btn.id === 'nav-posts-toggle') { e.preventDefault(); window.switchTab('all-guides'); return; }
+    if (btn.id === 'nav-news-toggle') { e.preventDefault(); window.switchTab('all-news'); return; }
     if (btn.id === 'nav-demos-toggle') { e.preventDefault(); window.switchTab('all-demos'); return; }
     if (btn.id === 'nav-appearance-toggle') { e.preventDefault(); window.switchTab('customize'); return; }
     if (btn.id === 'nav-settings-toggle') { e.preventDefault(); window.switchTab('settings-general'); return; }
@@ -1734,18 +1963,16 @@ document.querySelectorAll('[data-tab]').forEach(btn => {
 // Bind Glance links
 document.getElementById('glance-guides-link')?.addEventListener('click', (e) => {
   e.preventDefault();
-  window.switchPostType('guide');
-  window.switchTab('all-posts');
+  window.switchTab('all-guides');
 });
 document.getElementById('glance-news-link')?.addEventListener('click', (e) => {
   e.preventDefault();
-  window.switchPostType('news');
-  window.switchTab('all-posts');
+  window.switchTab('all-news');
 });
 document.getElementById('glance-drafts-link')?.addEventListener('click', (e) => {
   e.preventDefault();
   window.setFilter('draft');
-  window.switchTab('all-posts');
+  window.switchTab('all-guides');
 });
 document.getElementById('glance-demos-link')?.addEventListener('click', (e) => {
   e.preventDefault();
@@ -1822,6 +2049,162 @@ quill.on('text-change', () => {
   scheduleAutoSave();
 });
 
+// Visual Image Resizer (Canva-like interactive corner dragging)
+let activeResizingImage = null;
+let resizerOverlay = null;
+
+function createResizerOverlay() {
+  if (resizerOverlay) return resizerOverlay;
+  
+  const container = document.querySelector('.ql-container');
+  if (!container) return null;
+  
+  resizerOverlay = document.createElement('div');
+  resizerOverlay.className = 'wp-image-resizer-overlay';
+  
+  const handles = ['tl', 'tr', 'bl', 'br'];
+  handles.forEach(pos => {
+    const handle = document.createElement('div');
+    handle.className = `wp-image-resizer-handle ${pos}`;
+    handle.dataset.handle = pos;
+    resizerOverlay.appendChild(handle);
+  });
+  
+  const badge = document.createElement('div');
+  badge.className = 'wp-image-resizer-size-badge';
+  resizerOverlay.appendChild(badge);
+  
+  container.style.position = 'relative'; // Ensure relative position context
+  container.appendChild(resizerOverlay);
+  
+  // Bind drag events to handles
+  resizerOverlay.addEventListener('mousedown', initDrag);
+  resizerOverlay.addEventListener('touchstart', initDrag, { passive: false });
+  
+  return resizerOverlay;
+}
+
+window.updateResizerPosition = function() {
+  if (!activeResizingImage || !resizerOverlay) return;
+  
+  const img = activeResizingImage;
+  const container = document.querySelector('.ql-container');
+  if (!container) return;
+  
+  const imgRect = img.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+  
+  const top = imgRect.top - containerRect.top + container.scrollTop;
+  const left = imgRect.left - containerRect.left + container.scrollLeft;
+  
+  resizerOverlay.style.top = `${top}px`;
+  resizerOverlay.style.left = `${left}px`;
+  resizerOverlay.style.width = `${imgRect.width}px`;
+  resizerOverlay.style.height = `${imgRect.height}px`;
+  resizerOverlay.style.display = 'block';
+  
+  const badge = resizerOverlay.querySelector('.wp-image-resizer-size-badge');
+  if (badge) {
+    badge.textContent = `${Math.round(imgRect.width)}px × ${Math.round(imgRect.height)}px`;
+  }
+};
+
+window.hideResizer = function() {
+  activeResizingImage = null;
+  if (resizerOverlay) {
+    resizerOverlay.style.display = 'none';
+  }
+};
+
+let startX, startY, startWidth, startHeight, activeHandle;
+
+function initDrag(e) {
+  if (!e.target.classList.contains('wp-image-resizer-handle')) return;
+  e.preventDefault();
+  e.stopPropagation();
+  
+  activeHandle = e.target.dataset.handle;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  
+  startX = clientX;
+  startY = clientY;
+  
+  const imgRect = activeResizingImage.getBoundingClientRect();
+  startWidth = imgRect.width;
+  startHeight = imgRect.height;
+  
+  if (e.touches) {
+    document.addEventListener('touchmove', doDrag, { passive: false });
+    document.addEventListener('touchend', stopDrag);
+  } else {
+    document.addEventListener('mousemove', doDrag);
+    document.addEventListener('mouseup', stopDrag);
+  }
+}
+
+function doDrag(e) {
+  if (!activeResizingImage) return;
+  
+  if (e.cancelable) e.preventDefault();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const dx = clientX - startX;
+  
+  let newWidth = startWidth;
+  if (activeHandle === 'br' || activeHandle === 'tr') {
+    newWidth = startWidth + dx;
+  } else if (activeHandle === 'bl' || activeHandle === 'tl') {
+    newWidth = startWidth - dx;
+  }
+  
+  // Clamp width bounds
+  if (newWidth < 40) newWidth = 40;
+  
+  activeResizingImage.style.width = `${newWidth}px`;
+  activeResizingImage.style.height = 'auto'; // Maintain aspect ratio
+  activeResizingImage.setAttribute('width', `${newWidth}px`);
+  
+  window.updateResizerPosition();
+}
+
+function stopDrag(e) {
+  document.removeEventListener('mousemove', doDrag);
+  document.removeEventListener('mouseup', stopDrag);
+  document.removeEventListener('touchmove', doDrag);
+  document.removeEventListener('touchend', stopDrag);
+  
+  // Sync changes to Quill editor content
+  if (quill) {
+    quill.update();
+    const codeTextarea = document.getElementById('code-editor');
+    if (codeTextarea) {
+      codeTextarea.value = quill.root.innerHTML;
+    }
+  }
+}
+
+// Bind click event inside Quill editor to select images
+document.getElementById('quill-editor').addEventListener('click', (e) => {
+  if (e.target.tagName === 'IMG') {
+    e.stopPropagation();
+    activeResizingImage = e.target;
+    createResizerOverlay();
+    window.updateResizerPosition();
+  } else {
+    window.hideResizer();
+  }
+});
+
+// Hide resizer overlay on editor scroll or outside clicks
+document.querySelector('.ql-editor').addEventListener('scroll', () => {
+  if (activeResizingImage) window.updateResizerPosition();
+});
+document.addEventListener('click', (e) => {
+  if (resizerOverlay && !resizerOverlay.contains(e.target) && e.target.tagName !== 'IMG') {
+    window.hideResizer();
+  }
+});
+
 // Editor mode switch
 window.switchEditorMode = function(mode) {
   document.getElementById('vc-visual').classList.toggle('active', mode==='visual');
@@ -1881,6 +2264,8 @@ window.toggleMb = function(id) {
 async function refreshDashboard() {
   let blogs = await db.getBlogs();
   let news = await db.getNews();
+  console.log("DEBUG: blogs =", blogs, "news =", news);
+  console.log("DEBUG: S.NEWS key =", S.NEWS, "localStorage news item =", localStorage.getItem(S.NEWS));
   
   // Role-based post filtering for Dashboard overview
   const role = localStorage.getItem('admin_user_role') || 'admin';
@@ -1950,55 +2335,78 @@ document.getElementById('quick-draft-form').addEventListener('submit', e => {
 // ==================================================================
 // ALL POSTS LIST
 // ==================================================================
-let postFilter = 'all', postSearch = '', currentAdminPostType = 'guide';
+let guideFilter = 'all', guideSearch = '';
+let newsFilter = 'all', newsSearch = '';
+let currentAdminPostType = 'guide';
 
-window.switchPostType = function(type) {
-  currentAdminPostType = type;
-  document.getElementById('type-tab-guide').classList.toggle('active', type === 'guide');
-  document.getElementById('type-tab-news').classList.toggle('active', type === 'news');
-  renderPosts();
+window.setFilter = function(f) {
+  if (currentAdminPostType === 'guide') {
+    guideFilter = f;
+    renderPostList('guide');
+  } else {
+    newsFilter = f;
+    renderPostList('news');
+  }
 };
-
-window.setFilter = function(f) { postFilter = f; renderPosts(); };
 
 document.querySelectorAll('.wp-stab').forEach(tab => {
   tab.addEventListener('click', () => {
-    postFilter = tab.dataset.f;
-    document.querySelectorAll('.wp-stab').forEach(t => t.classList.toggle('active', t.dataset.f === postFilter));
-    renderPosts();
+    const type = tab.dataset.type;
+    const filter = tab.dataset.f;
+    if (type === 'guide') {
+      guideFilter = filter;
+      document.querySelectorAll('#guide-status-tabs .wp-stab').forEach(t => t.classList.toggle('active', t.dataset.f === filter));
+      renderPostList('guide');
+    } else if (type === 'news') {
+      newsFilter = filter;
+      document.querySelectorAll('#news-status-tabs .wp-stab').forEach(t => t.classList.toggle('active', t.dataset.f === filter));
+      renderPostList('news');
+    }
   });
 });
 
-window.doSearch = function() {
-  postSearch = document.getElementById('post-search').value.trim().toLowerCase();
-  renderPosts();
+window.doGuideSearch = function() {
+  guideSearch = document.getElementById('guide-search').value.trim().toLowerCase();
+  renderPostList('guide');
+};
+window.doNewsSearch = function() {
+  newsSearch = document.getElementById('news-search').value.trim().toLowerCase();
+  renderPostList('news');
 };
 
-async function renderPosts() {
-  let blogs = currentAdminPostType === 'guide' ? await db.getBlogs() : await db.getNews();
+async function renderPostList(type) {
+  let posts = type === 'guide' ? await db.getBlogs() : await db.getNews();
   
   // Role-based post filtering (Authors & Contributors only see their own posts)
   const role = localStorage.getItem('admin_user_role') || 'admin';
   if (role === 'author' || role === 'contributor') {
-    blogs = blogs.filter(b => b.author === 'Dev Bilaspur');
+    posts = posts.filter(p => p.author === 'Dev Bilaspur');
   }
 
-  const all = blogs.length;
-  const pub = blogs.filter(b=>b.status==='published').length;
-  const dft = blogs.filter(b=>b.status==='draft').length;
-  document.getElementById('cnt-all').textContent = '('+all+')';
-  document.getElementById('cnt-pub').textContent = '('+pub+')';
-  document.getElementById('cnt-draft').textContent = '('+dft+')';
+  const all = posts.length;
+  const pub = posts.filter(b=>b.status==='published').length;
+  const dft = posts.filter(b=>b.status==='draft').length;
+  
+  const cntAll = document.getElementById(`cnt-all-${type}${(type==='news')?'':'s'}`);
+  const cntPub = document.getElementById(`cnt-pub-${type}${(type==='news')?'':'s'}`);
+  const cntDraft = document.getElementById(`cnt-draft-${type}${(type==='news')?'':'s'}`);
+  if (cntAll) cntAll.textContent = '('+all+')';
+  if (cntPub) cntPub.textContent = '('+pub+')';
+  if (cntDraft) cntDraft.textContent = '('+dft+')';
 
-  if (postFilter !== 'all') blogs = blogs.filter(b => b.status === postFilter);
-  if (postSearch) blogs = blogs.filter(b => (b.title||'').toLowerCase().includes(postSearch));
+  const filterVal = type === 'guide' ? guideFilter : newsFilter;
+  const searchVal = type === 'guide' ? guideSearch : newsSearch;
 
-  const con = document.getElementById('posts-container');
-  if (!blogs.length) {
-    con.innerHTML = '<div class="wp-no-posts"><p>No posts found.</p></div>';
+  if (filterVal !== 'all') posts = posts.filter(b => b.status === filterVal);
+  if (searchVal) posts = posts.filter(b => (b.title||'').toLowerCase().includes(searchVal));
+
+  const con = document.getElementById(type === 'news' ? 'news-container' : 'guides-container');
+  if (!con) return;
+  if (!posts.length) {
+    con.innerHTML = `<div class="wp-no-posts"><p>No ${type === 'guide' ? 'guides' : 'news'} found.</p></div>`;
     return;
   }
-  con.innerHTML = blogs.map(p => `
+  con.innerHTML = posts.map(p => `
     <div class="wp-post-card" id="pcard-${p.id}">
       <div class="wp-pc-main">
         <input type="checkbox" class="wp-pc-chk" value="${p.id}" />
@@ -2006,6 +2414,7 @@ async function renderPosts() {
           <div class="wp-pc-title">
             <a class="wp-pc-title-lnk" onclick="editPost('${p.id}')">${p.title||'Untitled'}</a>
             ${p.status==='draft'?'<span class="wp-badge-draft">— Draft</span>':''}
+            ${p.status==='pending'?'<span class="wp-badge-draft">— Pending Review</span>':''}
             ${p.status==='private'?'<span class="wp-badge-private">— Private</span>':''}
             ${p.sticky?'<span class="wp-badge-sticky">Sticky</span>':''}
           </div>
@@ -2016,7 +2425,7 @@ async function renderPosts() {
             <span class="wp-sep">|</span>
             <a class="wp-del-lnk" onclick="trashPost('${p.id}')">Bin</a>
             <span class="wp-sep">|</span>
-            <a href="${currentAdminPostType === 'guide' ? '/blog-detail.html' : '/news-detail.html'}?id=${p.id}" target="_blank">View</a>
+            <a href="${type === 'guide' ? '/blog-detail.html' : '/news-detail.html'}?id=${p.id}" target="_blank">View</a>
           </div>
           <div class="wp-pc-meta">
             ${p.categories&&p.categories.length?p.categories[0]:'Uncategorised'} &nbsp;·&nbsp;
@@ -2103,29 +2512,38 @@ window.applyQE = async function(id) {
   if (currentAdminPostType === 'guide') await db.saveBlog(updated);
   else await db.saveNews(updated);
   closeQE(id);
-  await renderPosts();
+  await renderPostList(currentAdminPostType);
   showToast('Post updated.');
 };
 window.bulkPostAction = async function() {
-  const act = document.getElementById('bulk-action-select').value;
+  const type = currentAdminPostType;
+  const act = document.getElementById('bulk-action-' + (type === 'guide' ? 'guides' : 'news')).value;
   if (!act) return;
-  const sel = [...document.querySelectorAll('.wp-pc-chk:checked')].map(c=>c.value);
+  const sel = [...document.querySelectorAll((type === 'news' ? '#news-container' : '#guides-container') + ' .wp-pc-chk:checked')].map(c=>c.value);
   if (!sel.length) { alert('Select posts first.'); return; }
   if (act==='trash' && confirm('Delete '+sel.length+' post(s)?')) {
     for (const id of sel) {
-      if (currentAdminPostType === 'guide') {
+      if (type === 'guide') {
         await db.deleteBlog(id);
       } else {
         await db.deleteNews(id);
       }
     }
-    await renderPosts(); await refreshDashboard();
+    await renderPostList(type); await refreshDashboard();
   }
 };
 window.trashPost = async function(id) {
-  if (!confirm('Move to trash?')) return;
-  sSet(S.BLOGS, gArr(S.BLOGS).filter(b=>b.id!==id));
-  renderPosts(); refreshDashboard();
+  if (!confirm('Move this post to bin?')) return;
+  const blogs = await db.getBlogs();
+  const isGuide = blogs.some(b => b.id === id);
+  if (isGuide) {
+    await db.deleteBlog(id);
+  } else {
+    await db.deleteNews(id);
+  }
+  await renderPostList(currentAdminPostType);
+  await refreshDashboard();
+  showToast('Post moved to bin.');
 };
 
 // ==================================================================
@@ -2134,6 +2552,7 @@ window.trashPost = async function(id) {
 let edPostId = null;
 let edStatus = 'draft';
 let edVis = 'public';
+let edPublishDate = null;
 let edTags = [];
 let edFeatImg = '';
 let autoSaveTimer = null;
@@ -2147,9 +2566,26 @@ function scheduleAutoSave() {
   }, 4000);
 }
 
+window.previewPost = async function() {
+  const title = document.getElementById('ed-title').value.trim();
+  if (!title) {
+    alert('Please enter a title to preview the post.');
+    return;
+  }
+  await savePost(edStatus, true);
+  const id = document.getElementById('ed-post-id').value;
+  const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value || 'guide';
+  const url = postType === 'news' 
+    ? `/news-detail.html?id=${id}` 
+    : `/blog-detail.html?id=${id}`;
+  window.open(url, '_blank');
+};
+
 window.openNewPost = function(type) {
   if (type) currentAdminPostType = type;
-  edPostId = null; edStatus = 'draft'; edVis = 'public'; edTags = []; edFeatImg = '';
+  edPostId = null; edStatus = 'draft'; edVis = 'public'; edPublishDate = null; edTags = []; edFeatImg = '';
+  document.getElementById('pf-status-sel').value = 'draft';
+  document.getElementById('pf-date-input').value = '';
   document.getElementById('ed-title').value = '';
   document.getElementById('wp-permalink').style.display = 'none';
   quill.setText('');
@@ -2203,7 +2639,10 @@ window.editPost = async function(id) {
     pt = 'news';
   }
   if (!p) return;
-  edPostId = id; edStatus = p.status||'draft'; edVis = p.visibility||'public';
+  edPostId = id; 
+  edStatus = p.status||'draft'; 
+  edVis = p.visibility||'public';
+  edPublishDate = p.publishedAt ? new Date(p.publishedAt).toISOString() : null;
   edTags = Array.isArray(p.tags) ? [...p.tags] : [];
   edFeatImg = p.featuredImage||'';
   document.getElementById('ed-title').value = p.title||'';
@@ -2217,10 +2656,18 @@ window.editPost = async function(id) {
   document.getElementById('code-editor').value = p.content||'';
   document.getElementById('ed-excerpt').value = p.excerpt||'';
   document.getElementById('pf-status-txt').textContent = cap(p.status||'draft');
+  document.getElementById('pf-status-sel').value = p.status||'draft';
   document.getElementById('pf-vis-txt').textContent = cap(p.visibility||'public');
+  const visRad = document.querySelector(`input[name="ed-vis"][value="${p.visibility||'public'}"]`);
+  if (visRad) visRad.checked = true;
   document.getElementById('pf-date-txt').textContent = p.publishedAt ? fmtDate(p.publishedAt) : 'Immediately';
-  document.getElementById('btn-pub-main').textContent = p.status==='published'?'Update':'Publish';
-  document.getElementById('btn-pub-bar').textContent = p.status==='published'?'Update':'Publish';
+  document.getElementById('pf-date-input').value = p.publishedAt ? new Date(p.publishedAt).toISOString().substring(0, 16) : '';
+  
+  // Dynamic button labels based on status
+  const btnText = edStatus === 'published' ? 'Update' : (edStatus === 'pending' ? 'Submit for Review' : 'Publish');
+  document.getElementById('btn-pub-main').textContent = btnText;
+  document.getElementById('btn-pub-bar').textContent = btnText;
+  
   const fmt = p.format||'standard';
   document.querySelector(`input[name="ed-fmt"][value="${fmt}"]`).checked = true;
   document.querySelector(`input[name="ed-post-type"][value="${pt}"]`).checked = true;
@@ -2242,7 +2689,7 @@ window.editPost = async function(id) {
   switchTab('editor', true);
 };
 
-window.closeEditor = function() { edPostId=null; switchTab('all-posts'); };
+window.closeEditor = function() { edPostId=null; switchTab(currentAdminPostType === 'guide' ? 'all-guides' : 'all-news'); };
 
 window.savePost = async function(status, silent) {
   const role = localStorage.getItem('admin_user_role') || 'admin';
@@ -2263,8 +2710,16 @@ window.savePost = async function(status, silent) {
   const existId = document.getElementById('ed-post-id').value;
   const now = new Date().toISOString();
 
-  // Contributor rule: contributors can never publish directly
+  // Determine status (Respect status sidebar dropdown if Publish/Update was clicked)
   let targetStatus = status;
+  if (status === 'published') {
+    targetStatus = edStatus === 'draft' ? 'published' : edStatus;
+  } else {
+    // If explicitly saving draft
+    targetStatus = 'draft';
+  }
+  
+  // Contributor rule: contributors can never publish directly
   if (role === 'contributor' && targetStatus === 'published') {
     targetStatus = 'pending';
   }
@@ -2290,7 +2745,9 @@ window.savePost = async function(status, silent) {
     image: edFeatImg,
     allowComments: document.getElementById('ed-comments').checked,
     allowPings: document.getElementById('ed-pings').checked,
-    publishedAt: targetStatus==='published' ? (existId ? ((postType==='guide'?(await db.getBlogs()):(await db.getNews())).find(b=>b.id===existId)?.publishedAt||now) : now) : null,
+    publishedAt: (targetStatus === 'published' || targetStatus === 'pending') 
+      ? (edPublishDate || (existId ? ((postType==='guide'?(await db.getBlogs()):(await db.getNews())).find(b=>b.id===existId)?.publishedAt||now) : now)) 
+      : null,
     updatedAt: now,
     sticky: false,
     focusKeyword: document.getElementById('ed-keyword').value.trim(),
@@ -2312,10 +2769,18 @@ window.savePost = async function(status, silent) {
     }
   }
 
-  if (postType === 'guide') {
-    await db.saveBlog(postData);
-  } else {
-    await db.saveNews(postData);
+  try {
+    if (postType === 'guide') {
+      await db.saveBlog(postData);
+    } else {
+      await db.saveNews(postData);
+    }
+  } catch (err) {
+    console.error('Error saving post:', err);
+    if (!silent) {
+      alert('Error saving post: ' + err.message + '\n\nMake sure your Supabase URL and Key are correct in Settings -> General Settings.');
+    }
+    return;
   }
 
   if (!existId) {
@@ -2323,21 +2788,29 @@ window.savePost = async function(status, silent) {
     edPostId = postData.id;
   }
 
-  edStatus = status;
+  edStatus = targetStatus;
   document.getElementById('plink-slug').textContent = slug;
   document.getElementById('wp-permalink').style.display = '';
   document.getElementById('ed-slug').value = slug;
-  document.getElementById('pf-status-txt').textContent = cap(status);
-  document.getElementById('btn-pub-main').textContent = status==='published'?'Update':'Publish';
-  document.getElementById('btn-pub-bar').textContent = status==='published'?'Update':'Publish';
+  document.getElementById('pf-status-txt').textContent = cap(targetStatus);
+  
+  // Dynamic button label updates
+  const btnText = targetStatus === 'published' ? 'Update' : (targetStatus === 'pending' ? 'Submit for Review' : 'Publish');
+  document.getElementById('btn-pub-main').textContent = btnText;
+  document.getElementById('btn-pub-bar').textContent = btnText;
+  
   document.getElementById('editor-bar-title').textContent = 'Edit Post';
   document.getElementById('wp-saved-time').textContent = fmtTime(now);
+  await renderPostList(postType);
   refreshDashboard();
 
   if (!silent) {
-    showToast(status==='published' ? '✅ Post published!' : '💾 Draft saved!');
+    const isPub = targetStatus === 'published';
+    const isPend = targetStatus === 'pending';
+    showToast(isPub ? '✅ Post published!' : (isPend ? '📝 Submitted for review!' : '💾 Draft saved!'));
+    
     // Auto-ping Google Indexing API on publish
-    if (status === 'published') {
+    if (targetStatus === 'published') {
       const st = gObj(S.SETTINGS);
       const domain = st.domain || 'https://developerbilaspur.in';
       const pageUrl = postType === 'news'
@@ -2382,12 +2855,19 @@ window.applyPF = function(f) {
     const v = document.getElementById('pf-status-sel').value;
     edStatus=v;
     document.getElementById('pf-status-txt').textContent=cap(v);
-    document.getElementById('btn-pub-main').textContent=v==='published'?'Update':'Publish';
+    
+    // Update button text based on status & mode (create vs update)
+    const isEdit = !!document.getElementById('ed-post-id').value;
+    const btnText = v === 'published' ? (isEdit ? 'Update' : 'Publish') : (v === 'pending' ? 'Submit for Review' : 'Save Draft');
+    document.getElementById('btn-pub-main').textContent=btnText;
+    document.getElementById('btn-pub-bar').textContent=btnText;
   } else if (f==='vis') {
     const v = document.querySelector('input[name="ed-vis"]:checked').value;
-    edVis=v; document.getElementById('pf-vis-txt').textContent=cap(v);
+    edVis=v; 
+    document.getElementById('pf-vis-txt').textContent=cap(v);
   } else if (f==='date') {
     const v = document.getElementById('pf-date-input').value;
+    edPublishDate = v ? new Date(v).toISOString() : null;
     document.getElementById('pf-date-txt').textContent = v ? fmtDate(v) : 'Immediately';
   }
   closePFE(f);
@@ -2416,15 +2896,16 @@ window.toggleSlug = function() {
 // CATEGORIES IN EDITOR
 // ==================================================================
 function renderCatCheckboxes(selected) {
-  const cats = gArr(S.CATS);
+  const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value || 'guide';
+  const cats = postType === 'news' ? gArr('devbilaspur-news-categories') : gArr(S.CATS);
   const con = document.getElementById('cat-checkboxes');
   if (!cats.length) {
-    con.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;padding:6px 0;">No categories. <a onclick="switchTab(\'categories\')" style="color:#48b898;cursor:pointer;">Add one</a></p>';
+    con.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;padding:6px 0;">No categories. <a onclick="toggleAddCat()" style="color:#48b898;cursor:pointer;">Add one</a></p>';
     return;
   }
   con.innerHTML = cats.map(c=>`
     <label class="wp-cat-chk-lbl">
-      <input type="checkbox" class="wp-cat-chk" value="${c.name}" ${selected.includes(c.name)?'checked':''} />
+      <input type="checkbox" class="wp-cat-chk" value="${c.slug || c.name}" ${selected.includes(c.slug || c.name) || selected.includes(c.name)?'checked':''} />
       ${c.name}
     </label>`).join('');
 }
@@ -2433,9 +2914,11 @@ window.catTab = function(mode, btn) {
   document.querySelectorAll('.wp-cat-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   const sel = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
+  const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value || 'guide';
   if (mode==='used') {
     const blogCats={};
-    gArr(S.BLOGS).forEach(b=>(b.categories||[]).forEach(c=>blogCats[c]=(blogCats[c]||0)+1));
+    const posts = postType === 'guide' ? gArr(S.BLOGS) : gArr(S.NEWS);
+    posts.forEach(b=>((b.categories||[b.category]).filter(Boolean)).forEach(c=>blogCats[c]=(blogCats[c]||0)+1));
     const sorted = Object.entries(blogCats).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
     const con = document.getElementById('cat-checkboxes');
     if (!sorted.length) { con.innerHTML='<p style="color:#94a3b8;font-size:0.82rem">None used yet.</p>'; return; }
@@ -2452,14 +2935,16 @@ window.toggleAddCat = function() {
 window.addCatInEditor = function() {
   const name = document.getElementById('new-cat-inp').value.trim();
   if (!name) return;
-  const cats = gArr(S.CATS);
+  const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value || 'guide';
+  const storageKey = postType === 'news' ? 'devbilaspur-news-categories' : S.CATS;
+  const cats = gArr(storageKey);
   if (cats.find(c=>c.name.toLowerCase()===name.toLowerCase())) { alert('Already exists'); return; }
   cats.push({id:'c'+Date.now(),name,slug:slugify(name),desc:''});
-  sSet(S.CATS, cats);
+  sSet(storageKey, cats);
   document.getElementById('new-cat-inp').value='';
   document.getElementById('add-cat-form').style.display='none';
   const sel = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
-  sel.push(name);
+  sel.push(slugify(name));
   renderCatCheckboxes(sel);
 };
 
@@ -2496,13 +2981,13 @@ window.addChipFrom = function(name) {
 window.setFeatImg = function() {
   const url = document.getElementById('featimg-url').value.trim();
   if (!url) return;
-  edFeatImg = url; showFeatImg(url);
+  edFeatImg = url; window.showFeatImg(url);
 };
-function showFeatImg(url) {
+window.showFeatImg = function(url) {
   document.getElementById('featimg-empty').style.display='none';
   document.getElementById('featimg-thumb').src = url;
   document.getElementById('featimg-preview').style.display='';
-}
+};
 window.removeFeatImg = function(silent) {
   edFeatImg='';
   document.getElementById('featimg-url').value='';
@@ -2527,27 +3012,187 @@ function updateSEO() {
   const mt = document.getElementById('ed-meta-title').value.trim();
   const md = document.getElementById('ed-meta-desc').value.trim();
   const wc = parseInt(document.getElementById('wp-wc').textContent)||0;
-  let score=0, chks={};
-  chks.kw = kw.length>0; if(chks.kw) score+=25;
-  chks.kwt = kw && title.toLowerCase().includes(kw); if(chks.kwt) score+=25;
-  chks.mtl = mt.length>=20 && mt.length<=60; if(chks.mtl) score+=15;
-  chks.md = md.length>=50; if(chks.md) score+=20;
-  chks.wc = wc>=300; if(chks.wc) score+=15;
+  const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value || 'guide';
+  
+  const html = quill ? quill.root.innerHTML : '';
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  
+  let score = 0, chks = {};
+  
+  // 1. Focus Keyword Added (10 pts)
+  chks.kw = kw.length > 0;
+  if (chks.kw) score += 10;
+  
+  // 2. Keyword in Title (10 pts)
+  chks.kwt = kw && title.toLowerCase().includes(kw);
+  if (chks.kwt) score += 10;
+  
+  // 3. Meta Title Length (10 pts)
+  chks.mtl = mt.length >= 20 && mt.length <= 60;
+  if (chks.mtl) score += 10;
+  
+  // 4. Meta Description Length (10 pts)
+  chks.md = md.length >= 110 && md.length <= 160;
+  if (chks.md) score += 10;
+  
+  let items = [];
+  
+  if (postType === 'guide') {
+    // === GUIDE (Informational evergreen blog) SEO engine ===
+    // 5. Word Count (500+ words for guides) (10 pts)
+    chks.wc = wc >= 500;
+    if (chks.wc) score += 10;
+    
+    // 6. Multi-Constraint Long-Tail Headings (15 pts)
+    const guideHeadings = tempDiv.querySelectorAll('h2, h3');
+    let hasLongTailHeading = false;
+    const constraintWords = ['how', 'optimize', 'for', 'using', 'with', 'setup', 'configured', 'implement', 'integrate'];
+    for (let h of guideHeadings) {
+      const text = h.textContent.trim().toLowerCase();
+      const words = text.split(/\s+/).filter(Boolean);
+      if (words.length >= 5 && constraintWords.some(cw => text.includes(cw))) {
+        hasLongTailHeading = true;
+        break;
+      }
+    }
+    chks.qfirst = hasLongTailHeading;
+    if (chks.qfirst) score += 15;
+    
+    // 7. Semantic Answer Node (<40 words directly below H2/H3 question) (15 pts)
+    const guideQuestions = tempDiv.querySelectorAll('h2, h3');
+    let hasSemanticNode = false;
+    for (let h of guideQuestions) {
+      const text = h.textContent.trim();
+      if (text.endsWith('?')) {
+        let next = h.nextElementSibling;
+        while (next && next.tagName !== 'P' && !next.tagName.startsWith('H')) {
+          next = next.nextElementSibling;
+        }
+        if (next && next.tagName === 'P') {
+          const pWords = next.textContent.trim().split(/\s+/).filter(Boolean).length;
+          if (pWords > 0 && pWords <= 40) {
+            hasSemanticNode = true;
+            break;
+          }
+        }
+      }
+    }
+    chks.table = hasSemanticNode;
+    if (chks.table) score += 15;
+    
+    // 8. Topical Hub-and-Spoke Interlinking (Descriptive anchor link) (10 pts)
+    const links = tempDiv.querySelectorAll('a');
+    let hasDescriptiveLink = false;
+    for (let a of links) {
+      const text = a.textContent.trim().toLowerCase();
+      const words = text.split(/\s+/).filter(Boolean);
+      const isGeneric = ['click here', 'read more', 'learn more', 'source', 'link'].some(g => text.includes(g));
+      if (words.length >= 3 && !isGeneric) {
+        hasDescriptiveLink = true;
+        break;
+      }
+    }
+    chks.bold = hasDescriptiveLink;
+    if (chks.bold) score += 10;
+    
+    // 9. NLP Entity Bolding & Table inclusion (10 pts)
+    const hasBolding = tempDiv.querySelector('strong, b') !== null;
+    const hasTable = tempDiv.querySelector('table') !== null;
+    chks.eeat = hasBolding && hasTable;
+    if (chks.eeat) score += 10;
+    
+    items = [
+      ['chk-kw', chks.kw, 'Focus keyword added', 'Add a focus keyword'],
+      ['chk-kw-title', chks.kwt, 'Keyword in title', 'Use keyword in post title'],
+      ['chk-mt-len', chks.mtl, 'Meta title 20–60 chars', 'Meta title 20–60 chars'],
+      ['chk-md', chks.md, 'Meta description 110–160 chars', 'Meta description 110–160 chars recommended'],
+      ['chk-wc', chks.wc, 'Content has 500+ words (Evergreen Moat standard)', '500+ words recommended for evergreen content'],
+      ['chk-qfirst', chks.qfirst, 'Multi-Constraint Long-Tail heading (5+ words with contextual terms) included', 'Multi-Constraint long-tail subheading recommended'],
+      ['chk-table', chks.table, '"Semantic Answer Node" (under 40-word paragraph below question heading) included', '"Semantic Answer Node" under 40-word paragraph recommended'],
+      ['chk-bold', chks.bold, 'Topical Hub-and-Spoke descriptive anchor link included', 'Descriptive anchor hyperlink (3+ words, non-generic) recommended'],
+      ['chk-eeat', chks.eeat, 'NLP Bolding (strong/b) & Structured Table both included', 'Entity bolding and structured HTML table recommended']
+    ];
+  } else {
+    // === NEWS (Breaking real-time updates) SEO engine ===
+    // 5. Word Count (300+ words for news) (10 pts)
+    chks.wc = wc >= 300;
+    if (chks.wc) score += 10;
+    
+    // 6. Question-First H2/H3 + under 40-word Answer Block (15 pts)
+    const headings = tempDiv.querySelectorAll('h2, h3');
+    let hasQFirst = false;
+    for (let h of headings) {
+      const text = h.textContent.trim();
+      if (text.endsWith('?')) {
+        let next = h.nextElementSibling;
+        while (next && next.tagName !== 'P' && !next.tagName.startsWith('H')) {
+          next = next.nextElementSibling;
+        }
+        if (next && next.tagName === 'P') {
+          const pWords = next.textContent.trim().split(/\s+/).filter(Boolean).length;
+          if (pWords > 0 && pWords <= 40) {
+            hasQFirst = true;
+            break;
+          }
+        }
+      }
+    }
+    chks.qfirst = hasQFirst;
+    if (chks.qfirst) score += 15;
+    
+    // 7. Structured Data Table (15 pts)
+    chks.table = tempDiv.querySelector('table') !== null;
+    if (chks.table) score += 15;
+    
+    // 8. NLP Entity Bolding (10 pts)
+    chks.bold = tempDiv.querySelector('strong, b') !== null;
+    if (chks.bold) score += 10;
+    
+    // 9. E-E-A-T Lived Experience / Quote Block (10 pts)
+    const textContent = tempDiv.textContent.toLowerCase();
+    const livedExpPhrases = [
+      'our data shows',
+      'in our field testing',
+      'according to our interview with',
+      'our experience',
+      'we found',
+      'our testing',
+      'based on our'
+    ];
+    const hasLivedExp = livedExpPhrases.some(phrase => textContent.includes(phrase));
+    const hasBlockquote = tempDiv.querySelector('blockquote') !== null;
+    chks.eeat = hasLivedExp || hasBlockquote;
+    if (chks.eeat) score += 10;
+    
+    items = [
+      ['chk-kw', chks.kw, 'Focus keyword added', 'Add a focus keyword'],
+      ['chk-kw-title', chks.kwt, 'Keyword in title', 'Use keyword in post title'],
+      ['chk-mt-len', chks.mtl, 'Meta title 20–60 chars', 'Meta title 20–60 chars'],
+      ['chk-md', chks.md, 'Meta description 110–160 chars', 'Meta description 110–160 chars recommended'],
+      ['chk-wc', chks.wc, 'Content has 300+ words', '300+ words recommended'],
+      ['chk-qfirst', chks.qfirst, '"Question-First" H2/H3 + short answer (under 40 words) included', '"Question-First" H2/H3 + short answer recommended'],
+      ['chk-table', chks.table, 'Structured data table included', 'HTML table for specifications/comparisons recommended'],
+      ['chk-bold', chks.bold, 'NLP Entity Bolding present', 'Bold critical entities (strong/b) for extraction speed'],
+      ['chk-eeat', chks.eeat, 'E-E-A-T / Human signature phrase or quotes added', 'Lived experience phrases or quotes recommended']
+    ];
+  }
+  
+  // Update score UI
   document.getElementById('seo-score-num').textContent = score;
-  document.getElementById('seo-mini-score').textContent = score+'/100';
+  document.getElementById('seo-mini-score').textContent = score + '/100';
   const fill = document.getElementById('seo-score-fill');
-  fill.style.width = score+'%';
-  fill.style.background = score>=70?'#22c55e':score>=40?'#f59e0b':'#ef4444';
-  const items = [
-    ['chk-kw', chks.kw, 'Focus keyword added', 'Add a focus keyword'],
-    ['chk-kw-title', chks.kwt, 'Keyword in title', 'Use keyword in post title'],
-    ['chk-mt-len', chks.mtl, 'Meta title 20–60 chars', 'Meta title 20–60 chars'],
-    ['chk-md', chks.md, 'Meta description added (50+ chars)', 'Add meta description (50+ chars)'],
-    ['chk-wc', chks.wc, 'Content has 300+ words', '300+ words recommended']
-  ];
+  if (fill) {
+    fill.style.width = score + '%';
+    fill.style.background = score >= 80 ? '#22c55e' : score >= 50 ? '#f59e0b' : '#ef4444';
+  }
+  
   items.forEach(([id, pass, ok, fail]) => {
     const el = document.getElementById(id);
-    if (el) { el.textContent = (pass?'✅ ':'⬜ ') + (pass?ok:fail); el.className = 'wp-seo-check '+(pass?'passed':'pending'); }
+    if (el) {
+      el.innerHTML = (pass ? '✅ ' : '⬜ ') + (pass ? ok : fail);
+      el.className = 'wp-seo-check ' + (pass ? 'passed' : 'pending');
+    }
   });
 }
 
@@ -2852,8 +3497,8 @@ window.loadSettings = function(type) {
     // Load Live DB and Cloudinary configs
     document.getElementById('g-supabase-url').value = localStorage.getItem('supabase_url') || '';
     document.getElementById('g-supabase-key').value = localStorage.getItem('supabase_key') || '';
-    document.getElementById('g-cloudinary-name').value = localStorage.getItem('cloudinary_name') || '';
-    document.getElementById('g-cloudinary-preset').value = localStorage.getItem('cloudinary_preset') || '';
+    document.getElementById('g-cloudinary-name').value = localStorage.getItem('cloudinary_name') || 'swkp0ujs';
+    document.getElementById('g-cloudinary-preset').value = localStorage.getItem('cloudinary_preset') || 'developerbilaspur';
   }
   
   if (type === 'writing') {
@@ -2964,10 +3609,41 @@ window.saveAllSettings = function(e, type) {
     updated.weekStart = document.getElementById('g-week-start').value;
     
     // Save Live DB and Cloudinary configs
-    localStorage.setItem('supabase_url', document.getElementById('g-supabase-url').value.trim());
-    localStorage.setItem('supabase_key', document.getElementById('g-supabase-key').value.trim());
-    localStorage.setItem('cloudinary_name', document.getElementById('g-cloudinary-name').value.trim());
-    localStorage.setItem('cloudinary_preset', document.getElementById('g-cloudinary-preset').value.trim());
+    const dbUrl = document.getElementById('g-supabase-url').value.trim();
+    const dbKey = document.getElementById('g-supabase-key').value.trim();
+    const cloudName = document.getElementById('g-cloudinary-name').value.trim();
+    const preset = document.getElementById('g-cloudinary-preset').value.trim();
+
+    localStorage.setItem('supabase_url', dbUrl);
+    localStorage.setItem('supabase_key', dbKey);
+    localStorage.setItem('cloudinary_name', cloudName);
+    localStorage.setItem('cloudinary_preset', preset);
+
+    // Save to Supabase User Metadata in background if logged in!
+    const sessionToken = localStorage.getItem('supabase_session_token');
+    if (sessionToken) {
+      const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+      const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+      
+      fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
+        method: 'PUT',
+        headers: {
+          'apikey': key,
+          'Authorization': `Bearer ${sessionToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: {
+            displayName: localStorage.getItem('admin_user_name') || 'wrobr27',
+            role: localStorage.getItem('admin_user_role') || 'admin',
+            cloudinary_name: cloudName,
+            cloudinary_preset: preset
+          }
+        })
+      }).then(r => {
+        if (r.ok) console.log('Cloudinary settings backed up to Supabase User Metadata successfully!');
+      }).catch(err => console.error('Failed to back up settings to Supabase:', err));
+    }
   }
   
   if (type === 'writing') {
@@ -3217,6 +3893,39 @@ window.renderDemos = async function() {
   `).join('');
 };
 
+window.showDemoImg = function(url) {
+  document.getElementById('demo-ed-image').value = url;
+  const preview = document.getElementById('demo-img-preview');
+  const thumb = document.getElementById('demo-img-thumb');
+  const empty = document.getElementById('demo-img-empty');
+  
+  if (thumb) thumb.src = url;
+  if (preview) preview.style.display = 'block';
+  if (empty) empty.style.display = 'none';
+};
+
+window.removeDemoImg = function(silent) {
+  document.getElementById('demo-ed-image').value = '';
+  const preview = document.getElementById('demo-img-preview');
+  const thumb = document.getElementById('demo-img-thumb');
+  const empty = document.getElementById('demo-img-empty');
+  
+  if (thumb) thumb.src = '';
+  if (preview) preview.style.display = 'none';
+  if (empty) empty.style.display = 'block';
+  if (!silent) showToast('Cover image removed.');
+};
+
+window.setDemoImgFromUrl = function() {
+  const url = document.getElementById('demo-ed-image').value.trim();
+  if (!url) {
+    alert('Please paste a valid image URL first.');
+    return;
+  }
+  window.showDemoImg(url);
+  showToast('Cover image set successfully!');
+};
+
 window.openNewDemo = function() {
   editingDemoId = null;
   document.getElementById('demo-editor-bar-title').textContent = 'Add New Demo';
@@ -3225,8 +3934,8 @@ window.openNewDemo = function() {
   document.getElementById('demo-ed-url').value = '';
   document.getElementById('demo-ed-category').value = 'ecommerce';
   document.getElementById('demo-ed-emoji').value = '🌐';
-  document.getElementById('demo-ed-image').value = '';
   document.getElementById('demo-ed-priority').value = '10';
+  window.removeDemoImg(true);
   switchTab('demo-editor');
 };
 
@@ -3247,8 +3956,13 @@ window.editDemo = async function(id) {
   document.getElementById('demo-ed-url').value = d.url || '';
   document.getElementById('demo-ed-category').value = d.category || 'ecommerce';
   document.getElementById('demo-ed-emoji').value = d.emoji || '🌐';
-  document.getElementById('demo-ed-image').value = d.image || '';
   document.getElementById('demo-ed-priority').value = d.priority || '10';
+
+  if (d.image) {
+    window.showDemoImg(d.image);
+  } else {
+    window.removeDemoImg(true);
+  }
 
   switchTab('demo-editor');
 };
@@ -3273,13 +3987,19 @@ window.saveDemo = async function() {
 
   const demoData = { title, desc, url, category, emoji, image, priority };
 
-  if (editingDemoId) {
-    await db.saveDemo({ id: editingDemoId, ...demoData });
-    showToast('✅ Demo updated successfully!');
-  } else {
-    const id = 'demo-' + Date.now();
-    await db.saveDemo({ id, ...demoData });
-    showToast('✅ Demo published successfully!');
+  try {
+    if (editingDemoId) {
+      await db.saveDemo({ id: editingDemoId, ...demoData });
+      showToast('✅ Demo updated successfully!');
+    } else {
+      const id = 'demo-' + Date.now();
+      await db.saveDemo({ id, ...demoData });
+      showToast('✅ Demo published successfully!');
+    }
+  } catch (err) {
+    console.error('Error saving demo:', err);
+    alert('Error saving demo: ' + err.message + '\n\nMake sure your Supabase URL and Key are correct in Settings -> General Settings.');
+    return;
   }
 
   closeDemoEditor();
@@ -3291,6 +4011,24 @@ window.deleteDemo = async function(id) {
   await db.deleteDemo(id);
   showToast('🗑️ Demo deleted successfully!');
   await renderDemos();
+};
+
+window.trashDemoCurrent = async function() {
+  if (!editingDemoId) {
+    closeDemoEditor();
+    return;
+  }
+  await window.deleteDemo(editingDemoId);
+  closeDemoEditor();
+};
+
+window.previewDemo = function() {
+  const url = document.getElementById('demo-ed-url').value.trim();
+  if (!url) {
+    alert('Please enter a Preview URL first.');
+    return;
+  }
+  window.open(url, '_blank');
 };
 
 // ==================================================================
@@ -3313,8 +4051,8 @@ function showToast(msg) {
 
 // Cloudinary Upload Widget handler
 window.openCloudinaryWidget = function(targetInputId, previewImgId) {
-  const cloudName = localStorage.getItem('cloudinary_name') || '';
-  const preset = localStorage.getItem('cloudinary_preset') || '';
+  const cloudName = localStorage.getItem('cloudinary_name') || 'swkp0ujs';
+  const preset = localStorage.getItem('cloudinary_preset') || 'developerbilaspur';
   if (!cloudName || !preset) {
     alert('⚠️ Please configure your Cloudinary Cloud Name and Upload Preset in settings first!');
     switchTab('settings-general');
@@ -3341,10 +4079,21 @@ window.openCloudinaryWidget = function(targetInputId, previewImgId) {
       if (targetInputId === 'featimg-url') {
         setFeatImg();
       }
+      if (targetInputId === 'demo-ed-image') {
+        window.showDemoImg(webpUrl);
+      }
       showToast('🖼️ Image uploaded successfully to Cloudinary!');
     }
   });
   myWidget.open();
+};
+
+window.triggerFeaturedImageUpload = function() {
+  document.getElementById('featimg-file-uploader').click();
+};
+
+window.triggerDemoImageUpload = function() {
+  document.getElementById('demo-file-uploader').click();
 };
 
 // ==================================================================
@@ -3458,10 +4207,386 @@ function triggerDownload(content, filename, contentType) {
   document.body.removeChild(a);
 }
 
+const auth = {
+  async signUp(email, password, displayName, role) {
+    const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+    const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+    
+    const res = await fetch(`${url.replace(/\/$/, '')}/auth/v1/signup`, {
+      method: 'POST',
+      headers: {
+        'apikey': key,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        data: {
+          displayName,
+          role
+        }
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.msg || err.message || 'Registration failed');
+    }
+    return res.json();
+  },
+
+  async signIn(email, password) {
+    const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+    const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+
+    const res = await fetch(`${url.replace(/\/$/, '')}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: {
+        'apikey': key,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.msg || err.error_description || err.message || 'Login failed');
+    }
+    return res.json();
+  },
+
+  async logout() {
+    const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+    const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+    const token = localStorage.getItem('supabase_session_token');
+    
+    if (token) {
+      await fetch(`${url.replace(/\/$/, '')}/auth/v1/logout`, {
+        method: 'POST',
+        headers: {
+          'apikey': key,
+          'Authorization': `Bearer ${token}`
+        }
+      }).catch(() => {});
+    }
+    
+    localStorage.removeItem('supabase_session_token');
+    localStorage.removeItem('admin_user_role');
+    localStorage.removeItem('admin_user_name');
+    location.reload();
+  }
+};
+
+window.adminLogout = function() {
+  auth.logout();
+};
+
 // ==================================================================
 // INIT
 // ==================================================================
 (async function(){
+  // Bind Logout Button
+  document.getElementById('admin-logout-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if(confirm('Are you sure you want to log out?')) window.adminLogout();
+  });
+
+  // Bind Password Visibility Toggles
+  document.querySelectorAll('.password-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = btn.dataset.target;
+      const input = document.getElementById(targetId);
+      if (!input) return;
+      
+      const isPass = input.type === 'password';
+      input.type = isPass ? 'text' : 'password';
+      
+      const eyeOff = btn.querySelector('.eye-off');
+      const eyeOn = btn.querySelector('.eye-on');
+      if (eyeOff) eyeOff.style.display = isPass ? 'none' : 'block';
+      if (eyeOn) eyeOn.style.display = isPass ? 'block' : 'none';
+    });
+  });
+
+  // Bind Demo local file uploader
+  document.getElementById('demo-file-uploader')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const cloudName = localStorage.getItem('cloudinary_name') || 'swkp0ujs';
+    const preset = localStorage.getItem('cloudinary_preset') || 'developerbilaspur';
+    
+    if (cloudName && preset) {
+      showToast('☁️ Uploading to Cloudinary...');
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', preset);
+        
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error?.message || `Server returned status ${res.status}`);
+        }
+        const data = await res.json();
+        window.showDemoImg(data.secure_url);
+        showToast('🖼️ Uploaded to Cloudinary successfully!');
+      } catch(err) {
+        alert('Cloudinary upload failed: ' + err.message + '. Saving locally as Base64 fallback.');
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          window.showDemoImg(evt.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      if (file.size > 1.5 * 1024 * 1024) {
+        alert('⚠️ Image size must be less than 1.5MB to optimize database performance.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        window.showDemoImg(evt.target.result);
+        showToast('Image saved locally.');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Bind Post Featured Image local uploader
+  document.getElementById('featimg-file-uploader')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const cloudName = localStorage.getItem('cloudinary_name') || 'swkp0ujs';
+    const preset = localStorage.getItem('cloudinary_preset') || 'developerbilaspur';
+
+    if (cloudName && preset) {
+      showToast('☁️ Uploading to Cloudinary...');
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', preset);
+        
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error?.message || `Server returned status ${res.status}`);
+        }
+        const data = await res.json();
+        
+        document.getElementById('featimg-url').value = data.secure_url;
+        window.showFeatImg(data.secure_url);
+        showToast('🖼️ Uploaded to Cloudinary successfully!');
+      } catch(err) {
+        alert('Cloudinary upload failed: ' + err.message + '. Saving locally as Base64 fallback.');
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          document.getElementById('featimg-url').value = evt.target.result;
+          window.showFeatImg(evt.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      if (file.size > 1.5 * 1024 * 1024) {
+        alert('⚠️ Image size must be less than 1.5MB to optimize database performance.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('featimg-url').value = evt.target.result;
+        window.showFeatImg(evt.target.result);
+        showToast('Image saved locally.');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Bind Quill editor middle-of-post Add Media uploader
+  document.getElementById('quill-media-uploader')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const cloudName = localStorage.getItem('cloudinary_name') || 'swkp0ujs';
+    const preset = localStorage.getItem('cloudinary_preset') || 'developerbilaspur';
+
+    showToast('☁️ Uploading media image...');
+    let imageUrl = '';
+
+    try {
+      if (cloudName && preset) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', preset);
+        
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error?.message || `Server returned status ${res.status}`);
+        }
+        const data = await res.json();
+        imageUrl = data.secure_url;
+      } else {
+        if (file.size > 1.5 * 1024 * 1024) {
+          alert('⚠️ Image size must be less than 1.5MB to optimize database performance.');
+          return;
+        }
+        imageUrl = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (evt) => resolve(evt.target.result);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (imageUrl) {
+        // Insert in Visual editor (Quill)
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, 'image', imageUrl);
+        quill.setSelection(range.index + 1);
+        
+        // Sync to Code editor textarea too!
+        const codeTextarea = document.getElementById('code-editor');
+        if (codeTextarea) {
+          const imgHtml = `<img src="${imageUrl}" alt="Uploaded image" style="max-width:100%; height:auto;" />`;
+          const startPos = codeTextarea.selectionStart;
+          const endPos = codeTextarea.selectionEnd;
+          const text = codeTextarea.value;
+          codeTextarea.value = text.substring(0, startPos) + imgHtml + text.substring(endPos);
+        }
+        showToast('🖼️ Media inserted successfully!');
+      }
+    } catch (err) {
+      alert('Failed to upload and insert media: ' + err.message);
+    }
+  });
+
+  // Auth Guard / Overlay checks
+  const isSupabaseConfigured = useSupabase();
+  const sessionToken = localStorage.getItem('supabase_session_token');
+  const loginOverlay = document.getElementById('admin-login-overlay');
+
+  if (isSupabaseConfigured && !sessionToken) {
+    if (loginOverlay) loginOverlay.style.display = 'flex';
+  } else {
+    if (loginOverlay) loginOverlay.style.display = 'none';
+    
+    // Sync settings from Supabase Auth User Metadata on load if available
+    if (sessionToken) {
+      const url = localStorage.getItem('supabase_url') || 'https://cfafqmzyovtuyvffwthx.supabase.co';
+      const key = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+      
+      fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
+        headers: {
+          'apikey': key,
+          'Authorization': `Bearer ${sessionToken}`
+        }
+      })
+      .then(res => res.json())
+      .then(user => {
+        if (user && user.user_metadata) {
+          const uMeta = user.user_metadata;
+          let changed = false;
+          if (uMeta.cloudinary_name && localStorage.getItem('cloudinary_name') !== uMeta.cloudinary_name) {
+            localStorage.setItem('cloudinary_name', uMeta.cloudinary_name);
+            changed = true;
+          }
+          if (uMeta.cloudinary_preset && localStorage.getItem('cloudinary_preset') !== uMeta.cloudinary_preset) {
+            localStorage.setItem('cloudinary_preset', uMeta.cloudinary_preset);
+            changed = true;
+          }
+          if (uMeta.role && localStorage.getItem('admin_user_role') !== uMeta.role) {
+            localStorage.setItem('admin_user_role', uMeta.role);
+            changed = true;
+          }
+          if (uMeta.displayName && localStorage.getItem('admin_user_name') !== uMeta.displayName) {
+            localStorage.setItem('admin_user_name', uMeta.displayName);
+            changed = true;
+          }
+          
+          if (changed) {
+            window.applyRoleLimits();
+            const cloudNameInput = document.getElementById('g-cloudinary-name');
+            const cloudPresetInput = document.getElementById('g-cloudinary-preset');
+            if (cloudNameInput) cloudNameInput.value = uMeta.cloudinary_name || '';
+            if (cloudPresetInput) cloudPresetInput.value = uMeta.cloudinary_preset || '';
+          }
+        }
+      })
+      .catch(err => console.error('Error fetching user metadata:', err));
+    }
+  }
+
+  // Bind Login/Signup form switch links
+  document.getElementById('go-to-signup')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('signup-form').style.display = 'block';
+  });
+  document.getElementById('go-to-login')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('signup-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
+  });
+
+  // Bind Login Form Submission
+  document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pass = document.getElementById('login-password').value;
+    const btn = e.target.querySelector('button[type="submit"]');
+    
+    try {
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+      const data = await auth.signIn(email, pass);
+      
+      localStorage.setItem('supabase_session_token', data.access_token);
+      localStorage.setItem('admin_user_role', data.user.user_metadata?.role || 'contributor');
+      localStorage.setItem('admin_user_name', data.user.user_metadata?.displayName || 'Dev Bilaspur');
+      
+      showToast('🔑 Login successful!');
+      setTimeout(() => location.reload(), 800);
+    } catch(err) {
+      alert('Error: ' + err.message);
+      btn.disabled = false;
+      btn.textContent = 'Log In';
+    }
+  });
+
+  // Bind Signup Form Submission
+  document.getElementById('signup-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const pass = document.getElementById('signup-password').value;
+    const role = document.getElementById('signup-role').value;
+    const btn = e.target.querySelector('button[type="submit"]');
+
+    try {
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+      await auth.signUp(email, pass, name, role);
+      
+      alert('Account created successfully! You can now log in using your credentials.');
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+    } catch(err) {
+      alert('Error: ' + err.message);
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+    }
+  });
+
   initDefaults();
   
   const s = getSettings();
@@ -3475,7 +4600,8 @@ function triggerDownload(content, filename, contentType) {
       localStorage.setItem('admin_user_role', switcher.value);
       window.applyRoleLimits();
       refreshDashboard();
-      renderPosts();
+      renderPostList('guide');
+      renderPostList('news');
       
       // Auto-redirect if on a disallowed tab
       const activeTabBtn = document.querySelector('.admin-nav-btn.active, .wp-nav-sub-btn.active');
@@ -3486,8 +4612,39 @@ function triggerDownload(content, filename, contentType) {
     });
   }
   
+  // Bind Guides Search & Bulk Actions
+  const btnSearchGuides = document.getElementById('btn-search-guides');
+  if (btnSearchGuides) btnSearchGuides.addEventListener('click', () => window.doGuideSearch());
+  const searchInputGuides = document.getElementById('guide-search');
+  if (searchInputGuides) searchInputGuides.addEventListener('keydown', (e) => { if (e.key === 'Enter') window.doGuideSearch(); });
+  const btnApplyGuides = document.getElementById('apply-bulk-guides');
+  if (btnApplyGuides) btnApplyGuides.addEventListener('click', () => window.bulkPostAction());
+  const btnAddGuides = document.getElementById('guides-page-add-btn');
+  if (btnAddGuides) btnAddGuides.addEventListener('click', () => window.openNewPost('guide'));
+
+  // Bind News Search & Bulk Actions
+  const btnSearchNews = document.getElementById('btn-search-news');
+  if (btnSearchNews) btnSearchNews.addEventListener('click', () => window.doNewsSearch());
+  const searchInputNews = document.getElementById('news-search');
+  if (searchInputNews) searchInputNews.addEventListener('keydown', (e) => { if (e.key === 'Enter') window.doNewsSearch(); });
+  const btnApplyNews = document.getElementById('apply-bulk-news');
+  if (btnApplyNews) btnApplyNews.addEventListener('click', () => window.bulkPostAction());
+  const btnAddNews = document.getElementById('news-page-add-btn');
+  if (btnAddNews) btnAddNews.addEventListener('click', () => window.openNewPost('news'));
+  
+  // Bind Post Type Switcher dynamically
+  document.querySelectorAll('input[name="ed-post-type"]').forEach(rad => {
+    rad.addEventListener('change', (e) => {
+      currentAdminPostType = e.target.value;
+      const sel = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
+      renderCatCheckboxes(sel);
+      updateSEO();
+    });
+  });
+
   await refreshDashboard();
-  await renderPosts();
+  await renderPostList('guide');
+  await renderPostList('news');
   await window.renderDemos();
   renderCatCheckboxes([]);
   updateAuthorDD();

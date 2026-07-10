@@ -19,6 +19,13 @@
     <meta property="og:description" id="og-desc" content="Developer Bilaspur Blog." />
     <meta property="og:url" id="og-url" content="https://developerbilaspur.in/blog-detail.html" />
     <meta property="og:image" id="og-image" content="https://developerbilaspur.in/proof.png" />
+    <meta property="og:locale" content="hi_IN" />
+    <meta property="og:image:width" id="og-img-width" content="1200" />
+    <meta property="og:image:height" id="og-img-height" content="675" />
+    <meta property="og:image:type" id="og-img-type" content="image/jpeg" />
+    <meta property="article:published_time" id="art-pub-time" content="" />
+    <meta property="article:modified_time" id="art-mod-time" content="" />
+    <meta property="article:section" id="art-section" content="" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" id="twitter-title" content="Blog | Developer Bilaspur" />
     <meta name="twitter:description" id="twitter-desc" content="Developer Bilaspur Blog." />
@@ -126,33 +133,52 @@
               <p style="color: var(--text-light); font-style: italic;">Loading article...</p>
             </div>
 
-            <!-- CTA Box (Backlinko conversion box inside article) -->
-            <div class="article-inline-cta">
-              <p class="article-inline-cta-text">Kya aap bhi Bilaspur me apne business ke liye premium website banana chahte hain?</p>
-              <a href="https://wa.me/918224005193?text=Hello!%20Website%20ke%20baare%20mein%20baat%20karni%20hai." class="article-cta-btn">WhatsApp Par Baat Karein →</a>
-            </div>
+            <!-- Developer Bilaspur Branded CTA (NOT part of article) -->
+            <aside class="article-inline-cta" aria-label="Advertisement from Developer Bilaspur">
+              <!-- Brand Header -->
+              <div class="article-cta-brand-row">
+                <img src="/logo.png" alt="Developer Bilaspur" class="article-cta-brand-logo" />
+                <div class="article-cta-brand-text">
+                  <span class="article-cta-brand-name">Developer<span>Bilaspur</span></span>
+                  <span class="article-cta-brand-tag">Bilaspur Ka Web Partner</span>
+                </div>
+                <span class="article-cta-ad-label">Promoted</span>
+              </div>
+              <!-- Content Wrapper for Dynamic Injection -->
+              <div id="article-cta-container" style="width: 100%; display: flex; flex-direction: column; gap: 16px; align-items: flex-start;">
+                <span class="article-inline-cta-badge">Grow Your Business Online 🚀</span>
+                <h3 class="article-inline-cta-title">Apne business ko digital catalog aur orders ke sath online laayein!</h3>
+                <p class="article-inline-cta-desc">Hum Chhattisgarh ke local stores aur services ke liye modern web design aur Google local search optimization (SEO) automation setup karte hain.</p>
+                <ul class="article-inline-cta-list">
+                  <li>Custom design aur fast loading website jo search result me top par aaye</li>
+                  <li>WhatsApp lead capture system aur interactive features integrated</li>
+                  <li>Full local support aur optimization taaki customers direct contact karein</li>
+                </ul>
+                <a href="https://wa.me/918224005193?text=Hello!%20Website%20ke%20baare%20mein%20baat%20karni%20hai." class="article-cta-btn">WhatsApp Par Baat Karein →</a>
+              </div>
+            </aside>
 
             <!-- Author Biography Card (E-E-A-T Signal) -->
-            <div class="article-author-card" style="display: flex; gap: 20px; background: rgba(15, 23, 42, 0.02); border: 1px solid var(--border-color); padding: 24px; border-radius: 12px; margin-top: 40px; align-items: center; text-align: left;">
-              <div class="author-avatar" style="width: 60px; height: 60px; border-radius: 50%; background: var(--color-accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; flex-shrink: 0; font-weight: 700; box-shadow: 0 4px 10px rgba(72, 184, 152, 0.2);">
+            <div class="article-author-card">
+              <div class="author-avatar">
                 DB
               </div>
-              <div class="author-bio-info" style="display: flex; flex-direction: column; gap: 6px;">
-                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              <div class="author-bio-info">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                   <strong style="color: var(--text-dark); font-size: 1.05rem;" id="bio-author-name">Dev Bilaspur</strong>
-                  <span style="display: inline-flex; align-items: center; justify-content: center; background: #e0f2fe; color: #0284c7; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; gap: 2px;">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block; vertical-align:middle;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified Author
+                  <span class="author-badge-verified">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right: 2px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified Author
                   </span>
                 </div>
-                <p style="font-size: 0.85rem; color: var(--text-light); margin: 0; line-height: 1.5;">
+                <p style="font-size: 0.88rem; color: var(--text-light); margin: 0; line-height: 1.6;">
                   Dev Bilaspur is a professional web engineer & local SEO strategist. He builds high-speed search-optimized web pipelines and WhatsApp booking automations for retail businesses and services in Chhattisgarh.
                 </p>
-                <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 0.75rem;">
-                  <a href="/author-dev-bilaspur.html" style="color: var(--color-accent); font-weight: 600; text-decoration: none;">View Full Profile & Credentials</a>
-                  <span style="color: var(--border-color);">|</span>
-                  <a href="https://wa.me/918224005193" style="color: var(--color-accent); font-weight: 600; text-decoration: none;">WhatsApp Contact</a>
-                  <span style="color: var(--border-color);">|</span>
-                  <a href="mailto:support@developerbilaspur.in" style="color: var(--color-accent); font-weight: 600; text-decoration: none;">Email Support</a>
+                <div class="author-links-row">
+                  <a href="/author-dev-bilaspur.html" class="author-link-item">View Full Profile & Credentials</a>
+                  <span class="author-link-sep">•</span>
+                  <a href="https://wa.me/918224005193" class="author-link-item">WhatsApp Contact</a>
+                  <span class="author-link-sep">•</span>
+                  <a href="mailto:support@developerbilaspur.in" class="author-link-item">Email Support</a>
                 </div>
               </div>
             </div>
@@ -263,7 +289,8 @@
     </div>
 
     <!-- Article Renderer & Reading Progress Script -->
-    <script>
+    <script type="module">
+      import { db } from '/src/db-client.js';
       // Default articles content database
       const DEFAULT_CONTENT = {
         'default-1': {
@@ -420,7 +447,10 @@
         const twDescEl     = document.getElementById('twitter-desc');
         const twImageEl    = document.getElementById('twitter-image');
 
-        if (titleEl) titleEl.textContent = data.title;
+        if (titleEl) {
+          const formatIcon = data.format === 'video' ? '🎥 ' : (data.format === 'audio' ? '🎵 ' : '');
+          titleEl.textContent = formatIcon + data.title;
+        }
         if (tagEl) tagEl.textContent = getCategoryName(data.category);
         if (emojiEl) emojiEl.textContent = data.emoji || '📄';
         if (authorEl) authorEl.textContent = data.author;
@@ -446,9 +476,44 @@
         if (ogImageEl) ogImageEl.setAttribute('content', shareImg);
         if (twImageEl) twImageEl.setAttribute('content', shareImg);
 
+        // Update Discover dimensions and type
+        const widthEl = document.getElementById('og-img-width');
+        const heightEl = document.getElementById('og-img-height');
+        const typeEl = document.getElementById('og-img-type');
+        if (widthEl) widthEl.setAttribute('content', '1200');
+        if (heightEl) heightEl.setAttribute('content', '675');
+        if (typeEl) {
+          const ext = shareImg.split('.').pop().toLowerCase();
+          const mime = ext === 'png' ? 'image/png' : (ext === 'webp' ? 'image/webp' : 'image/jpeg');
+          typeEl.setAttribute('content', mime);
+        }
+
+        // Discover Publishing Transparency
+        const pubTime = data.publishedAt || new Date().toISOString();
+        const modTime = data.updatedAt || pubTime;
+        const artPubEl = document.getElementById('art-pub-time');
+        const artModEl = document.getElementById('art-mod-time');
+        const artSecEl = document.getElementById('art-section');
+        if (artPubEl) artPubEl.setAttribute('content', pubTime);
+        if (artModEl) artModEl.setAttribute('content', modTime);
+        if (artSecEl) artSecEl.setAttribute('content', getCategoryName(data.category));
+
+        // Dynamic tag injection for Discover UI card categories
+        document.querySelectorAll('meta[property="article:tag"]').forEach(el => el.remove());
+        const tagsList = Array.isArray(data.tags) ? data.tags : (data.excerpt ? data.excerpt.split(' ').slice(0, 3) : ['Web', 'SEO']);
+        tagsList.forEach(t => {
+          const cleaned = t.replace(/[^\w\s\u0900-\u097F]/gi, '').trim();
+          if (cleaned) {
+            const meta = document.createElement('meta');
+            meta.setAttribute('property', 'article:tag');
+            meta.setAttribute('content', cleaned);
+            document.head.appendChild(meta);
+          }
+        });
+
         // Dynamic Related Demo CTA injection (binds blog categories to website templates)
-        const ctaBox = document.querySelector('.article-inline-cta');
-        if (ctaBox) {
+        const ctaContainer = document.getElementById('article-cta-container');
+        if (ctaContainer) {
           const rawDemos = localStorage.getItem('devbilaspur-demos');
           if (rawDemos) {
             const demos = JSON.parse(rawDemos);
@@ -462,9 +527,8 @@
               matched = demos[0];
             }
             if (matched) {
-              ctaBox.style.textAlign = 'center';
-              ctaBox.innerHTML = `
-                <p class="article-inline-cta-text" style="font-weight:700;margin-bottom:12px;color:var(--text-dark);font-size:1rem;">💡 Featured Client Template Demo for your business:</p>
+              ctaContainer.innerHTML = `
+                <p class="article-inline-cta-text" style="margin-bottom:12px;font-size:1.15rem;font-weight:700;color:var(--text-dark);">💡 Featured Client Template Demo for your business:</p>
                 <div style="display:flex;align-items:center;gap:12px;margin: 16px auto;max-width:480px;text-align:left;background:rgba(255,255,255,0.5);padding:14px;border-radius:10px;border:1px solid var(--border-color);">
                   <span style="font-size:2.2rem;line-height:1;flex-shrink:0;">${matched.emoji || '🌐'}</span>
                   <div>
@@ -472,9 +536,9 @@
                     <span style="font-size:0.8rem;color:var(--text-light);display:block;line-height:1.4;margin-top:2px;">${matched.desc}</span>
                   </div>
                 </div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px;">
-                  <a href="${matched.url}" target="_blank" class="article-cta-btn" style="margin:0;padding:10px 20px;font-size:0.82rem;height:auto;line-height:1.2;">🌐 View Live Preview</a>
-                  <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20aapka%20${encodeURIComponent(matched.title)}%20website%20template%20pasand%20aaya%20hai.%20Mujhe%20bhi%20aisi%20website%20banwani%20hai." target="_blank" class="article-cta-btn" style="margin:0;padding:10px 20px;font-size:0.82rem;background:#25d366;border-color:#25d366;height:auto;line-height:1.2;">💬 Order on WhatsApp</a>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:16px;">
+                  <a href="${matched.url}" target="_blank" class="article-cta-btn" style="padding:10px 20px;font-size:0.82rem;">🌐 View Live Preview</a>
+                  <a href="https://wa.me/918224005193?text=Hello!%20Mujhe%20aapka%20${encodeURIComponent(matched.title)}%20website%20template%20pasand%20aaya%20hai.%20Mujhe%20bhi%20aisi%20website%20banwani%20hai." target="_blank" class="article-cta-btn btn-whatsapp" style="padding:10px 20px;font-size:0.82rem;">💬 Order on WhatsApp</a>
                 </div>
               `;
             }
@@ -534,19 +598,31 @@
         }
       }
 
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', async () => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id') || 'default-1';
 
-        // Try localStorage first (so edits from admin panel take priority!)
+        // 1. Try localStorage first (so edits from admin panel take priority!)
         const customGuides = JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
-        const matched = customGuides.find(g => g.id === id);
+        let matched = customGuides.find(g => g.id === id);
         if (matched) {
           renderArticle(matched);
           return;
         }
 
-        // Fallback to default content map
+        // 2. Try Supabase/db client
+        try {
+          const blogs = await db.getBlogs();
+          matched = blogs.find(g => g.id === id);
+          if (matched) {
+            renderArticle(matched);
+            return;
+          }
+        } catch (e) {
+          console.error("Failed to load blog from database:", e);
+        }
+
+        // 3. Fallback to default content map
         if (DEFAULT_CONTENT[id]) {
           renderArticle(DEFAULT_CONTENT[id]);
           return;

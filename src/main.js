@@ -391,7 +391,11 @@ async function setupBlogSection() {
     if (!grid) return;
 
     const allGuides = await db.getBlogs();
-    const publishedGuides = allGuides.filter(g => !g.status || g.status === 'published');
+    const publishedGuides = allGuides.filter(g => {
+      const isPub = !g.status || g.status === 'published';
+      const isPast = !g.publishedAt || new Date(g.publishedAt) <= new Date();
+      return isPub && isPast;
+    });
 
     const filtered = categoryFilter === 'all'
       ? publishedGuides
@@ -404,6 +408,7 @@ async function setupBlogSection() {
 
     grid.innerHTML = filtered.map(guide => {
       const catKey = getNormalizedCategory(guide);
+      const formatIcon = guide.format === 'video' ? '🎥 ' : (guide.format === 'audio' ? '🎵 ' : '');
       return `
         <article class="blog-card reveal" data-id="${guide.id}">
           ${!guide.isDefault ? `<button class="blog-card-delete-btn" title="Delete Post">&times;</button>` : ''}
@@ -414,7 +419,7 @@ async function setupBlogSection() {
           </a>
           <div class="blog-card-content">
             <span class="blog-card-tag">${getCategoryName(catKey)}</span>
-            <h3 class="blog-card-title"><a href="${getCardHref(guide)}">${guide.title}</a></h3>
+            <h3 class="blog-card-title"><a href="${getCardHref(guide)}">${formatIcon}${guide.title}</a></h3>
             <p class="blog-card-excerpt">${guide.excerpt}</p>
             <div class="blog-card-meta">
               <span class="meta-author">By ${guide.author}</span>
@@ -761,7 +766,11 @@ async function setupHomeNews() {
   }
 
   const allNews = await db.getNews();
-  const publishedNews = allNews.filter(n => !n.status || n.status === 'published');
+  const publishedNews = allNews.filter(n => {
+    const isPub = !n.status || n.status === 'published';
+    const isPast = !n.publishedAt || new Date(n.publishedAt) <= new Date();
+    return isPub && isPast;
+  });
   const topThree = publishedNews.slice(0, 3);
 
   function getCategoryLabel(cat) {
@@ -779,25 +788,28 @@ async function setupHomeNews() {
     return;
   }
 
-  grid.innerHTML = topThree.map(item => `
-    <article class="blog-card reveal">
-      <a class="blog-card-image-link" href="/news-detail.html?id=${item.id}" aria-label="Read news article">
-        <div class="blog-card-image">
-          <img src="${item.image}" alt="${item.title}" loading="lazy" style="height: 200px; object-fit: cover;" />
+  grid.innerHTML = topThree.map(item => {
+    const formatIcon = item.format === 'video' ? '🎥 ' : (item.format === 'audio' ? '🎵 ' : '');
+    return `
+      <article class="blog-card reveal">
+        <a class="blog-card-image-link" href="/news-detail.html?id=${item.id}" aria-label="Read news article">
+          <div class="blog-card-image">
+            <img src="${item.image}" alt="${item.title}" loading="lazy" style="height: 200px; object-fit: cover;" />
+          </div>
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-card-tag" style="background: rgba(72,184,152,0.08); color: #48b898;">${getCategoryLabel(item.category)}</span>
+          <h3 class="blog-card-title"><a href="/news-detail.html?id=${item.id}">${formatIcon}${item.title}</a></h3>
+          <p class="blog-card-excerpt">${item.excerpt}</p>
+          <div class="blog-card-meta">
+            <span class="meta-author">By ${item.author}</span>
+            <span class="meta-dot">•</span>
+            <span class="meta-time">${item.readtime}</span>
+          </div>
         </div>
-      </a>
-      <div class="blog-card-content">
-        <span class="blog-card-tag" style="background: rgba(72,184,152,0.08); color: #48b898;">${getCategoryLabel(item.category)}</span>
-        <h3 class="blog-card-title"><a href="/news-detail.html?id=${item.id}">${item.title}</a></h3>
-        <p class="blog-card-excerpt">${item.excerpt}</p>
-        <div class="blog-card-meta">
-          <span class="meta-author">By ${item.author}</span>
-          <span class="meta-dot">•</span>
-          <span class="meta-time">${item.readtime}</span>
-        </div>
-      </div>
-    </article>
-  `).join('');
+      </article>
+    `;
+  }).join('');
 
   setTimeout(() => {
     grid.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));

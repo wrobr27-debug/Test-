@@ -1,23 +1,23 @@
 // Database Client Wrapper (Supabase REST vs LocalStorage Fallback)
 
-function useSupabase() {
-  try {
-    const url = localStorage.getItem('supabase_url') || '';
-    const key = localStorage.getItem('supabase_key') || '';
-    return url.trim().length > 0 && key.trim().length > 0;
-  } catch (e) {
-    return false;
-  }
+const DEFAULT_SUPABASE_URL = 'https://cfafqmzyovtuyvffwthx.supabase.co';
+const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
+
+export function useSupabase() {
+  const url = localStorage.getItem('supabase_url');
+  const key = localStorage.getItem('supabase_key');
+  return !!(url && key);
 }
 
 async function fetchSupabase(table, options = {}) {
-  const url = localStorage.getItem('supabase_url');
-  const key = localStorage.getItem('supabase_key');
+  const url = localStorage.getItem('supabase_url') || DEFAULT_SUPABASE_URL;
+  const key = localStorage.getItem('supabase_key') || DEFAULT_SUPABASE_KEY;
+  const token = localStorage.getItem('supabase_session_token');
   const endpoint = `${url.replace(/\/$/, '')}/rest/v1/${table}${options.query || ''}`;
 
   const headers = {
     'apikey': key,
-    'Authorization': `Bearer ${key}`,
+    'Authorization': token ? `Bearer ${token}` : `Bearer ${key}`,
     'Content-Type': 'application/json',
     ...options.headers
   };
@@ -44,7 +44,8 @@ export const db = {
   // --- GUIDES/BLOGS SECTION ---
   async getBlogs() {
     if (!useSupabase()) {
-      return JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
+      const list = JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
+      return list.map(b => ({ ...b, status: b.status || 'published' }));
     }
     try {
       const data = await fetchSupabase('db_blogs');
@@ -57,7 +58,8 @@ export const db = {
       }));
     } catch (err) {
       console.error('Supabase getBlogs failed, loading fallback local storage:', err);
-      return JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
+      const list = JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
+      return list.map(b => ({ ...b, status: b.status || 'published' }));
     }
   },
 
@@ -138,7 +140,8 @@ export const db = {
   // --- NEWS SECTION ---
   async getNews() {
     if (!useSupabase()) {
-      return JSON.parse(localStorage.getItem('developer-bilaspur-news') || '[]');
+      const list = JSON.parse(localStorage.getItem('developer-bilaspur-news') || '[]');
+      return list.map(n => ({ ...n, status: n.status || 'published' }));
     }
     try {
       const data = await fetchSupabase('db_news');
@@ -151,7 +154,8 @@ export const db = {
       }));
     } catch (err) {
       console.error('Supabase getNews failed, loading fallback local storage:', err);
-      return JSON.parse(localStorage.getItem('developer-bilaspur-news') || '[]');
+      const list = JSON.parse(localStorage.getItem('developer-bilaspur-news') || '[]');
+      return list.map(n => ({ ...n, status: n.status || 'published' }));
     }
   },
 

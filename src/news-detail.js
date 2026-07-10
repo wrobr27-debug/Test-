@@ -108,7 +108,10 @@ async function renderNewsDetail() {
   const updatedDateEl = document.getElementById('article-updated-date');
   const contentEl = document.getElementById('article-content-body');
 
-  if (titleEl) titleEl.textContent = matched.title;
+  if (titleEl) {
+    const formatIcon = matched.format === 'video' ? '🎥 ' : (matched.format === 'audio' ? '🎵 ' : '');
+    titleEl.textContent = formatIcon + matched.title;
+  }
   if (tagEl) tagEl.textContent = getCategoryLabel(matched.category);
   if (emojiEl) emojiEl.textContent = matched.emoji || '📰';
   if (authorEl) authorEl.textContent = matched.author;
@@ -138,9 +141,34 @@ async function renderNewsDetail() {
   if (matched.image) {
     document.getElementById('og-image').setAttribute('content', matched.image);
     document.getElementById('twitter-image').setAttribute('content', matched.image);
+    document.getElementById('og-img-width').setAttribute('content', '1200');
+    document.getElementById('og-img-height').setAttribute('content', '675');
+    const ext = matched.image.split('.').pop().toLowerCase();
+    const mime = ext === 'png' ? 'image/png' : (ext === 'webp' ? 'image/webp' : 'image/jpeg');
+    document.getElementById('og-img-type').setAttribute('content', mime);
   }
   document.getElementById('twitter-title').setAttribute('content', matched.title);
   document.getElementById('twitter-desc').setAttribute('content', matched.excerpt);
+
+  // Discover Publishing Transparency
+  const pubTime = matched.publishedAt || new Date().toISOString();
+  const modTime = matched.updatedAt || pubTime;
+  document.getElementById('art-pub-time').setAttribute('content', pubTime);
+  document.getElementById('art-mod-time').setAttribute('content', modTime);
+  document.getElementById('art-section').setAttribute('content', getCategoryLabel(matched.category));
+
+  // Dynamic tags injection for Discover UI card keywords
+  document.querySelectorAll('meta[property="article:tag"]').forEach(el => el.remove());
+  const tagsList = Array.isArray(matched.tags) ? matched.tags : (matched.excerpt ? matched.excerpt.split(' ').slice(0, 3) : ['Bilaspur', 'News']);
+  tagsList.forEach(t => {
+    const cleaned = t.replace(/[^\w\s\u0900-\u097F]/gi, '').trim();
+    if (cleaned) {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'article:tag');
+      meta.setAttribute('content', cleaned);
+      document.head.appendChild(meta);
+    }
+  });
 
   // Set up WhatsApp Share Link
   const shareBtn = document.getElementById('whatsapp-share-btn');

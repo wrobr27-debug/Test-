@@ -98,7 +98,11 @@ async function setupNewsSection() {
   }
 
   function renderNews(filter = 'all') {
-    const publishedNews = allNews.filter(n => !n.status || n.status === 'published');
+    const publishedNews = allNews.filter(n => {
+      const isPub = !n.status || n.status === 'published';
+      const isPast = !n.publishedAt || new Date(n.publishedAt) <= new Date();
+      return isPub && isPast;
+    });
     const filtered = filter === 'all' 
       ? publishedNews 
       : publishedNews.filter(n => getNormalizedCategory(n) === filter);
@@ -108,6 +112,7 @@ async function setupNewsSection() {
       if (filter === 'all' && publishedNews.length > 0) {
         const topNews = publishedNews[0];
         const displayDate = topNews.publishedAt ? formatDate(topNews.publishedAt) : (topNews.date || 'July 8, 2026');
+        const formatIcon = topNews.format === 'video' ? '🎥 ' : (topNews.format === 'audio' ? '🎵 ' : '');
         featureContainer.style.display = 'block';
         featureContainer.innerHTML = `
           <div class="featured-news-card reveal active">
@@ -117,7 +122,7 @@ async function setupNewsSection() {
             <div class="featured-news-content">
               <div>
                 <span class="blog-card-tag">★ Feature Story - ${getCategoryLabel(getNormalizedCategory(topNews))}</span>
-                <h2 class="section-title"><a href="/news-detail.html?id=${topNews.id}">${topNews.title}</a></h2>
+                <h2 class="section-title"><a href="/news-detail.html?id=${topNews.id}">${formatIcon}${topNews.title}</a></h2>
                 <p class="featured-excerpt">${topNews.excerpt}</p>
               </div>
               <div class="blog-card-meta">
@@ -146,6 +151,7 @@ async function setupNewsSection() {
 
     grid.innerHTML = listNews.map(item => {
       const catKey = getNormalizedCategory(item);
+      const formatIcon = item.format === 'video' ? '🎥 ' : (item.format === 'audio' ? '🎵 ' : '');
       return `
         <article class="blog-card reveal active" data-id="${item.id}">
           <a class="blog-card-image-link" href="/news-detail.html?id=${item.id}" aria-label="Read news article">
@@ -155,7 +161,7 @@ async function setupNewsSection() {
           </a>
           <div class="blog-card-content">
             <span class="blog-card-tag" style="background: rgba(72,184,152,0.08); color: #48b898;">${getCategoryLabel(catKey)}</span>
-            <h3 class="blog-card-title"><a href="/news-detail.html?id=${item.id}">${item.title}</a></h3>
+            <h3 class="blog-card-title"><a href="/news-detail.html?id=${item.id}">${formatIcon}${item.title}</a></h3>
             <p class="blog-card-excerpt">${item.excerpt}</p>
             <div class="blog-card-meta">
               <span class="meta-author">By ${item.author}</span>
