@@ -2023,31 +2023,36 @@ document.getElementById('mobile-add-btn').addEventListener('click', () => window
 // ==================================================================
 // QUILL EDITOR SETUP
 // ==================================================================
-const quill = new Quill('#quill-editor', {
-  theme: 'snow',
-  placeholder: 'Start writing your blog post here…',
-  modules: {
-    toolbar: [
-      [{ header: [1,2,3,4,5,false] }],
-      ['bold','italic','underline','strike'],
-      [{ list:'ordered' },{ list:'bullet' }],
-      ['blockquote','code-block'],
-      [{ align:[] }],
-      [{ color:[] },{ background:[] }],
-      ['link'],
-      [{ indent:'-1'},{ indent:'+1'}],
-      ['clean']
-    ]
-  }
-});
+let quill = null;
+if (typeof Quill !== 'undefined') {
+  quill = new Quill('#quill-editor', {
+    theme: 'snow',
+    placeholder: 'Start writing your blog post here…',
+    modules: {
+      toolbar: [
+        [{ header: [1,2,3,4,5,false] }],
+        ['bold','italic','underline','strike'],
+        [{ list:'ordered' },{ list:'bullet' }],
+        ['blockquote','code-block'],
+        [{ align:[] }],
+        [{ color:[] },{ background:[] }],
+        ['link'],
+        [{ indent:'-1'},{ indent:'+1'}],
+        ['clean']
+      ]
+    }
+  });
 
-quill.on('text-change', () => {
-  const txt = quill.getText().trim();
-  const wc = txt ? txt.split(/\s+/).length : 0;
-  document.getElementById('wp-wc').textContent = wc;
-  updateSEO();
-  scheduleAutoSave();
-});
+  quill.on('text-change', () => {
+    const txt = quill.getText().trim();
+    const wc = txt ? txt.split(/\s+/).length : 0;
+    document.getElementById('wp-wc').textContent = wc;
+    updateSEO();
+    scheduleAutoSave();
+  });
+} else {
+  console.warn("Quill editor failed to load.");
+}
 
 // Visual Image Resizer (Canva-like interactive corner dragging)
 let activeResizingImage = null;
@@ -2184,21 +2189,28 @@ function stopDrag(e) {
 }
 
 // Bind click event inside Quill editor to select images
-document.getElementById('quill-editor').addEventListener('click', (e) => {
-  if (e.target.tagName === 'IMG') {
-    e.stopPropagation();
-    activeResizingImage = e.target;
-    createResizerOverlay();
-    window.updateResizerPosition();
-  } else {
-    window.hideResizer();
-  }
-});
+const qlEl = document.getElementById('quill-editor');
+if (qlEl) {
+  qlEl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'IMG') {
+      e.stopPropagation();
+      activeResizingImage = e.target;
+      createResizerOverlay();
+      window.updateResizerPosition();
+    } else {
+      window.hideResizer();
+    }
+  });
+}
 
 // Hide resizer overlay on editor scroll or outside clicks
-document.querySelector('.ql-editor').addEventListener('scroll', () => {
-  if (activeResizingImage) window.updateResizerPosition();
-});
+const qlEditor = document.querySelector('.ql-editor');
+if (qlEditor) {
+  qlEditor.addEventListener('scroll', () => {
+    if (activeResizingImage) window.updateResizerPosition();
+  });
+}
+
 document.addEventListener('click', (e) => {
   if (resizerOverlay && !resizerOverlay.contains(e.target) && e.target.tagName !== 'IMG') {
     window.hideResizer();
@@ -2211,11 +2223,11 @@ window.switchEditorMode = function(mode) {
   document.getElementById('vc-code').classList.toggle('active', mode==='code');
   if (mode === 'visual') {
     const html = document.getElementById('code-editor').value;
-    if (html) quill.root.innerHTML = html;
+    if (html && quill) quill.root.innerHTML = html;
     document.getElementById('pane-visual').style.display = '';
     document.getElementById('pane-code').style.display = 'none';
   } else {
-    document.getElementById('code-editor').value = quill.root.innerHTML;
+    if (quill) document.getElementById('code-editor').value = quill.root.innerHTML;
     document.getElementById('pane-visual').style.display = 'none';
     document.getElementById('pane-code').style.display = '';
   }
@@ -2588,7 +2600,7 @@ window.openNewPost = function(type) {
   document.getElementById('pf-date-input').value = '';
   document.getElementById('ed-title').value = '';
   document.getElementById('wp-permalink').style.display = 'none';
-  quill.setText('');
+  if (quill) quill.setText('');
   document.getElementById('code-editor').value = '';
   document.getElementById('ed-excerpt').value = '';
   document.getElementById('ed-post-id').value = '';
@@ -2652,7 +2664,7 @@ window.editPost = async function(id) {
   document.getElementById('ed-slug').value = slug;
   document.getElementById('plink-slug').textContent = slug;
   document.getElementById('wp-permalink').style.display = '';
-  quill.root.innerHTML = p.content||'';
+  if (quill) quill.root.innerHTML = p.content||'';
   document.getElementById('code-editor').value = p.content||'';
   document.getElementById('ed-excerpt').value = p.excerpt||'';
   document.getElementById('pf-status-txt').textContent = cap(p.status||'draft');
@@ -2677,7 +2689,7 @@ window.editPost = async function(id) {
   document.getElementById('ed-keyword').value = p.focusKeyword||'';
   document.getElementById('ed-meta-title').value = p.metaTitle||'';
   document.getElementById('ed-meta-desc').value = p.metaDesc||'';
-  const wc = quill.getText().trim().split(/\s+/).length;
+  const wc = quill ? quill.getText().trim().split(/\s+/).length : 0;
   document.getElementById('wp-wc').textContent = wc;
   if (p.updatedAt) document.getElementById('wp-saved-time').textContent = fmtTime(p.updatedAt);
   if (edFeatImg) showFeatImg(edFeatImg);
@@ -2698,13 +2710,17 @@ window.savePost = async function(status, silent) {
   if (!title) { if (!silent) { alert('Please add a title.'); document.getElementById('ed-title').focus(); } return; }
   const isCode = document.getElementById('pane-code').style.display !== 'none';
   let content;
-  if (isCode) { content = document.getElementById('code-editor').value; quill.root.innerHTML = content; }
-  else { content = quill.root.innerHTML; document.getElementById('code-editor').value = content; }
+  if (quill) {
+    if (isCode) { content = document.getElementById('code-editor').value; quill.root.innerHTML = content; }
+    else { content = quill.root.innerHTML; document.getElementById('code-editor').value = content; }
+  } else {
+    content = document.getElementById('code-editor').value;
+  }
   const slug = document.getElementById('ed-slug').value || slugify(title);
   const selCats = [...document.querySelectorAll('.wp-cat-chk:checked')].map(c=>c.value);
   const fmt = document.querySelector('input[name="ed-fmt"]:checked')?.value||'standard';
   const postType = document.querySelector('input[name="ed-post-type"]:checked')?.value||'guide';
-  const wt = quill.getText().trim();
+  const wt = quill ? quill.getText().trim() : '';
   const wc = wt ? wt.split(/\s+/).length : 0;
   const readtime = Math.max(1, Math.round(wc/200)) + ' min read';
   const existId = document.getElementById('ed-post-id').value;
@@ -4448,9 +4464,11 @@ window.adminLogout = function() {
 
       if (imageUrl) {
         // Insert in Visual editor (Quill)
-        const range = quill.getSelection(true);
-        quill.insertEmbed(range.index, 'image', imageUrl);
-        quill.setSelection(range.index + 1);
+        if (quill) {
+          const range = quill.getSelection(true);
+          quill.insertEmbed(range.index, 'image', imageUrl);
+          quill.setSelection(range.index + 1);
+        }
         
         // Sync to Code editor textarea too!
         const codeTextarea = document.getElementById('code-editor');
@@ -4642,10 +4660,10 @@ window.adminLogout = function() {
     });
   });
 
-  await refreshDashboard();
-  await renderPostList('guide');
-  await renderPostList('news');
-  await window.renderDemos();
+  try { await refreshDashboard(); } catch(e) { console.error("Dashboard init error:", e); }
+  try { await renderPostList('guide'); } catch(e) { console.error("Guides init error:", e); }
+  try { await renderPostList('news'); } catch(e) { console.error("News init error:", e); }
+  try { await window.renderDemos(); } catch(e) { console.error("Demos init error:", e); }
   renderCatCheckboxes([]);
   updateAuthorDD();
   window.loadSettings('general');
