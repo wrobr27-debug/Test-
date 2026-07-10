@@ -84,9 +84,8 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   
-  /* Safe CSS Page-Load Entrance Animation (avoids scroll-observer cut-off bug) */
+  /* Safe CSS Page-Load Entrance Animation (no transform to avoid mobile viewport bug) */
   opacity: 0;
-  transform: translateY(-30px);
   animation: headerEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 0.1s;
 }
@@ -94,7 +93,6 @@ body {
 @keyframes headerEntrance {
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
