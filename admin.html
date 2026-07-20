@@ -2794,7 +2794,13 @@ window.savePost = async function(status, silent) {
   } catch (err) {
     console.error('Error saving post:', err);
     if (!silent) {
-      alert('Error saving post: ' + err.message + '\n\nMake sure your Supabase URL and Key are correct in Settings -> General Settings.');
+      if (err.message.includes('expired') || err.message.includes('log in') || err.message.includes('401') || err.message.includes('PGRST303')) {
+        const overlay = document.getElementById('admin-login-overlay');
+        if (overlay) overlay.style.display = 'flex';
+        showToast('🔒 Session expired. Please log in to complete saving.');
+      } else {
+        alert('Error saving post: ' + err.message + '\n\nMake sure your Supabase URL and Key are correct in Settings -> General Settings.');
+      }
     }
     return;
   }
@@ -4599,7 +4605,20 @@ window.adminLogout = function() {
       localStorage.setItem('admin_user_name', data.user.user_metadata?.displayName || 'Dev Bilaspur');
       
       showToast('🔑 Login successful!');
-      setTimeout(() => location.reload(), 800);
+      if (loginOverlay) loginOverlay.style.display = 'none';
+      btn.disabled = false;
+      btn.textContent = 'Log In';
+      window.applyRoleLimits();
+
+      // If in editor with active post title, save automatically without losing draft!
+      const isEditorActive = document.getElementById('tab-editor')?.style.display !== 'none';
+      const hasTitle = !!document.getElementById('ed-title')?.value.trim();
+      if (isEditorActive && hasTitle) {
+        showToast('💾 Saving post...');
+        savePost(edStatus, false);
+      } else {
+        setTimeout(() => location.reload(), 500);
+      }
     } catch(err) {
       alert('Error: ' + err.message);
       btn.disabled = false;
