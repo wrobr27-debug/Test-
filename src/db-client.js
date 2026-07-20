@@ -9,10 +9,47 @@ export function useSupabase() {
   return true;
 }
 
-async function fetchSupabase(table, options = {}) {
+export async function refreshSupabaseSession() {
   const url = localStorage.getItem('supabase_url') || DEFAULT_SUPABASE_URL;
   const key = localStorage.getItem('supabase_key') || DEFAULT_SUPABASE_KEY;
-  const token = localStorage.getItem('supabase_session_token');
+  const refreshToken = localStorage.getItem('supabase_refresh_token');
+
+  if (!refreshToken) return null;
+
+  try {
+    const res = await fetch(`${url.replace(/\/$/, '')}/auth/v1/token?grant_type=refresh_token`, {
+      method: 'POST',
+      headers: {
+        'apikey': key,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ refresh_token: refreshToken })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.access_token) {
+        localStorage.setItem('supabase_session_token', data.access_token);
+        if (data.refresh_token) {
+          localStorage.setItem('supabase_refresh_token', data.refresh_token);
+        }
+        return data.access_token;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to refresh Supabase session token:', err);
+  }
+
+  // If refresh failed, clear stale expired session/refresh tokens
+  localStorage.removeItem('supabase_session_token');
+  localStorage.removeItem('supabase_refresh_token');
+  return null;
+}
+
+async function fetchSupabase(table, options = {}, isRetry = false) {
+  const url = localStorage.getItem('supabase_url') || DEFAULT_SUPABASE_URL;
+  const key = localStorage.getItem('supabase_key') || DEFAULT_SUPABASE_KEY;
+  let token = localStorage.getItem('supabase_session_token');
   const endpoint = `${url.replace(/\/$/, '')}/rest/v1/${table}${options.query || ''}`;
 
   const headers = {
@@ -30,6 +67,31 @@ async function fetchSupabase(table, options = {}) {
 
   if (!response.ok) {
     const errText = await response.text();
+
+    // Check if error is due to expired JWT session token
+    if ((response.status === 401 || errText.includes('JWT expired') || errText.includes('PGRST303')) && !isRetry) {
+      // 1. Try refreshing token using refresh_token if available
+      const newToken = await refreshSupabaseSession();
+      if (newToken) {
+        return fetchSupabase(table, options, true);
+      }
+
+      // 2. If token refresh failed or token is missing/invalid, remove expired session token and try with anon API key
+      localStorage.removeItem('supabase_session_token');
+      localStorage.removeItem('supabase_refresh_token');
+
+      try {
+        return await fetchSupabase(table, options, true);
+      } catch (retryErr) {
+        // If retrying with anon key fails too, prompt user to log in again
+        if (typeof document !== 'undefined') {
+          const overlay = document.getElementById('admin-login-overlay');
+          if (overlay) overlay.style.display = 'flex';
+        }
+        throw new Error('Your login session has expired. Please log in again to save changes.');
+      }
+    }
+
     throw new Error(`Supabase API error (${table}): ${response.status} - ${errText}`);
   }
 
