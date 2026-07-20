@@ -85,13 +85,17 @@ export const db = {
     }
     try {
       const data = await fetchSupabase('db_blogs');
-      return data.map(b => ({
-        ...b,
-        publishedAt: b.published_at || b.publishedAt || null,
-        updatedAt: b.updated_at || b.updatedAt || null,
-        allowComments: b.allowComments !== false,
-        allowPings: b.allowPings !== false
-      }));
+      if (data && data.length > 0) {
+        return data.map(b => ({
+          ...b,
+          publishedAt: b.published_at || b.publishedAt || null,
+          updatedAt: b.updated_at || b.updatedAt || null,
+          allowComments: b.allowComments !== false,
+          allowPings: b.allowPings !== false
+        }));
+      }
+      const list = JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
+      return list.map(b => ({ ...b, status: b.status || 'published' }));
     } catch (err) {
       console.error('Supabase getBlogs failed, loading fallback local storage:', err);
       const list = JSON.parse(localStorage.getItem('developer-bilaspur-blogs') || '[]');
@@ -181,13 +185,17 @@ export const db = {
     }
     try {
       const data = await fetchSupabase('db_news');
-      return data.map(n => ({
-        ...n,
-        publishedAt: n.published_at || n.publishedAt || null,
-        updatedAt: n.updated_at || n.updatedAt || null,
-        allowComments: n.allowComments !== false,
-        allowPings: n.allowPings !== false
-      }));
+      if (data && data.length > 0) {
+        return data.map(n => ({
+          ...n,
+          publishedAt: n.published_at || n.publishedAt || null,
+          updatedAt: n.updated_at || n.updatedAt || null,
+          allowComments: n.allowComments !== false,
+          allowPings: n.allowPings !== false
+        }));
+      }
+      const list = JSON.parse(localStorage.getItem('developer-bilaspur-news') || '[]');
+      return list.map(n => ({ ...n, status: n.status || 'published' }));
     } catch (err) {
       console.error('Supabase getNews failed, loading fallback local storage:', err);
       const list = JSON.parse(localStorage.getItem('developer-bilaspur-news') || '[]');
@@ -275,17 +283,20 @@ export const db = {
     }
     try {
       const data = await fetchSupabase('db_demos');
-      // Map postgres column 'desc_text' back to client property 'desc'
-      return data.map(d => ({
-        id: d.id,
-        title: d.title,
-        desc: d.desc_text,
-        url: d.url,
-        category: d.category,
-        emoji: d.emoji,
-        image: d.image,
-        priority: d.priority
-      }));
+      if (data && data.length > 0) {
+        // Map postgres column 'desc_text' back to client property 'desc'
+        return data.map(d => ({
+          id: d.id,
+          title: d.title,
+          desc: d.desc_text,
+          url: d.url,
+          category: d.category,
+          emoji: d.emoji,
+          image: d.image,
+          priority: d.priority
+        }));
+      }
+      return JSON.parse(localStorage.getItem('devbilaspur-demos') || '[]');
     } catch (err) {
       console.error('Supabase getDemos failed, loading fallback local storage:', err);
       return JSON.parse(localStorage.getItem('devbilaspur-demos') || '[]');
