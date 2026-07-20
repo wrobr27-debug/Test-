@@ -3641,24 +3641,34 @@ window.saveAllSettings = function(e, type) {
       const url = localStorage.getItem('supabase_url') || import.meta.env.VITE_SUPABASE_URL || 'https://cfafqmzyovtuyvffwthx.supabase.co';
       const key = localStorage.getItem('supabase_key') || import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYWZxbXp5b3Z0dXl2ZmZ3dGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTg1MTUsImV4cCI6MjA5OTA3NDUxNX0.s43AkykRS69P7I_FR5jL1dNJI8ecArHOroHAuxXzdZQ';
       
-      fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
-        method: 'PUT',
-        headers: {
-          'apikey': key,
-          'Authorization': `Bearer ${sessionToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          data: {
-            displayName: localStorage.getItem('admin_user_name') || 'wrobr27',
-            role: localStorage.getItem('admin_user_role') || 'admin',
-            cloudinary_name: cloudName,
-            cloudinary_preset: preset
+      const updateUserMeta = async (tok) => {
+        try {
+          const r = await fetch(`${url.replace(/\/$/, '')}/auth/v1/user`, {
+            method: 'PUT',
+            headers: {
+              'apikey': key,
+              'Authorization': `Bearer ${tok}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              data: {
+                displayName: localStorage.getItem('admin_user_name') || 'wrobr27',
+                role: localStorage.getItem('admin_user_role') || 'admin',
+                cloudinary_name: cloudName,
+                cloudinary_preset: preset
+              }
+            })
+          });
+          if (r.status === 401) {
+            const newToken = await refreshSupabaseSession();
+            if (newToken) return updateUserMeta(newToken);
           }
-        })
-      }).then(r => {
-        if (r.ok) console.log('Cloudinary settings backed up to Supabase User Metadata successfully!');
-      }).catch(err => console.error('Failed to back up settings to Supabase:', err));
+          if (r.ok) console.log('Cloudinary settings backed up to Supabase User Metadata successfully!');
+        } catch (err) {
+          console.error('Failed to back up settings to Supabase:', err);
+        }
+      };
+      updateUserMeta(sessionToken);
     }
   }
   
