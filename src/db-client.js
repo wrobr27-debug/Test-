@@ -46,15 +46,14 @@ export async function refreshSupabaseSession() {
   return null;
 }
 
-async function fetchSupabase(table, options = {}, isRetry = false) {
+async function fetchSupabase(table, options = {}) {
   const url = localStorage.getItem('supabase_url') || DEFAULT_SUPABASE_URL;
   const key = localStorage.getItem('supabase_key') || DEFAULT_SUPABASE_KEY;
-  let token = localStorage.getItem('supabase_session_token');
   const endpoint = `${url.replace(/\/$/, '')}/rest/v1/${table}${options.query || ''}`;
 
   const headers = {
     'apikey': key,
-    'Authorization': token ? `Bearer ${token}` : `Bearer ${key}`,
+    'Authorization': `Bearer ${key}`,
     'Content-Type': 'application/json',
     ...options.headers
   };
@@ -67,31 +66,6 @@ async function fetchSupabase(table, options = {}, isRetry = false) {
 
   if (!response.ok) {
     const errText = await response.text();
-
-    // Check if error is due to expired JWT session token
-    if ((response.status === 401 || errText.includes('JWT expired') || errText.includes('PGRST303')) && !isRetry) {
-      // 1. Try refreshing token using refresh_token if available
-      const newToken = await refreshSupabaseSession();
-      if (newToken) {
-        return fetchSupabase(table, options, true);
-      }
-
-      // 2. If token refresh failed or token is missing/invalid, remove expired session token and try with anon API key
-      localStorage.removeItem('supabase_session_token');
-      localStorage.removeItem('supabase_refresh_token');
-
-      try {
-        return await fetchSupabase(table, options, true);
-      } catch (retryErr) {
-        // If retrying with anon key fails too, prompt user to log in again
-        if (typeof document !== 'undefined') {
-          const overlay = document.getElementById('admin-login-overlay');
-          if (overlay) overlay.style.display = 'flex';
-        }
-        throw new Error('Your login session has expired. Please log in again to save changes.');
-      }
-    }
-
     throw new Error(`Supabase API error (${table}): ${response.status} - ${errText}`);
   }
 
