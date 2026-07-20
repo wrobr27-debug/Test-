@@ -77,23 +77,25 @@ ALTER TABLE public.db_blogs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.db_news ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.db_demos ENABLE ROW LEVEL SECURITY;
 
--- 1. Policies for db_blogs (Guides)
-CREATE POLICY "Allow public read access to published blogs" ON public.db_blogs
-    FOR SELECT USING (TRUE);
+-- Drop existing policies if any
+DROP POLICY IF EXISTS "Allow public read access to published blogs" ON public.db_blogs;
+DROP POLICY IF EXISTS "Allow authenticated users full CRUD access to blogs" ON public.db_blogs;
+DROP POLICY IF EXISTS "Allow full access to db_blogs" ON public.db_blogs;
 
-CREATE POLICY "Allow authenticated users full CRUD access to blogs" ON public.db_blogs
-    FOR ALL TO authenticated USING (TRUE) WITH CHECK (TRUE);
+DROP POLICY IF EXISTS "Allow public read access to published news" ON public.db_news;
+DROP POLICY IF EXISTS "Allow authenticated users full CRUD access to news" ON public.db_news;
+DROP POLICY IF EXISTS "Allow full access to db_news" ON public.db_news;
 
--- 2. Policies for db_news (News Articles)
-CREATE POLICY "Allow public read access to published news" ON public.db_news
-    FOR SELECT USING (TRUE);
+DROP POLICY IF EXISTS "Allow public read access to demos" ON public.db_demos;
+DROP POLICY IF EXISTS "Allow authenticated users full CRUD access to demos" ON public.db_demos;
+DROP POLICY IF EXISTS "Allow full access to db_demos" ON public.db_demos;
 
-CREATE POLICY "Allow authenticated users full CRUD access to news" ON public.db_news
-    FOR ALL TO authenticated USING (TRUE) WITH CHECK (TRUE);
+-- Grant Full Read/Write Access Policies (Anon & Authenticated)
+CREATE POLICY "Allow full access to db_blogs" ON public.db_blogs
+    FOR ALL USING (TRUE) WITH CHECK (TRUE);
 
--- 3. Policies for db_demos (Client Templates)
-CREATE POLICY "Allow public read access to demos" ON public.db_demos
-    FOR SELECT USING (TRUE);
+CREATE POLICY "Allow full access to db_news" ON public.db_news
+    FOR ALL USING (TRUE) WITH CHECK (TRUE);
 
-CREATE POLICY "Allow authenticated users full CRUD access to demos" ON public.db_demos
-    FOR ALL TO authenticated USING (TRUE) WITH CHECK (TRUE);
+CREATE POLICY "Allow full access to db_demos" ON public.db_demos
+    FOR ALL USING (TRUE) WITH CHECK (TRUE);
