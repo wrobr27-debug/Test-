@@ -790,11 +790,12 @@ async function setupHomeNews() {
 
   grid.innerHTML = topThree.map(item => {
     const formatIcon = item.format === 'video' ? '🎥 ' : (item.format === 'audio' ? '🎵 ' : '');
+    const imgUrl = item.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800';
     return `
       <article class="blog-card reveal">
         <a class="blog-card-image-link" href="/news-detail.html?id=${item.id}" aria-label="Read news article">
           <div class="blog-card-image">
-            <img src="${item.image}" alt="${item.title}" loading="lazy" style="height: 200px; object-fit: cover;" />
+            <img src="${imgUrl}" alt="${item.title}" loading="lazy" style="height: 200px; object-fit: cover;" />
           </div>
         </a>
         <div class="blog-card-content">

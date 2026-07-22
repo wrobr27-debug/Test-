@@ -126,8 +126,9 @@ async function renderNewsDetail() {
   // Render Cover Image (Google News Image SEO)
   const coverContainer = document.getElementById('news-cover-container');
   const coverImg = document.getElementById('news-cover-img');
-  if (coverContainer && coverImg && matched.image) {
-    coverImg.src = matched.image;
+  const matchedImg = matched.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800';
+  if (coverContainer && coverImg) {
+    coverImg.src = matchedImg;
     coverImg.alt = matched.title + ' — Bilaspur News Update';
     coverContainer.style.display = 'block';
   }
@@ -138,12 +139,12 @@ async function renderNewsDetail() {
   document.getElementById('og-title').setAttribute('content', matched.title);
   document.getElementById('og-desc').setAttribute('content', matched.excerpt);
   document.getElementById('og-url').setAttribute('content', window.location.href);
-  if (matched.image) {
-    document.getElementById('og-image').setAttribute('content', matched.image);
-    document.getElementById('twitter-image').setAttribute('content', matched.image);
+  if (matchedImg) {
+    document.getElementById('og-image').setAttribute('content', matchedImg);
+    document.getElementById('twitter-image').setAttribute('content', matchedImg);
     document.getElementById('og-img-width').setAttribute('content', '1200');
     document.getElementById('og-img-height').setAttribute('content', '675');
-    const ext = matched.image.split('.').pop().toLowerCase();
+    const ext = matchedImg.split('.').pop().toLowerCase();
     const mime = ext === 'png' ? 'image/png' : (ext === 'webp' ? 'image/webp' : 'image/jpeg');
     document.getElementById('og-img-type').setAttribute('content', mime);
   }
