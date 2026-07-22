@@ -3000,6 +3000,7 @@ window.setFeatImg = function() {
   edFeatImg = url; window.showFeatImg(url);
 };
 window.showFeatImg = function(url) {
+  edFeatImg = url;
   document.getElementById('featimg-empty').style.display='none';
   document.getElementById('featimg-thumb').src = url;
   document.getElementById('featimg-preview').style.display='';
