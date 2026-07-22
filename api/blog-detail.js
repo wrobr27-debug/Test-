@@ -87,7 +87,48 @@ export default async function handler(req, res) {
   const image = article.image || 'https://developerbilaspur.in/proof.png';
   const reqUrl = `https://developerbilaspur.in/blog-detail.html?id=${id}`;
 
-  // Replace title and meta tags
+  const pubTime = article.published_at || article.publishedAt || new Date().toISOString();
+  const modTime = article.updated_at || article.updatedAt || pubTime;
+  const authorName = article.author || 'Dev Bilaspur';
+  const schemaObj = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": excerpt,
+      "image": [ image ],
+      "author": { "@type": "Person", "name": authorName },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Developer Bilaspur",
+        "logo": { "@type": "ImageObject", "url": "https://developerbilaspur.in/favicon.svg" }
+      },
+      "datePublished": pubTime,
+      "dateModified": modTime,
+      "mainEntityOfPage": reqUrl
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Blog Hub",
+          "item": "https://developerbilaspur.in/blog.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": title,
+          "item": reqUrl
+        }
+      ]
+    }
+  ];
+  const schemaHtml = `<script type="application/ld+json" id="article-schema">\n${JSON.stringify(schemaObj, null, 2)}\n</script>`;
+
+  // Replace title, meta tags, and structured data schema
   let populatedHtml = htmlContent
     .replace(/<title id="page-title">[\s\S]*?<\/title>/i, `<title id="page-title">${escapeHtml(title)} | Developer Bilaspur</title>`)
     .replace(/<meta[^>]*?id="page-desc"[^>]*?>/i, `<meta name="description" id="page-desc" content="${escapeHtml(excerpt)}" />`)
@@ -97,7 +138,8 @@ export default async function handler(req, res) {
     .replace(/<meta[^>]*?id="og-url"[^>]*?>/i, `<meta property="og:url" id="og-url" content="${escapeHtml(reqUrl)}" />`)
     .replace(/<meta[^>]*?id="twitter-title"[^>]*?>/i, `<meta name="twitter:title" id="twitter-title" content="${escapeHtml(title)}" />`)
     .replace(/<meta[^>]*?id="twitter-desc"[^>]*?>/i, `<meta name="twitter:description" id="twitter-desc" content="${escapeHtml(excerpt)}" />`)
-    .replace(/<meta[^>]*?id="twitter-image"[^>]*?>/i, `<meta name="twitter:image" id="twitter-image" content="${escapeHtml(image)}" />`);
+    .replace(/<meta[^>]*?id="twitter-image"[^>]*?>/i, `<meta name="twitter:image" id="twitter-image" content="${escapeHtml(image)}" />`)
+    .replace(/<script[^>]*?id="article-schema"[^>]*?>[\s\S]*?<\/script>/i, schemaHtml);
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   return res.status(200).send(populatedHtml);

@@ -42,8 +42,15 @@ function isoDate(str) {
 }
 
 async function fetchTable(table) {
+  let query = '?select=*';
+  if (table === 'db_blogs' || table === 'db_news') {
+    query += '&status=eq.published&order=updated_at.desc';
+  } else if (table === 'db_demos') {
+    query += '&order=priority.asc';
+  }
+
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/${table}?select=*&status=eq.published&order=created_at.desc`,
+    `${SUPABASE_URL}/rest/v1/${table}${query}`,
     {
       headers: {
         'apikey':        SUPABASE_KEY,

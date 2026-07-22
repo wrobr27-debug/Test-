@@ -2323,25 +2323,45 @@ async function refreshDashboard() {
   } else qdR.innerHTML = '';
 }
 
-document.getElementById('quick-draft-form').addEventListener('submit', e => {
+document.getElementById('quick-draft-form').addEventListener('submit', async e => {
   e.preventDefault();
   const title = document.getElementById('qd-title').value.trim();
   const content = document.getElementById('qd-content').value.trim();
   if (!title) return;
-  const blogs = gArr(S.BLOGS);
-  blogs.unshift({
-    id:'post-'+Date.now(), title, slug:slugify(title),
-    content:'<p>'+content+'</p>', excerpt:content.substring(0,160),
-    categories:[], tags:[], author:'Dev Bilaspur',
-    status:'draft', visibility:'public', format:'standard',
-    featuredImage:'', allowComments:true, allowPings:true,
-    publishedAt:null, updatedAt:new Date().toISOString(),
-    metaTitle:'', metaDesc:'', focusKeyword:'', emoji:'📝', readtime:'5 min read'
-  });
-  sSet(S.BLOGS, blogs);
-  e.target.reset();
-  refreshDashboard();
-  showToast('Draft saved!');
+  
+  const draftData = {
+    id: 'post-' + Date.now(),
+    title,
+    slug: slugify(title),
+    content: '<p>' + content + '</p>',
+    excerpt: content.substring(0, 160),
+    categories: [],
+    tags: [],
+    author: 'Dev Bilaspur',
+    status: 'draft',
+    visibility: 'public',
+    format: 'standard',
+    featuredImage: '',
+    allowComments: true,
+    allowPings: true,
+    publishedAt: null,
+    updatedAt: new Date().toISOString(),
+    metaTitle: '',
+    metaDesc: '',
+    focusKeyword: '',
+    emoji: '📝',
+    readtime: '5 min read'
+  };
+
+  try {
+    await db.saveBlog(draftData);
+    e.target.reset();
+    await refreshDashboard();
+    showToast('Draft saved!');
+  } catch (err) {
+    console.error('Quick draft save failed:', err);
+    alert('Failed to save quick draft: ' + err.message);
+  }
 });
 
 // ==================================================================
