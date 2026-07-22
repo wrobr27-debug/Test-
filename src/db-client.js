@@ -72,8 +72,8 @@ async function fetchSupabase(table, options = {}) {
   // Delete, Update, and Insert return data representation if preferred
   if (options.method === 'DELETE') return true;
 
-  const data = await response.json();
-  return data;
+  const text = await response.text();
+  return text ? JSON.parse(text) : true;
 }
 
 export const db = {
